@@ -106,6 +106,20 @@ small{
     font-style: oblique;
 }
 
+/*****Profile Tab******/
+#profile{
+    float: none;
+    margin-bottom: 15%;
+    margin-top: 2%;
+}
+
+td{border-bottom: 1px solid darkred;padding: 5px;}
+
+td.c1{font-weight: bold;font-size: 17px;text-align: left;}
+
+td.c2{font-style: italic;text-align: center;}
+
+li.family,li.associates{font-style: italic;text-align: left;}
 
 
 
