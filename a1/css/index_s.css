@@ -42,6 +42,7 @@ nav{
     font-style: italic;
     font-size: 90%;
 }
+
 /*****Section*****/
 #sidebar{
     color: darkred;
@@ -51,7 +52,7 @@ nav{
     width:10%;
 }
 
-li{
+li.menu{
     font-size: large;
     margin-bottom: 20%;
     
