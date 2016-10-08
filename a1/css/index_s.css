@@ -51,6 +51,12 @@ nav{
     width:10%;
 }
 
+li{
+    font-size: large;
+    margin-bottom: 20%;
+    
+}
+
 /*****Footer*****/
 footer{
     bottom:0; 
