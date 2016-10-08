@@ -7,12 +7,17 @@ body,header,nav,#sidebar,#main,h1,h2,h3,h4,h5,a,small,blockquote{
 /*****Basic Elements*****/
 h1,h2,h3,h4,h5,h6{}
 
+a{margin: 70px;}
+
+a:link, a:visited{color:(intenal value);text-decoration: none;cursor: auto;}
+
+a:hover{text-decoration: underline;}
+
 /*****Basic Layout*****/
 
 /*****Body*****/
 body{
-    background-color: darkred;
-    background-image: url("../media/background2.png");
+    background-image: url("../media/background3.png");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: Tahoma, Geneva, sans-serif;
@@ -34,20 +39,25 @@ nav{
 }
 
 /*****Article*****/
-#main{float:right;width:90%;}
+#main{
+    margin-top: 2%;
+    float:right;
+    text-align:center; 
+    width:85%;}
 
 #maxim{
-    height: 10%;
-    text-align: center;
     font-style: italic;
     font-size: 90%;
+    margin-top: 30px;
+    height: 10%;
+    text-align: center;
 }
 
 /*****Section*****/
 #sidebar{
     color: darkred;
     float:left;
-    min-width: 120px;
+    min-width: 140px;
     height: 100%;
     width:10%;
 }
