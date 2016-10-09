@@ -1,28 +1,241 @@
 /******Reset********/
-body,table,tr,td{margin: 0px;padding: 0px;}
+body,#header,#left-sidebar,#right-sidebar,#main,#footer,p,h1,#start,#end,div.text,div.name,div.author,div.img,div.tile{margin: 0px;padding: 0px;}
+
+/*******Other*******/
+#start{float: left;}
+#end{clear: both;}
 
 /******Body Code*****/
 body{
+    background-image: url(../images/background.png);
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/******header Code*****/
+#header{width: 100%;height: 100px;}
+h1{
+    text-align: center;
+    color: whitesmoke;
+    font-family: cursive;
+    font-size: 60px;
+}
+
+/******left-sidebar Code*****/
+#left-sidebar{width: 5%;height: 500px;float: left;}
+
+/******right-sidebar Code*****/
+#right-sidebar{width: 5%;height: 500px;float: right;}
+
+/******Main Code*****/
+#main{margin-left: 5%;height: 500px;width: 90%;}
+
+/******footer Code*****/
+#footer{width: 100%;height: 20px;}
+
+p{
+    font-size: 12px;
+    color: white;
+    height: 100%;
+    text-align: center;
+    width: 100%;
 }
 
 /******Tile*******/
-img{
-    margin: 2x;
-    padding: 2px;
+div.tile{
+    border: 1px;
+    height: 100%;
+    margin: 2px;
     max-height: 140px;
     max-width: 140px;
+    padding: 2px;
+    width: 100%; 
+    display: inline-block;
 }
 
-
-table,td,tr{
-    max-height: 140px;
-    max-width: 150px;
-    border: 1px;
+div.img1{
     background-color: transparent;
+    background-image: url(../images/image1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
 }
-    
-#text{display: none;}
-div.img:hover + #text{display: block;}
-td:hover{box-shadow: 10px 10px 5px grey;}
-div.name{float: left;text-align: left;}
-div.author{float: right;text-align: right;}
+
+div.img2{
+    background-color: transparent;
+    background-image: url(../images/image2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img3{
+    background-color: transparent;
+    background-image: url(../images/image3.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img4{
+    background-color: transparent;
+    background-image: url(../images/image4.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img5{
+    background-color: transparent;
+    background-image: url(../images/image5.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img6{
+    background-color: transparent;
+    background-image: url(../images/image6.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img7{
+    background-color: transparent;
+    background-image: url(../images/image7.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img8{
+    background-color: transparent;
+    background-image: url(../images/image8.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img9{
+    background-color: transparent;
+    background-image: url(../images/image9.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img10{
+    background-color: transparent;
+    background-image: url(../images/image10.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img11{
+    background-color: transparent;
+    background-image: url(../images/image11.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.img12{
+    background-color: transparent;
+    background-image: url(../images/image12.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    max-height: 140px;
+    max-width: 140px;
+    width: 100%;
+}
+
+div.text{ 
+   
+    color: white;
+    font-style: italic;
+    height: 20px;
+    width: 140px;
+    display: none;}
+
+div.name{margin-left: 5px; margin-top: -20px;  float: left;}
+div.author{margin-right: 5px; margin-top: -20px;float: right;}
+
+div.img1:hover{box-shadow: 10px 10px 5px white;}
+div.img1:hover + div.text{ display:block;}
+
+div.img2:hover{box-shadow: 10px 10px 5px white;}
+div.img2:hover + div.text{ display:block;}
+
+div.img3:hover{box-shadow: 10px 10px 5px white;}
+div.img3:hover + div.text{ display:block;}
+
+div.img4:hover{box-shadow: 10px 10px 5px white;}
+div.img4:hover + div.text{ display:block;}
+
+div.img5:hover{box-shadow: 10px 10px 5px white;}
+div.img5:hover + div.text{ display:block;}
+
+div.img6:hover{box-shadow: 10px 10px 5px white;}
+div.img6:hover + div.text{ display:block;}
+
+div.img7:hover{box-shadow: 10px 10px 5px white;}
+div.img7:hover + div.text{ display:block;}
+
+div.img8:hover{box-shadow: 10px 10px 5px white;}
+div.img8:hover + div.text{ display:block;}
+
+div.img9:hover{box-shadow: 10px 10px 5px white;}
+div.img9:hover + div.text{ display:block;}
+
+div.img10:hover{box-shadow: 10px 10px 5px white;}
+div.img10:hover + div.text{ display:block;}
+
+div.img11:hover{box-shadow: 10px 10px 5px white;}
+div.img11:hover + div.text{ display:block;}
+
+div.img12:hover{box-shadow: 10px 10px 5px white;}
+div.img12:hover + div.text{ display:block;}
+
+@media only screen and (max-width: 586px) {
+
+   h1 { font-size: 2em; }
+
+}
