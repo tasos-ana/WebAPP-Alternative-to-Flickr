@@ -1,0 +1,28 @@
+/******Reset********/
+body,table,tr,td{margin: 0px;padding: 0px;}
+
+/******Body Code*****/
+body{
+}
+
+/******Tile*******/
+img{
+    margin: 2x;
+    padding: 2px;
+    max-height: 140px;
+    max-width: 140px;
+}
+
+
+table,td,tr{
+    max-height: 140px;
+    max-width: 150px;
+    border: 1px;
+    background-color: transparent;
+}
+    
+#text{display: none;}
+div.img:hover + #text{display: block;}
+td:hover{box-shadow: 10px 10px 5px grey;}
+div.name{float: left;text-align: left;}
+div.author{float: right;text-align: right;}
