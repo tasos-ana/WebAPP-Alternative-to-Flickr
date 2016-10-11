@@ -1,5 +1,5 @@
 /******Reset********/
-body,#header,#left-sidebar,#right-sidebar,#main,#footer,p,h1,#start,#end,div.text,div.name,div.author,div.img,div.tile{margin: 0px;padding: 0px;}
+body,#header,#left-sidebar,#right-sidebar,#main,#footer,p,head1,#start,#end,div.text,div.name,div.author,div.img,div.tile{margin: 0px;padding: 0px;}
 
 /*******Other*******/
 #start{float: left;}
@@ -16,7 +16,7 @@ body{
 
 /******header Code*****/
 #header{width: 100%;height: 100px;}
-h1{
+div.head1{
     text-align: center;
     color: whitesmoke;
     font-family: cursive;
@@ -27,9 +27,9 @@ h1{
 #main{margin: auto; height: 300px;width: 908px;}
 
 /******footer Code*****/
-#footer{width: 100%;height: 20px;}
+#footer{margin-top:5%; width: 100%;height: 20px;}
 
-p{
+div.par{
     font-size: 12px;
     color: white;
     height: 100%;
@@ -50,141 +50,23 @@ div.tile{
     display: inline-block;
 }
 
-div.img1{
-    background-color: transparent;
-    background-image: url(../images/image1.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
+/**********Import IMG****************/
+div.img1{background-image: url(../images/image1.png);}
+div.img2{background-image: url(../images/image2.png);}
+div.img3{background-image: url(../images/image3.png);}
+div.img4{background-image: url(../images/image4.png);}
+div.img5{background-image: url(../images/image5.png);}
+div.img6{background-image: url(../images/image6.png);}
+div.img7{background-image: url(../images/image7.png);}
+div.img8{background-image: url(../images/image8.png);}
+div.img9{background-image: url(../images/image9.png);}
+div.img10{background-image: url(../images/image10.png);}
+div.img11{background-image: url(../images/image11.png);}
+div.img12{background-image: url(../images/image12.png);}
 
-div.img2{
+/********IMG settings*********/
+div.allimg{
     background-color: transparent;
-    background-image: url(../images/image2.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img3{
-    background-color: transparent;
-    background-image: url(../images/image3.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img4{
-    background-color: transparent;
-    background-image: url(../images/image4.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img5{
-    background-color: transparent;
-    background-image: url(../images/image5.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img6{
-    background-color: transparent;
-    background-image: url(../images/image6.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img7{
-    background-color: transparent;
-    background-image: url(../images/image7.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img8{
-    background-color: transparent;
-    background-image: url(../images/image8.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img9{
-    background-color: transparent;
-    background-image: url(../images/image9.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img10{
-    background-color: transparent;
-    background-image: url(../images/image10.png);
-    background-repeat: no-repeat;
-    background-size: contain;    
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img11{
-    background-color: transparent;
-    background-image: url(../images/image11.png);
-    background-repeat: no-repeat;
-    background-size: contain;     
-    border-radius: 10px;
-    height: 100%;
-    max-height: 140px;
-    max-width: 140px;
-    width: 100%;
-}
-
-div.img12{
-    background-color: transparent;
-    background-image: url(../images/image12.png);
     background-repeat: no-repeat;
     background-size: contain;     
     border-radius: 10px;
@@ -195,7 +77,6 @@ div.img12{
 }
 
 div.text{ 
-   
     color: white;
     font-style: italic;
     height: 20px;
@@ -205,72 +86,25 @@ div.text{
 div.name{margin-left: 5px; margin-top: -20px;  float: left;}
 div.author{margin-right: 5px; margin-top: -20px;float: right;}
 
-div.img1:hover{box-shadow: 2px 2px 10px white;}
-div.img1:hover + div.text{ display:block;}
-
-div.img2:hover{box-shadow: 2px 2px 10px white;}
-div.img2:hover + div.text{ display:block;}
-
-div.img3:hover{box-shadow: 2px 2px 10px white;}
-div.img3:hover + div.text{ display:block;}
-
-div.img4:hover{box-shadow: 2px 2px 10px white;}
-div.img4:hover + div.text{ display:block;}
-
-div.img5:hover{box-shadow: 2px 2px 10px white;}
-div.img5:hover + div.text{ display:block;}
-
-div.img6:hover{box-shadow: 2px 2px 10px white;}
-div.img6:hover + div.text{ display:block;}
-
-div.img7:hover{box-shadow: 2px 2px 10px white;}
-div.img7:hover + div.text{ display:block;}
-
-div.img8:hover{box-shadow: 2px 2px 10px white;}
-div.img8:hover + div.text{ display:block;}
-
-div.img9:hover{box-shadow: 2px 2px 10px white;}
-div.img9:hover + div.text{ display:block;}
-
-div.img10:hover{box-shadow: 2px 2px 10px white;}
-div.img10:hover + div.text{ display:block;}
-
-div.img11:hover{box-shadow: 2px 2px 10px white;}
-div.img11:hover + div.text{ display:block;}
-
-div.img12:hover{box-shadow: 2px 2px 10px white;}
-div.img12:hover + div.text{ display:block;}
+div.allimg:hover{box-shadow: 2px 2px 10px white;}
+div.allimg:hover + div.text{ display:block;}
 
 @media only screen and (max-width: 586px) {
-
-   h1 { font-size: 2em; }
-
+    div.head1{ font-size: 35px; }
 }
 
 @media screen and (max-width: 910px) and (min-width: 606.8px){
-    #main{
-        width: 606.8px;
-        height: 450px;
-    }
+    #main{width: 606.8px;height: 450px;}
 }
 
 @media screen and (max-width: 606px) and (min-width: 473px){
-    #main{
-        width: 454.8px;
-        height: 600px;
-    }
+    #main{width: 454.8px;height: 600px;}
 }
 
 @media screen and (max-width: 472px) and (min-width: 320px){
-    #main{
-        width: 302px;
-        height: 910px;
-    }
+    #main{width: 302px;height: 910px;}
 }
 
 @media screen and (max-width: 319px) and (min-width: 155px){
-    #main{
-        width: 155px;
-        height: 1810px;
-    }
+    #main{width: 155px;height: 1810px;}
 }
