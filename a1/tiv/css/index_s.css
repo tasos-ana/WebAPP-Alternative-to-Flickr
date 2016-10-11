@@ -23,14 +23,8 @@ h1{
     font-size: 60px;
 }
 
-/******left-sidebar Code*****/
-#left-sidebar{width: 5%;height: 500px;float: left;}
-
-/******right-sidebar Code*****/
-#right-sidebar{width: 5%;height: 500px;float: right;}
-
 /******Main Code*****/
-#main{margin-left: 5%;height: 500px;width: 90%;}
+#main{margin: auto; height: 300px;width: 908px;}
 
 /******footer Code*****/
 #footer{width: 100%;height: 20px;}
@@ -47,6 +41,7 @@ p{
 div.tile{
     border: 1px;
     height: 100%;
+    margin: -2px;
     margin: 2px;
     max-height: 140px;
     max-width: 140px;
@@ -59,7 +54,8 @@ div.img1{
     background-color: transparent;
     background-image: url(../images/image1.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -70,7 +66,8 @@ div.img2{
     background-color: transparent;
     background-image: url(../images/image2.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -81,7 +78,8 @@ div.img3{
     background-color: transparent;
     background-image: url(../images/image3.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -92,7 +90,8 @@ div.img4{
     background-color: transparent;
     background-image: url(../images/image4.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -103,7 +102,8 @@ div.img5{
     background-color: transparent;
     background-image: url(../images/image5.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -114,7 +114,8 @@ div.img6{
     background-color: transparent;
     background-image: url(../images/image6.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -125,7 +126,8 @@ div.img7{
     background-color: transparent;
     background-image: url(../images/image7.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -136,7 +138,8 @@ div.img8{
     background-color: transparent;
     background-image: url(../images/image8.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -147,7 +150,8 @@ div.img9{
     background-color: transparent;
     background-image: url(../images/image9.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -158,7 +162,8 @@ div.img10{
     background-color: transparent;
     background-image: url(../images/image10.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;    
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -169,7 +174,8 @@ div.img11{
     background-color: transparent;
     background-image: url(../images/image11.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -180,7 +186,8 @@ div.img12{
     background-color: transparent;
     background-image: url(../images/image12.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain;     
+    border-radius: 10px;
     height: 100%;
     max-height: 140px;
     max-width: 140px;
@@ -198,44 +205,72 @@ div.text{
 div.name{margin-left: 5px; margin-top: -20px;  float: left;}
 div.author{margin-right: 5px; margin-top: -20px;float: right;}
 
-div.img1:hover{box-shadow: 10px 10px 5px white;}
+div.img1:hover{box-shadow: 2px 2px 10px white;}
 div.img1:hover + div.text{ display:block;}
 
-div.img2:hover{box-shadow: 10px 10px 5px white;}
+div.img2:hover{box-shadow: 2px 2px 10px white;}
 div.img2:hover + div.text{ display:block;}
 
-div.img3:hover{box-shadow: 10px 10px 5px white;}
+div.img3:hover{box-shadow: 2px 2px 10px white;}
 div.img3:hover + div.text{ display:block;}
 
-div.img4:hover{box-shadow: 10px 10px 5px white;}
+div.img4:hover{box-shadow: 2px 2px 10px white;}
 div.img4:hover + div.text{ display:block;}
 
-div.img5:hover{box-shadow: 10px 10px 5px white;}
+div.img5:hover{box-shadow: 2px 2px 10px white;}
 div.img5:hover + div.text{ display:block;}
 
-div.img6:hover{box-shadow: 10px 10px 5px white;}
+div.img6:hover{box-shadow: 2px 2px 10px white;}
 div.img6:hover + div.text{ display:block;}
 
-div.img7:hover{box-shadow: 10px 10px 5px white;}
+div.img7:hover{box-shadow: 2px 2px 10px white;}
 div.img7:hover + div.text{ display:block;}
 
-div.img8:hover{box-shadow: 10px 10px 5px white;}
+div.img8:hover{box-shadow: 2px 2px 10px white;}
 div.img8:hover + div.text{ display:block;}
 
-div.img9:hover{box-shadow: 10px 10px 5px white;}
+div.img9:hover{box-shadow: 2px 2px 10px white;}
 div.img9:hover + div.text{ display:block;}
 
-div.img10:hover{box-shadow: 10px 10px 5px white;}
+div.img10:hover{box-shadow: 2px 2px 10px white;}
 div.img10:hover + div.text{ display:block;}
 
-div.img11:hover{box-shadow: 10px 10px 5px white;}
+div.img11:hover{box-shadow: 2px 2px 10px white;}
 div.img11:hover + div.text{ display:block;}
 
-div.img12:hover{box-shadow: 10px 10px 5px white;}
+div.img12:hover{box-shadow: 2px 2px 10px white;}
 div.img12:hover + div.text{ display:block;}
 
 @media only screen and (max-width: 586px) {
 
    h1 { font-size: 2em; }
 
+}
+
+@media screen and (max-width: 910px) and (min-width: 606.8px){
+    #main{
+        width: 606.8px;
+        height: 450px;
+    }
+}
+
+@media screen and (max-width: 606px) and (min-width: 473px){
+    #main{
+        width: 454.8px;
+        height: 600px;
+    }
+}
+
+@media screen and (max-width: 472px) and (min-width: 320px){
+    #main{
+        width: 302px;
+        height: 910px;
+    }
+}
+
+@media screen and (max-width: 319px) and (min-width: 155px){
+    #main{
+        width: 155px;
+        height: 1810px;
+    }
 }
