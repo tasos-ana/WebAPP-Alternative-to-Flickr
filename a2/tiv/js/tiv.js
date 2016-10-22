@@ -1,12 +1,13 @@
 function closeSpan() {
     "use strict";
-    var l, img, close, imgText, allMetaDataSpan;
+    var l, img, close, imgText, allMetaDataSpan, map;
         
     l = document.getElementById('list');
     img = document.getElementById('imgZoomed');
     close = document.getElementById('close');
     imgText = document.getElementById('imgText');
     allMetaDataSpan = document.getElementById('exifInfo');
+    map = document.getElementById('map');
     
     l.style.display = "";
     img.src = "";
@@ -14,6 +15,7 @@ function closeSpan() {
     imgText.style.display = "none";
     close.style.display = "none";
     allMetaDataSpan.style.display = "none";
+    map.style.display = "none";
 }
 
 var TIV3166 = function () {
@@ -134,6 +136,7 @@ var TIV3166 = function () {
             text.style.overflow = "hidden";
             
             TIV3166.showImageDetailedExifInfo(index, elem);
+            TIV3166.showImageDetailedWithMap(index, elem);
         },
         //write on elem that passed in function all the EXIF info of image on index
         showImageDetailedExifInfo: function (index, elem) {
@@ -154,7 +157,41 @@ var TIV3166 = function () {
         },
         //same with exif info just here saw the map location
         showImageDetailedWithMap: function (index, elem) {
-        
+            var img, long, lat, mapElem, elemObj, uluru, map, marker, toDecimal;
+            
+            img = loadedImages.array[index];
+            long = EXIF.getTag(img, 'GPSLongitude');
+            lat = EXIF.getTag(img, 'GPSLatitude');
+            
+            toDecimal = function (number) {
+                return number[0].numerator + number[1].numerator /
+                        (60 * number[1].denominator) + number[2].numerator / (3600 * number[2].denominator);
+            };
+            
+            
+            mapElem = document.getElementById('map');
+            elemObj = document.getElementById(elem);
+            
+            if (mapElem === null) {
+                mapElem = document.createElement('div');
+                mapElem.setAttribute("id", "map");
+                elemObj.insertBefore(mapElem, null);
+            }
+            mapElem.style.display = "inline-block";
+            
+            mapElem.style.width = "100%";
+            mapElem.style.height = "400px";
+            mapElem.style.backgroundColor = "grey";
+            
+            uluru = {lat: toDecimal(lat), lng: toDecimal(long)};
+            map = new google.maps.Map((mapElem), {
+                zoom: 4,
+                center: uluru
+            });
+            marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
         }
     };
 }();
