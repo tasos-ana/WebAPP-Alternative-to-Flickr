@@ -34,14 +34,14 @@ body{
 }
 
 div.header{
-    text-align: center;
+    border-radius: 20px;
+    border: 20px solid #664400;
     font-size: 50px;
     font-size-adjust: auto;
-    text-shadow: 2px 2px #664400;
-    border: 20px solid #664400;
-    border-radius: 20px;
     font-weight: bold;
     padding: 9px
+    text-shadow: 2px 2px #664400;
+    text-align: center;
 }
 
 /******header Code*****/
@@ -77,6 +77,7 @@ img{
     background-color: transparent;
     background-repeat: no-repeat;   
     border-radius: 10px;
+    cursor: pointer;
     height: 100%;
     max-height: 140px;
     max-width: 140px;

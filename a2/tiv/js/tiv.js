@@ -3,8 +3,6 @@ var TIV3166 = function () {
     
     var loadedImages = {
         array: []
-    }, images2display = {
-        array: []
     };
     
     function checkImg(name) {
@@ -13,22 +11,20 @@ var TIV3166 = function () {
     
     return {
         loadImages: function () {
-            var files = document.getElementById("images").files, i, file, reader, div, div2;
+            var files = document.getElementById("images").files, i, file, reader, img, index, func;
             for (i = 0; i < files.length; i += 1) {
                 file = files[i];
-                loadedImages.array.push(file.name);
                 reader = new FileReader();
                 if (checkImg(file.name)) {
                     reader.onload = (function (file) {
                         return function (e) {
-                            div = document.createElement('div');
-                            div.className = "tile";
-                            div.innerHTML = ['<img  src="', e.target.result, '" title="', escape(file.name), '">'].join('');
-                            div2 = document.createElement('div');
-                            div2.className = "text";
-                            div2.innerHTML = file.name;
-                            div.insertBefore(div2,null);
-                            images2display.array.push(div);
+                            index = loadedImages.array.length;
+                            func = ['TIV3166.showImage(\'', index, '\',\'main\')'].join('');
+                            img = document.createElement("IMG");
+                            img.src = e.target.result;
+                            img.setAttribute("onclick", func);
+                            img.title = file.name;
+                            loadedImages.array.push(img);
                         };
                     })(file);
                 }
@@ -44,15 +40,34 @@ var TIV3166 = function () {
         //on error add
         //<h1>CANT LOAD THE IMAGE FROM THE COLLECTION</h1>
         showLoadedImages: function (elem) {
-            var i;
-            if (images2display.array.length === 0) {
+            var i, img, div, div2;
+            if (loadedImages.array.length === 0) {
                 document.getElementById("unloaded").style.display = 'block';
             } else {
                 document.getElementById("unloaded").style.display = 'none';
             }
-            for (i = 0; i < images2display.array.length; i += 1) {
-                document.getElementById(elem).insertBefore(images2display.array[i], null);
+            for (i = 0; i < loadedImages.array.length; i += 1) {
+                div = document.createElement('div');
+                div.className = "tile";
+                div.appendChild(loadedImages.array[i]);
+                div2 = document.createElement('div');
+                div2.className = "text";
+                div2.innerHTML = loadedImages.array[i].title.toString();
+                div.insertBefore(div2, null);
+                document.getElementById(elem).insertBefore(div, null);
             }
+        },
+        //draw image with 'index' = index from loadedImages on the elem 
+        showImage: function (index, elem) {
+            
+        },
+        //write on elem that passed in function all the EXIF info of image on index
+        showImageDetailedExifInfo: function (index, elem) {
+            
+        },
+        //same with exif info just here saw the map location
+        showImageDetailedWithMap: function (index, elem) {
+            
         }
     };
 }();
