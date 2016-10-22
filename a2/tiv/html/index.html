@@ -7,31 +7,25 @@
         <meta name="keywords" content="tiv,tiled image viewer,image viewer,">
         <meta name="author" content="Tasos Anastasas">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+                
         <link rel="stylesheet" href="../css/index_s.css">
-
-        <script type="text/javascript" src="../js/tiv.js"></script>
-        
-        
-        <script>
-</script>
-        
+        <script type="text/javascript" src="../js/tiv.js"></script>    
     </head>
     <body>
-        <div id=header><div class="head1">Tiled Image Viewer</div></div>
+        <div class="header">Tiled Image Viewer</div>
         <div id=start></div>
         
-         <form name="uploadForm">
-            <input id="imgList" type="button" value="Img List" onclick="TIV3166.showLoadedImages('list');" />
+        <form>
+            <input id="loadImage" type="button" value="Display Images" onclick="TIV3166.showLoadedImages('list');" />
                 
             <input id="images" type="file" webkitdirectory mozdirectory directory name="myFiles" onchange="TIV3166.loadImages();" multiple/>
-            
+            <h1 id="unloaded"> NO IMAGES LOADED YET</h1>      
         </form>
         
         <div id=main>
             <span id="list"></span>
         </div>     
+        
         <div id=end></div>
-        <div id=footer><div class="par">Copyrights by Tasos Anastasas</div></div>
     </body>
 </html>

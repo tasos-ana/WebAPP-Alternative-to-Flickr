@@ -13,7 +13,7 @@ var TIV3166 = function () {
     
     return {
         loadImages: function () {
-            var files = document.getElementById("images").files, i, file, reader, div;
+            var files = document.getElementById("images").files, i, file, reader, div, div2;
             for (i = 0; i < files.length; i += 1) {
                 file = files[i];
                 loadedImages.array.push(file.name);
@@ -24,6 +24,10 @@ var TIV3166 = function () {
                             div = document.createElement('div');
                             div.className = "tile";
                             div.innerHTML = ['<img  src="', e.target.result, '" title="', escape(file.name), '">'].join('');
+                            div2 = document.createElement('div');
+                            div2.className = "text";
+                            div2.innerHTML = file.name;
+                            div.insertBefore(div2,null);
                             images2display.array.push(div);
                         };
                     })(file);
@@ -41,6 +45,11 @@ var TIV3166 = function () {
         //<h1>CANT LOAD THE IMAGE FROM THE COLLECTION</h1>
         showLoadedImages: function (elem) {
             var i;
+            if (images2display.array.length === 0) {
+                document.getElementById("unloaded").style.display = 'block';
+            } else {
+                document.getElementById("unloaded").style.display = 'none';
+            }
             for (i = 0; i < images2display.array.length; i += 1) {
                 document.getElementById(elem).insertBefore(images2display.array[i], null);
             }
