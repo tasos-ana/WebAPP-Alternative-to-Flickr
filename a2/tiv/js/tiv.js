@@ -1,17 +1,19 @@
 function closeSpan() {
     "use strict";
-    var l, img, close, imgText;
+    var l, img, close, imgText, allMetaDataSpan;
         
     l = document.getElementById('list');
     img = document.getElementById('imgZoomed');
     close = document.getElementById('close');
     imgText = document.getElementById('imgText');
-        
+    allMetaDataSpan = document.getElementById('exifInfo');
+    
     l.style.display = "";
     img.src = "";
     img.style.display = "none";
     imgText.style.display = "none";
     close.style.display = "none";
+    allMetaDataSpan.style.display = "none";
 }
 
 var TIV3166 = function () {
@@ -109,12 +111,14 @@ var TIV3166 = function () {
                 img.setAttribute("id", "imgZoomed");
                 text = document.createElement('div');
                 text.setAttribute("id", "imgText");
+                elemObj.insertBefore(img, null);
+                elemObj.insertBefore(text, null);
             } else {
                 img.style.display = "block";
             }
             close = document.getElementById('close');
-            close.style.display = "block";
-            text.style.display = "block";
+            close.style.display = "inline-block";
+            text.style.display = "inline-block";
             img.src = loadedImages.array[index].src;
             img.title = loadedImages.array[index].title;
             
@@ -128,17 +132,29 @@ var TIV3166 = function () {
             text.style.textAlign = "center";
             text.style.textOverflow = "ellipsis";
             text.style.overflow = "hidden";
-            elemObj.insertBefore(img, null);
-            elemObj.insertBefore(text, null);
             
+            TIV3166.showImageDetailedExifInfo(index, elem);
         },
         //write on elem that passed in function all the EXIF info of image on index
         showImageDetailedExifInfo: function (index, elem) {
+            var img, elemObj, allMetaData, allMetaDataSpan;
             
+            img = loadedImages.array[index];
+            elemObj = document.getElementById(elem);
+            allMetaDataSpan = document.getElementById('exifInfo');
+            if (allMetaDataSpan === null) {
+                allMetaDataSpan = document.createElement('pre');
+                allMetaDataSpan.setAttribute("id", "exifInfo");
+                elemObj.insertBefore(allMetaDataSpan, null);
+            }
+            allMetaDataSpan.style.display = "";
+            EXIF.getData(img, function () {
+                allMetaDataSpan.innerHTML = EXIF.pretty(this);
+            });
         },
         //same with exif info just here saw the map location
         showImageDetailedWithMap: function (index, elem) {
-            
+        
         }
     };
 }();
