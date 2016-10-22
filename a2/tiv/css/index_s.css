@@ -1,5 +1,5 @@
 /******Reset********/
-body,#header,#left-sidebar,#right-sidebar,#main,#start,#end,div.text,,div.tile,#unloaded,#loadImage,#images{margin: 0px;padding: 0px;}
+body,#header,#left-sidebar,#right-sidebar,#main,#start,#end,div.text,div.tiles,img.tile,#unloaded,#loadImage,#images{margin: 0px;padding: 0px;}
 
 /*******Other*******/
 #start{float: left;}
@@ -47,9 +47,23 @@ div.header{
 /******header Code*****/
 
 /******Main Code*****/
-#main{margin: auto; height: 300px;width: 908px;}
+#main{margin: auto; height: 300px; width: 908px;}
 
-/******footer Code*****/
+#close{
+    display: none;
+    float: left;
+    position: relative;
+    color: #996600;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#close:hover,
+#close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 div.par{
     font-size: 12px;
@@ -73,7 +87,7 @@ div.tile{
 }
 
 /********IMG settings*********/
-img{
+img.tile{
     background-color: transparent;
     background-repeat: no-repeat;   
     border-radius: 10px;
@@ -85,7 +99,6 @@ img{
 }
 
 div.text{ 
-    
     background-color: #ffd966;
     bottom: 0;
     border-radius: 10px;

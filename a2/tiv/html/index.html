@@ -8,12 +8,15 @@
         <meta name="author" content="Tasos Anastasas">
         <meta name="viewport" content="width=device-width, initial-scale=1">
                 
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
         <link rel="stylesheet" href="../css/index_s.css">
         <script type="text/javascript" src="../js/tiv.js"></script>    
     </head>
     <body>
         <div class="header">Tiled Image Viewer</div>
-        <div id=start></div>
+        <div id="start"></div>
         
         <form>
             <input id="loadImage" type="button" value="Display Images" onclick="TIV3166.showLoadedImages('list');" />
@@ -23,6 +26,7 @@
         </form>
         
         <div id=main>
+            <span id="close" onclick="closeSpan()">x</span>
             <span id="list"></span>
         </div>     
         
