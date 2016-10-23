@@ -3,9 +3,9 @@ function makeMultiFilter(array) {
 var originalArray = array;
 var currentArray = array;
 	return (function arrayFilterer(pred, callback) {
-// If filter not a function return current Array
-// TO COMPLETE TOGETHER!
-// TO COMPLETE TOGETHER!
+		// If filter not a function return current Array
+		if(!(pred instanceof Function) )
+			return currentArray;
 // Filter out things
 // TO COMPLETE!
 // If callback is a function, execute callback
