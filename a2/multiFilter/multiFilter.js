@@ -8,9 +8,9 @@ var currentArray = array;
 			return currentArray;
 		// Filter out things
 		currentArray = currentArray.filter(pred);
-// If callback is a function, execute callback
-// TO COMPLETE TOGETHER!
-// TO COMPLETE TOGETHER!
+		// If callback is a function, execute callback
+		if(callback instanceof Function)
+			callback.call(originalArray,currentArray);
 // TO COMPLETE! We have to return something!
 	})
 }
