@@ -6,8 +6,8 @@ var currentArray = array;
 		// If filter not a function return current Array
 		if(!(pred instanceof Function) )
 			return currentArray;
-// Filter out things
-// TO COMPLETE!
+		// Filter out things
+		currentArray = currentArray.filter(pred);
 // If callback is a function, execute callback
 // TO COMPLETE TOGETHER!
 // TO COMPLETE TOGETHER!
