@@ -11,8 +11,8 @@ var currentArray = array;
 		// If callback is a function, execute callback
 		if(callback instanceof Function)
 			callback.call(originalArray,currentArray);
-// TO COMPLETE! We have to return something!
-	})
+		return arrayFilterer;// We have to return something!
+	});
 }
 
 // !!! THE CODE THAT FOLLOWS USES THE makeMultiFilter function
