@@ -1,7 +1,7 @@
 function makeMultiFilter(array) {
 // What we track
 var originalArray = array;
-// TO COMPLETE!
+var currentArray = array;
 	return (function arrayFilterer(pred, callback) {
 // If filter not a function return current Array
 // TO COMPLETE TOGETHER!
