@@ -172,18 +172,17 @@ var TIV3166 = function () {
         },
         //same with exif info just here saw the map location
         showImageDetailedWithMap: function (index, elem) {
-            var img, long, lat, mapElem, elemObj, uluru, map, marker, toDecimal;
+            var img, lon, lonRef, latRef, calcLon, calcLat, lat, mapElem, elemObj, uluru, map, marker;
             
             img = loadedImages.array[index];//get the img
-            long = EXIF.getTag(img, 'GPSLongitude');//take the longitude
+            lon = EXIF.getTag(img, 'GPSLongitude');//take the longitude
+            lonRef = EXIF.getTag(img, 'GPSLongitudeRef');
             lat = EXIF.getTag(img, 'GPSLatitude');//take the latitude
+            latRef = EXIF.getTag(img, 'GPSLatitudeRef');
             
             //calculate tha array to one decimal
-            //i found that function in one tutorial for EXIF, i am not sure that it's work
-            toDecimal = function (number) {
-                return number[0].numerator + number[1].numerator /
-                        (60 * number[1].denominator) + number[2].numerator / (3600 * number[2].denominator);
-            };
+            calcLon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef === "W" ? -1 : 1);
+            calcLat = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef === "N" ? 1 : -1);
             
             //following the google api code from google site
             mapElem = document.getElementById('map');
@@ -200,7 +199,7 @@ var TIV3166 = function () {
             mapElem.style.height = "400px";
             mapElem.style.backgroundColor = "grey";
             
-            uluru = {lat: toDecimal(lat), lng: toDecimal(long)};
+            uluru = {lat: calcLat, lng: calcLon};
             map = new google.maps.Map((mapElem), {
                 zoom: 4,
                 center: uluru
