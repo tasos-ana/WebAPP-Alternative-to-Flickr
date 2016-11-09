@@ -10,7 +10,24 @@ and open the template in the editor.
 /*
     Reset margin and padding for all elements
 */
-body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_id,#usr_pw,#usr_form_container{
+body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container{
     margin: 0;
     padding: 0;
 }
+
+#usr_settings_container{
+    margin: 2px;
+    padding: 2px;
+    float: left;
+    display: none;
+}
+
+#usr_actions_container{
+    margin: 2px;
+    padding: 2px;
+    float: right;
+}
+
+#usr_out_container{display: none;}
+
+button.usr_but{cursor: pointer;}
