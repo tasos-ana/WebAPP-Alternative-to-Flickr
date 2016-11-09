@@ -30,4 +30,21 @@ body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_out_cont
 
 #usr_out_container{display: none;}
 
+#seperation{font-weight: bold;font-size: 20px;}
+
 button.usr_but{cursor: pointer;}
+
+#form_parent{
+    display: table;
+    width: 100%;    
+}
+
+#usr_form_container{
+    display: none;
+    vertical-align: middle;
+}
+
+span.lbl{
+    width: 100px;
+    height: 100px;
+}
