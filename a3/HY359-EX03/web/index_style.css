@@ -12,8 +12,8 @@ and open the template in the editor.
 */
 body,#usr_settings_container,button.usr_but,#usr_actions_container,
 #usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container,
-fieldset,span.lbl,legend,span.lbl2,input,select,#txtarea_desc,#txtarea,
-#new_usr_action,#old_usr_action
+#reg_form,#reg_form_desc,fieldset,span.lbl,legend,span.lbl2,input,select,
+#txtarea_desc,#txtarea,#new_usr_action,#old_usr_action
 {
     margin: 0;
     padding: 0;
@@ -36,7 +36,12 @@ fieldset,span.lbl,legend,span.lbl2,input,select,#txtarea_desc,#txtarea,
 
 #seperation{font-weight: bold;font-size: 20px;}
 
-button.usr_but,#new_usr_action,#old_usr_action{cursor: pointer;}
+button.usr_but,input.usr_but{
+    font-size: 15px;
+    padding: 4px 2px;
+    cursor: pointer;
+    border-radius: 9px;
+}
 
 #form_parent{
     display: table;
@@ -48,14 +53,25 @@ button.usr_but,#new_usr_action,#old_usr_action{cursor: pointer;}
     vertical-align: middle;
 }
 
+#reg_form_desc{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 2px;
+    margin: 2px;
+}
+
 span.lbl{
     width: 100px;
     height: 100px;
 }
 
 #txtarea_desc,#txtarea{float: left;}
+
 #txtarea{width: 350px; height: 150px;}
 
-#new_usr_action{float: right}
+#new_usr_action{float: right;}
 
 #old_usr_action{display: none;}
+
+#new_usr_action,#old_usr_action,fieldset{margin: 2px; padding: 2px;}
