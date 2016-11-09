@@ -13,7 +13,7 @@ and open the template in the editor.
 body,#usr_settings_container,button.usr_but,#usr_actions_container,
 #usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container,
 #reg_form,#reg_form_desc,fieldset,span.lbl,legend,span.lbl2,input,select,
-#txtarea_desc,#txtarea,#new_usr_action,#old_usr_action
+#txtarea_desc,#txtarea,#new_usr_action,#old_usr_action,#reply_container
 {
     margin: 0;
     padding: 0;

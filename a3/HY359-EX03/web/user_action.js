@@ -7,8 +7,7 @@
 function register_action() {
     "use strict";
     document.getElementById("usr_form_container").style.display = "table-cell";
-    usrID = document.registration.usrID;
-    usrID.focus();
+    document.registration.usrID.focus();
 }
 
 function login_action() {
