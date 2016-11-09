@@ -1,0 +1,16 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 9, 2016, 11:48:24 AM
+    Author     : Tasos198
+*/
+/*
+    Reset margin and padding for all elements
+*/
+body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_id,#usr_pw,#usr_form_container{
+    margin: 0;
+    padding: 0;
+}
