@@ -10,7 +10,11 @@ and open the template in the editor.
 /*
     Reset margin and padding for all elements
 */
-body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container{
+body,#usr_settings_container,button.usr_but,#usr_actions_container,
+#usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container,
+fieldset,span.lbl,legend,span.lbl2,input,select,#txtarea_desc,#txtarea,
+#new_usr_action,#old_usr_action
+{
     margin: 0;
     padding: 0;
 }
@@ -32,7 +36,7 @@ body,#usr_settings_container,button.usr_but,#usr_actions_container,#usr_out_cont
 
 #seperation{font-weight: bold;font-size: 20px;}
 
-button.usr_but{cursor: pointer;}
+button.usr_but,#new_usr_action,#old_usr_action{cursor: pointer;}
 
 #form_parent{
     display: table;
@@ -48,3 +52,10 @@ span.lbl{
     width: 100px;
     height: 100px;
 }
+
+#txtarea_desc,#txtarea{float: left;}
+#txtarea{width: 350px; height: 150px;}
+
+#new_usr_action{float: right}
+
+#old_usr_action{display: none;}
