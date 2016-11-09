@@ -35,16 +35,16 @@
                     <legend id="reg_form_desc">Register Form</legend>
                     <fieldset>
                         <legend>Login Info</legend>
-                        <span class="lbl">Username :</span><br><input type="text" name="usrID" placeholder="eg. tasos1994" required="required"><br>
-                        <span class="lbl">Email :   </span><br><input type="email" name="usrEMAIL" placeholder="eg. tasos@example.com" required="required"><br>
-                        <span class="lbl">Password :</span><br><input type="password" name="usrPW" placeholder="at least 1 number & symbol" required="required"><br>
-                        <span class="lbl">Repeat :  </span><br><input type="password" name="usrPW2" placeholder="repeat password" required="required"><br>
+                        <span class="lbl">Username :</span><br><input type="text" name="usrID" placeholder="at least 8 letters" required="required" size="38"><br>
+                        <span class="lbl">Email :   </span><br><input type="email" name="usrEMAIL" placeholder="eg. something@example.com" required="required" size="38"><br>
+                        <span class="lbl">Password :</span><br><input type="password" name="usrPW" placeholder="at least 1 number,symbol,letter" required="required" size="38"><br>
+                        <span class="lbl">Repeat :  </span><br><input type="password" name="usrPW2" placeholder="repeat password" required="required" size="38"><br>
                     </fieldset>
                     <fieldset>
                         <legend>Personal Info</legend>
-                        <span class="lbl2">First Name:</span><br><input type="text" name="usrFNAME" placeholder="eg. Tasos" required="required"><br>
-                        <span class="lbl2">Last Name:</span><br><input type="text" name="usrLNAME" placeholder="eg. Anastasas" required="required"><br>
-                        <span class="lbl2">Born Date:</span><br><input type="date" name="usrBDATE" required="required"><br>
+                        <span class="lbl2">First Name:</span><br><input type="text" name="usrFNAME" placeholder="at least 3 letters" required="required" size="38"><br>
+                        <span class="lbl2">Last Name:</span><br><input type="text" name="usrLNAME" placeholder="at least 4 letters" required="required" size="38"><br>
+                        <span class="lbl2">Born Date:</span><br><input type="date" name="usrBDATE" required="required" size="38"><br>
                         <span class="lbl2">Gender (Optional):<br>
                             <input type="radio" value="male" name="gender">Male 
                             <input type="radio" value="female" name="gender">Female<br>
@@ -301,7 +301,7 @@
                             <option value="ZM">Zambia</option>
                             <option value="ZW">Zimbabwe</option>
                         </select><br>
-                        <span class="lbl2">Town: </span><br><input type="text" name="usrTOWN" placeholder="eg. Heraklion" required="required"><br>
+                        <span class="lbl2">Town: </span><br><input type="text" name="usrTOWN" placeholder="at least 2 letters" required="required" size="38"><br>
                         <label id="txtarea_desc">More Info:</label><br>
                         <textarea id="txtarea" name="usrEXTRA" maxlength="5"></textarea>
                         <div id="new_usr_action">

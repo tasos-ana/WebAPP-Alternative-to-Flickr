@@ -61,11 +61,6 @@ button.usr_but,input.usr_but{
     margin: 2px;
 }
 
-span.lbl{
-    width: 100px;
-    height: 100px;
-}
-
 #txtarea_desc,#txtarea{float: left;}
 
 #txtarea{width: 350px; height: 150px;}
