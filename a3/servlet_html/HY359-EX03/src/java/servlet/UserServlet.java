@@ -42,43 +42,60 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String action = request.getHeader("Action");
-
+        String action = request.getHeader("action");
         if (action.compareTo("login") == 0) {
             String username = request.getParameter("username");
             String pw = request.getParameter("password");
 
             if (!all_users.userExist(username)) {
                 response.setHeader("error", "User not exist!");
+                return;
             }
             info in = all_users.getUserInfo(username);
             if (in.getPassword().compareTo(pw) != 0) {
                 response.setHeader("error", "Wrong password try again!");
+                return;
             }
             try (PrintWriter out = response.getWriter()) {
                 out.println("<h5>Welcome, " + in.getUsername() + "</h5>");
             }
             return;
-        } else if (action.compareTo("register") == 0) {
-
-        } else if (action.compareTo("username_check") == 0) {
-
-        } else if (action.compareTo("email_check") == 0) {
-
+        }else if (action.compareTo("register") == 0) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
+            String birthday = request.getParameter("birthday");
+            String sex = request.getParameter("sex");
+            String country = request.getParameter("country");
+            String town = request.getParameter("town");
+            String extra = request.getParameter("extra");
+            
+            info new_user = new info(username,password,email,fname,lname,birthday,sex,country,town,extra);
+            
+            all_users.add(new_user);
+            
+            response.setHeader("Refresh", "2;url=index.html");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<h1>Registration Complete</h1>");
+                out.println(all_users.print(new_user));
+            }
+            
+        } else if (action.compareTo("check") == 0) {
+            String username = request.getParameter("username");
+            String email = request.getParameter("email");
+            if(all_users.userExist(username)){
+                response.setHeader("error", "Username Already Exist");
+                return;
+            }else{
+                if(all_users.emailExist(email)){
+                    response.setHeader("error", "Email Already Exist");
+                }
+                return;
+            }
         } else {
-            //never come here
-        }
-
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserServlet:</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserServlet atasdasd " + action + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            assert(true);
         }
     }
 

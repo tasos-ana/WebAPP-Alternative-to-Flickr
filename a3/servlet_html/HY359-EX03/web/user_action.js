@@ -7,43 +7,47 @@
 function register_action() {
     "use strict";
     document.getElementById("usr_form_container").style.display = "table-cell";
+    document.getElementById("usr_login_error").innerHTML = "";
     document.registration.usrID.focus();
 }
 
 function login_action() {
     "use strict";
     var username, pw, xhr;
-    username = document.registration.login_id;
-    pw = document.registration.login_pw;
-    
+    username = document.getElementById("usr_id");
+    pw = document.getElementById("usr_pw");
+
     xhr = new XMLHttpRequest();
     
     xhr.open('POST','UserServlet');
     xhr.onload = function() {
         if (xhr.readyState === 4 && xhr.status === 200){
             if(xhr.getResponseHeader("error") === null){
+                document.getElementById("usr_login_error").innerHTML = "";
                 document.getElementById("login_as").innerHTML = xhr.responseText;
+                document.getElementById("login_as").style.display = "inline";
                 document.getElementById("usr_in_container").style.display = "none";
                 document.getElementById("usr_out_container").style.display = "inline";
                 document.getElementById("usr_settings_container").style.display = "inline";
                 document.getElementById("usr_form_container").style.display = "none";
             }else{
-                window.alert(xhr.getResponseHeader("error"));
+                document.getElementById("usr_login_error").innerHTML = xhr.getResponseHeader("error");
             }
         }else if (xhr.status !== 200) {
-            window.alert("kati pige strava");
+            window.alert("Request failed. Returned status of " + xhr.status);
         }
     };
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Action','login');
-    xhr.send('username=' + username + '&password=' + pw);
-    }
+    xhr.setRequestHeader('action','login');
+    xhr.send('username=' + username.value + '&password=' + pw.value);
+}
 
 function logout_action() {
     "use strict";
     document.getElementById("usr_in_container").style.display = "inline";
     document.getElementById("usr_out_container").style.display = "none";
     document.getElementById("usr_settings_container").style.display = "none";
+    document.getElementById("login_as").style.display = "none";
 }
 
 function save_changes(){
@@ -141,14 +145,57 @@ function usrTOWNValidation(usrTOWN) {
 
 function formValidation() {
     "use strict";
-    var usrID, usrPW, usrPW2, usrFNAME, usrLNAME, usrBDATE, usrTOWN;
+    var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA;
     usrID = document.registration.usrID;
     usrPW = document.registration.usrPW;
     usrPW2 = document.registration.usrPW2;
+    usrEmail = document.registration.usrEMAIL;
     usrFNAME = document.registration.usrFNAME;
     usrLNAME = document.registration.usrLNAME;
     usrBDATE = document.registration.usrBDATE;
+    usrSEX = document.registration.usrSEX;
+    usrCOUNTRY = document.registration.usrCOUNTRY;
     usrTOWN = document.registration.usrTOWN;
+    usrEXTRA = document.registration.usrEXTRA;
     
-    return usrIDValidation(usrID) && usrPWValidation(usrPW, usrPW2) && usrNAMEVadidation(usrFNAME, usrLNAME) && usrBDATEValidation(usrBDATE) && usrTOWNValidation(usrTOWN);
+    if (usrIDValidation(usrID) && usrPWValidation(usrPW, usrPW2) && 
+        usrNAMEVadidation(usrFNAME, usrLNAME) && usrBDATEValidation(usrBDATE) && 
+        usrTOWNValidation(usrTOWN)){
+        
+        xhr = new XMLHttpRequest();
+       
+        xhr.open('POST','UserServlet');
+        xhr.onload = function() {
+        if (xhr.readyState === 4 && xhr.status === 200){
+            if(xhr.getResponseHeader("error") !== null){
+               window.alert(xhr.getResponseHeader("error"));
+               return;
+            }
+            //send data for register
+            xhr.open('POST','UserServlet');
+            xhr.onload = function() {
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    if(xhr.getResponseHeader("error") !== null){
+                        window.alert(xhr.getResponseHeader("error"));
+                        return;
+                    }
+                    document.getElementById("reply_container").innerHTML = xhr.responseText;
+                    
+                }else if (xhr.status !== 200) {
+                    window.alert("Request failed. Returned status of " + xhr.status);
+                }
+            };
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Action','register');
+            xhr.send('username=' + usrID.value + 'password=' + usrPW.value + '&email=' + usrEmail.value +
+                     '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value + 
+                     '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
+        }else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+        };
+        xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Action','check');
+        xhr.send('username=' + usrID.value + '&email=' + usrEmail.value);
+    }
 }

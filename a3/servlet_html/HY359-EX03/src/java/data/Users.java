@@ -31,6 +31,12 @@ public class Users {
     }
 
     public boolean add(info user) {
+        String username = user.getUsername();
+        String email = user.getEmail();
+        
+        user_by_email.put(email, user);
+        user_by_username.put(username, user);
+        
         return true;
     }
     

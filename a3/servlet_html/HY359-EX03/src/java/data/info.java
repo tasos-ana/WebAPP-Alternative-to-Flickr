@@ -14,17 +14,19 @@ import java.util.Date;
 public class info {
     private String username;
     private String password;
+    private String email;
     private String fname;
     private String lname;
-    private Date bday;
+    private String bday;
     private String sex;
     private String country;
     private String town;
     private String extraInfo;
 
-    public info(String username, String password, String fname, String lname, Date bday, String sex, String country, String town, String extraInfo) {
+    public info(String username, String password, String email, String fname, String lname, String bday, String sex, String country, String town, String extraInfo) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.fname = fname;
         this.lname = lname;
         this.bday = bday;
@@ -36,6 +38,14 @@ public class info {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setUsername(String username) {
@@ -66,11 +76,11 @@ public class info {
         this.lname = lname;
     }
 
-    public Date getBday() {
+    public String getBday() {
         return bday;
     }
 
-    public void setBday(Date bday) {
+    public void setBday(String bday) {
         this.bday = bday;
     }
 
