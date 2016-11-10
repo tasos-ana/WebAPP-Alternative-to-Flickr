@@ -34,6 +34,10 @@ public class Users {
         return true;
     }
     
+    public info getUserInfo(String username){
+        return user_by_username.get(username);
+    }
+    
     public String printAllMembers(){
         StringBuilder sb = new StringBuilder();
         sb.append("<ol>"); 

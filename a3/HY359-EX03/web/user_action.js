@@ -12,17 +12,42 @@ function register_action() {
 
 function login_action() {
     "use strict";
-    document.getElementById("usr_in_container").style.display = "none";
-    document.getElementById("usr_out_container").style.display = "inline";
-    document.getElementById("usr_settings_container").style.display = "inline";
-    document.getElementById("usr_form_container").style.display = "none";
-}
+    var username, pw, xhr;
+    username = document.registration.login_id;
+    pw = document.registration.login_pw;
+    
+    xhr = new XMLHttpRequest();
+    
+    xhr.open('POST','UserServlet');
+    xhr.onload = function() {
+        if (xhr.readyState === 4 && xhr.status === 200){
+            if(xhr.getResponseHeader("error") === null){
+                document.getElementById("login_as").innerHTML = xhr.responseText;
+                document.getElementById("usr_in_container").style.display = "none";
+                document.getElementById("usr_out_container").style.display = "inline";
+                document.getElementById("usr_settings_container").style.display = "inline";
+                document.getElementById("usr_form_container").style.display = "none";
+            }else{
+                window.alert(xhr.getResponseHeader("error"));
+            }
+        }else if (xhr.status !== 200) {
+            window.alert("kati pige strava");
+        }
+    };
+    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Action','login');
+    xhr.send('username=' + username + '&password=' + pw);
+    }
 
 function logout_action() {
     "use strict";
     document.getElementById("usr_in_container").style.display = "inline";
     document.getElementById("usr_out_container").style.display = "none";
     document.getElementById("usr_settings_container").style.display = "none";
+}
+
+function save_changes(){
+    
 }
 
 function usrIDValidation(usrID) {
