@@ -14,7 +14,7 @@ body,#usr_settings_container,button.usr_but,#usr_actions_container,
 #usr_out_container,#usr_in_container,#usr_id,#usr_pw,#usr_form_container,
 #reg_form,#reg_form_desc,fieldset,span.lbl,legend,span.lbl2,input,select,
 #txtarea_desc,#txtarea,#new_usr_action,#old_usr_action,#reply_container,
-#usr_login_error
+#usr_login_error,#login_as,#login_msg
 {
     margin: 0;
     padding: 0;
@@ -39,9 +39,19 @@ body,#usr_settings_container,button.usr_but,#usr_actions_container,
     color: red;
 }
 
+#usrID_err,#usrEMAIL_err,#usrPW_err,#usrPW2_err,#usrBDATE_err,#usrFNAME_err,#usrLNAME_err,#usrTOWN_err{
+    margin: 2px;
+    padding: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+    display: inline;
+}
+
 #usr_out_container{display: none;}
 
-#login_as{
+
+#login_as,#login_msg{
     margin: 2px;
     padding: 2px;
     float: left;

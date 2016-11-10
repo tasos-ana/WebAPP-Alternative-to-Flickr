@@ -5,8 +5,6 @@
  */
 package data;
 
-import java.util.Date;
-
 /**
  *
  * @author Tasos198

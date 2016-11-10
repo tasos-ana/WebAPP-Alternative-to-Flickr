@@ -57,10 +57,9 @@ public class UserServlet extends HttpServlet {
                 return;
             }
             try (PrintWriter out = response.getWriter()) {
-                out.println("<h5>Welcome, " + in.getUsername() + "</h5>");
+                out.println(username);
             }
-            return;
-        }else if (action.compareTo("register") == 0) {
+        } else if (action.compareTo("register") == 0) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
@@ -71,28 +70,46 @@ public class UserServlet extends HttpServlet {
             String country = request.getParameter("country");
             String town = request.getParameter("town");
             String extra = request.getParameter("extra");
-            
-            info new_user = new info(username,password,email,fname,lname,birthday,sex,country,town,extra);
-            
+
+            info new_user = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
+
             all_users.add(new_user);
             try (PrintWriter out = response.getWriter()) {
                 out.println(all_users.print(new_user));
             }
-            
+
         } else if (action.compareTo("check") == 0) {
             String username = request.getParameter("username");
             String email = request.getParameter("email");
-            if(all_users.userExist(username)){
+            if (username!=null && all_users.userExist(username)) {
                 response.setHeader("error", "Username Already Exist");
-                return;
-            }else{
-                if(all_users.emailExist(email)){
+            } else {
+                if (email!=null && all_users.emailExist(email)) {
                     response.setHeader("error", "Email Already Exist");
                 }
-                return;
             }
-        } else {
-            assert(true);
+        } else if (action.compareTo("members") == 0) {
+            try (PrintWriter out = response.getWriter()) {
+                out.println(all_users.printAllMembers());
+            }
+        } else if (action.compareTo("userInfo") == 0){
+            String username;
+            info userData;
+            username = request.getParameter("username");
+            userData = all_users.getUserInfo(username);
+            response.setHeader("username", userData.getUsername());
+            response.setHeader("password", userData.getPassword());
+            response.setHeader("email", userData.getEmail());
+            response.setHeader("fname", userData.getFname());
+            response.setHeader("lname", userData.getLname());
+            response.setHeader("birthday", userData.getBday());
+            response.setHeader("sex", userData.getSex());
+            response.setHeader("town", userData.getTown());
+            response.setHeader("country", userData.getCountry());
+            response.setHeader("extra", userData.getExtraInfo());
+        } 
+        else{
+            assert (true);
         }
     }
 

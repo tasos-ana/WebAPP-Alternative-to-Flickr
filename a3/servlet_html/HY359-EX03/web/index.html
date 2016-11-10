@@ -19,12 +19,12 @@
 
     <body>
         <div id="usr_settings_container">
-            <button type="button" class="usr_but" id="all_members">All members</button>
-            <button type="button" class="usr_but" id="usr_settings">Settings</button>
+            <button type="button" class="usr_but" id="all_members" onclick="allMembers_action()">All members</button>
+            <button type="button" class="usr_but" id="usr_settings" onclick="settings_action()">Settings</button>
         </div>
         <div id="usr_actions_container">
             <div id="usr_out_container">
-                <div id="login_as"></div>
+                <div id="login_msg"> <div>Welcome,</div><div id="login_as"></div> </div>
                 <button type="button" class="usr_but" id="usr_logout" onclick="logout_action()">Log out</button>
             </div>
             <div id="usr_in_container">
@@ -40,19 +40,19 @@
         <div id="form_parent">
             <form id="usr_form_container"  name="registration">
                 <fieldset id="reg_form">
-                    <legend id="reg_form_desc">Register Form</legend>
+                    <legend id="reg_form_desc">Registration Form</legend>
                     <fieldset>
                         <legend>Login Info</legend>
-                        <span>Username :</span><br><input type="text" name="usrID" placeholder="at least 8 letters" required="required" size="38"><br>
-                        <span>Email :   </span><br><input type="email" name="usrEMAIL" placeholder="eg. something@example.com" required="required" size="38"><br>
-                        <span>Password :</span><br><input type="password" name="usrPW" placeholder="at least 1 number,symbol,letter" required="required" size="38"><br>
-                        <span>Repeat :  </span><br><input type="password" name="usrPW2" placeholder="repeat password" required="required" size="38"><br>
+                        <span>Username :</span><br><input type="text" name="usrID" placeholder="at least 8 characters" required size="38" onchange="usrIDValidation()"><div id="usrID_err"></div><br>
+                        <span>Email :   </span><br><input type="text" name="usrEMAIL" id="usrEMAIL" placeholder="eg. something@example.com" size="38" required onchange="usrEMAILValidation()"><div id="usrEMAIL_err"></div><br>
+                        <span>Password :</span><br><input type="password" name="usrPW" placeholder="at least 1 number,symbol,letter" required size="38" onchange="usrPWValidation()"><div id="usrPW_err"></div><br>
+                        <span>Repeat :  </span><br><input type="password" name="usrPW2" placeholder="repeat password" required size="38" onchange="usrPW2Validation()"><div id="usrPW2_err"></div><br>
                     </fieldset>
                     <fieldset>
                         <legend>Personal Info</legend>
-                        <span>First Name:</span><br><input type="text" name="usrFNAME" placeholder="at least 3 letters" required="required" size="38"><br>
-                        <span>Last Name:</span><br><input type="text" name="usrLNAME" placeholder="at least 4 letters" required="required" size="38"><br>
-                        <span>Born Date:</span><br><input type="date" name="usrBDATE" required="required" size="38"><br>
+                        <span>First Name:</span><br><input type="text" name="usrFNAME" placeholder="at least 3 letters" required size="38" onchange="usrFNAMEValidation()"><div id="usrFNAME_err"></div><br>
+                        <span>Last Name:</span><br><input type="text" name="usrLNAME" placeholder="at least 4 letters" required size="38" onchange="usrLNAMEValidation()"><div id="usrLNAME_err"></div><br>
+                        <span>Born Date:</span><br><input type="date" name="usrBDATE" required size="38" onchange="usrBDATEValidation()"><div id="usrBDATE_err"></div><br>
                         <span>Gender (Optional):<br>
                             <input type="radio" value="male" name="usrSEX">Male 
                             <input type="radio" value="female" name="usrSEX">Female<br>
@@ -309,15 +309,15 @@
                             <option value="ZM">Zambia</option>
                             <option value="ZW">Zimbabwe</option>
                         </select><br>
-                        <span class="lbl2">Town: </span><br><input type="text" name="usrTOWN" placeholder="at least 2 letters" required="required" size="38"><br>
+                        <span class="lbl2">Town: </span><br><input type="text" name="usrTOWN" placeholder="at least 2 letters" required size="38" onchange="usrTOWNValidation()"><div id="usrTOWN_err"></div><br>
                         <label id="txtarea_desc">More Info:</label><br>
                         <textarea id="txtarea" name="usrEXTRA" maxlength="500"></textarea>
                         <div id="new_usr_action">
-                            <input type="button" id="submit_form" class="usr_but" value="Register" onclick="formValidation()">
+                            <input type="button" id="submit_form" class="usr_but" value="Register" onclick="ajaxRegisterRequest()">
                             <input type="reset" id="clear_form" class="usr_but" value="Clear">
                         </div>
                         <div id="old_usr_action">
-                            <input type="button" id="change_form" class="usr_but" value="Save Changes" onclick="save_changes()">
+                            <input type="button" id="change_form" class="usr_but" value="Save Changes" onclick="ajaxChangesRequest()">
                         </div>
                     </fieldset>
                 </fieldset>
