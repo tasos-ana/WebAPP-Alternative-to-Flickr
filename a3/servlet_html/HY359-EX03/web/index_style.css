@@ -41,6 +41,18 @@ body,#usr_settings_container,button.usr_but,#usr_actions_container,
 
 #usr_out_container{display: none;}
 
+#login_as{
+    margin: 2px;
+    padding: 2px;
+    float: left;
+}
+
+#usr_logout{
+    margin: 2px;
+    padding: 2px;
+    float: right;
+}
+
 #seperation{font-weight: bold;font-size: 20px;}
 
 button.usr_but,input.usr_but{
@@ -48,6 +60,18 @@ button.usr_but,input.usr_but{
     padding: 4px 2px;
     cursor: pointer;
     border-radius: 9px;
+}
+
+#reply_parent{
+    display: table;
+    width: 100%; 
+}
+
+#reply_container{
+    display: table-cell;
+    margin: auto;
+    padding: 2px;
+    vertical-align: middle;
 }
 
 #form_parent{

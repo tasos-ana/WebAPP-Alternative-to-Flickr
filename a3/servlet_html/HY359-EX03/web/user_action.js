@@ -6,17 +6,30 @@
 
 function register_action() {
     "use strict";
+    document.getElementById("usr_form_container").reset();
     document.getElementById("usr_form_container").style.display = "table-cell";
     document.getElementById("usr_login_error").innerHTML = "";
     document.registration.usrID.focus();
+    document.getElementById("reply_container").innerHTML = "";
 }
 
 function login_action() {
     "use strict";
     var username, pw, xhr;
+    
     username = document.getElementById("usr_id");
     pw = document.getElementById("usr_pw");
 
+    if (username.value === "" ){
+        document.getElementById("usr_login_error").innerHTML = "Username cant be empty";
+        return;
+    }
+    
+    if (pw.value === ""){
+        document.getElementById("usr_login_error").innerHTML = "Password cant be empty";
+        return;
+    }
+    
     xhr = new XMLHttpRequest();
     
     xhr.open('POST','UserServlet');
@@ -30,6 +43,7 @@ function login_action() {
                 document.getElementById("usr_out_container").style.display = "inline";
                 document.getElementById("usr_settings_container").style.display = "inline";
                 document.getElementById("usr_form_container").style.display = "none";
+                document.getElementById("reply_container").innerHTML = "";
             }else{
                 document.getElementById("usr_login_error").innerHTML = xhr.getResponseHeader("error");
             }
@@ -48,6 +62,9 @@ function logout_action() {
     document.getElementById("usr_out_container").style.display = "none";
     document.getElementById("usr_settings_container").style.display = "none";
     document.getElementById("login_as").style.display = "none";
+    
+    document.getElementById("usr_id").value = "";
+    document.getElementById("usr_pw").value = "";
 }
 
 function save_changes(){
@@ -145,7 +162,7 @@ function usrTOWNValidation(usrTOWN) {
 
 function formValidation() {
     "use strict";
-    var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA;
+    var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA, xhr;
     usrID = document.registration.usrID;
     usrPW = document.registration.usrPW;
     usrPW2 = document.registration.usrPW2;
@@ -179,7 +196,11 @@ function formValidation() {
                         window.alert(xhr.getResponseHeader("error"));
                         return;
                     }
+                    document.getElementById("usr_form_container").style.display = "none";
                     document.getElementById("reply_container").innerHTML = xhr.responseText;
+                    
+                    document.getElementById("usr_id").value = usrID.value;
+                    document.getElementById("usr_pw").value = usrPW.value;
                     
                 }else if (xhr.status !== 200) {
                     window.alert("Request failed. Returned status of " + xhr.status);
@@ -187,7 +208,7 @@ function formValidation() {
             };
             xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
             xhr.setRequestHeader('Action','register');
-            xhr.send('username=' + usrID.value + 'password=' + usrPW.value + '&email=' + usrEmail.value +
+            xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
                      '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value + 
                      '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
         }else if (xhr.status !== 200) {

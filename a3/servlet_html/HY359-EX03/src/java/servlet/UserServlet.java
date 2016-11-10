@@ -75,10 +75,7 @@ public class UserServlet extends HttpServlet {
             info new_user = new info(username,password,email,fname,lname,birthday,sex,country,town,extra);
             
             all_users.add(new_user);
-            
-            response.setHeader("Refresh", "2;url=index.html");
             try (PrintWriter out = response.getWriter()) {
-                out.println("<h1>Registration Complete</h1>");
                 out.println(all_users.print(new_user));
             }
             

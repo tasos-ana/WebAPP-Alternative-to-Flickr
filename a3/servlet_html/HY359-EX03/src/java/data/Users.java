@@ -56,29 +56,27 @@ public class Users {
 
     public String print(info user) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<H1> Your registration complete with the following data:</H1><br>");
+        sb.append("<H2> Your registration complete with the following data:</H2><br>");
         
         sb.append("<ul>");
         /*Username*/
         sb.append("<li>Username: ").append(user.getUsername()).append("</li>");
         
         /*Password*/
-        sb.append("<li>");
-        sb.append("<div class=\"container\">");
-        sb.append("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#pw\">Reveal Password</button>");
-        sb.append("<div id=\"pw\" class=\"collapse\">");
-        sb.append("<H5>").append(user.getPassword()).append("</H5>");
+        //sb.append("<div class=\"container\" style=\"float: left;>");
+        sb.append("<button type=\"button\" class=\"btn btn-info btn-xs\" data-toggle=\"collapse\" data-target=\"#pw\">Reveal Password</button>");
+        sb.append("<div id=\"pw\" class=\"collapse\">").append(user.getPassword());
         sb.append("</div>");
-        sb.append("</div>");
-        sb.append("</li>");
 
+        sb.append("<li>Email: ").append(user.getEmail()).append("</li>");
+        
         sb.append("<li>First Name: ").append(user.getFname()).append("</li>");
 
         sb.append("<li>Last Name: ").append(user.getLname()).append("</li>");
 
         sb.append("<li>Birthday Date: ").append(user.getBday()).append("</li>");
 
-        if (user.getSex() != null) {
+        if (user.getSex().compareTo("") != 0) {
             sb.append("<li>Sex: ").append(user.getSex()).append("</li>");
         }
 
@@ -86,7 +84,7 @@ public class Users {
 
         sb.append("<li>Town: ").append(user.getTown()).append("</li>");
 
-        if (user.getExtraInfo() != null) {
+        if (user.getExtraInfo().compareTo("") != 0) {
             sb.append("<li>Extra info: ").append(user.getExtraInfo()).append("</li>");
         }
         
