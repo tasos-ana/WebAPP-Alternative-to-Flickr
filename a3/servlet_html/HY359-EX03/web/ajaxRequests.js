@@ -47,8 +47,6 @@ function ajaxLoginRequest() {
 
 function ajaxRegisterRequest() {
     "use strict";
-
-    window.alert(validationAPI.form());
     if (!validationAPI.form()) {
         window.alert("Form it's incomplete");
         return;
