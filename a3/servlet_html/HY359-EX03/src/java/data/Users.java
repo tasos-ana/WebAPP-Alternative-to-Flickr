@@ -63,7 +63,6 @@ public class Users {
         sb.append("<li>Username: ").append(user.getUsername()).append("</li>");
         
         /*Password*/
-        //sb.append("<div class=\"container\" style=\"float: left;>");
         sb.append("<button type=\"button\" class=\"btn btn-info btn-xs\" data-toggle=\"collapse\" data-target=\"#pw\">Reveal Password</button>");
         sb.append("<div id=\"pw\" class=\"collapse\">").append(user.getPassword());
         sb.append("</div>");
