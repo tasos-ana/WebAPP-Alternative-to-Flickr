@@ -107,6 +107,21 @@ public class UserServlet extends HttpServlet {
             response.setHeader("town", userData.getTown());
             response.setHeader("country", userData.getCountry());
             response.setHeader("extra", userData.getExtraInfo());
+        }else if (action.compareTo("change") == 0){
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
+            String birthday = request.getParameter("birthday");
+            String sex = request.getParameter("sex");
+            String country = request.getParameter("country");
+            String town = request.getParameter("town");
+            String extra = request.getParameter("extra");
+            
+            info newData = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
+            all_users.update(username, email, newData);
+
         } 
         else{
             assert (true);

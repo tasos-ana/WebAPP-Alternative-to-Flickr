@@ -40,6 +40,27 @@ public class Users {
         return true;
     }
     
+    public void update(String username, String email, info newData){
+        info entry1 = user_by_username.get(username);
+        info entry2 = user_by_email.get(email);
+        
+        entry1.setPassword(newData.getPassword());
+        entry1.setFname(newData.getFname());
+        entry1.setLname(newData.getLname());
+        entry1.setBday(newData.getBday());
+        entry1.setSex(newData.getSex());
+        entry1.setTown(newData.getTown());
+        entry1.setExtraInfo(newData.getExtraInfo());
+        
+        entry2.setPassword(newData.getPassword());
+        entry2.setFname(newData.getFname());
+        entry2.setLname(newData.getLname());
+        entry2.setBday(newData.getBday());
+        entry2.setSex(newData.getSex());
+        entry2.setTown(newData.getTown());
+        entry2.setExtraInfo(newData.getExtraInfo());
+    }
+    
     public info getUserInfo(String username){
         return user_by_username.get(username);
     }

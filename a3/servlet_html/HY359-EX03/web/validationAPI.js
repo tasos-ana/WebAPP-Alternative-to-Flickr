@@ -17,7 +17,7 @@ var validationAPI = function () {
         usrTOWN: false
     };
 
-    function usrIDValidation() {
+    function usrIDValidation(existCheck) {
         "use strict";
         var len, usrID, xhr;
         usrID = document.registration.usrID;
@@ -29,56 +29,67 @@ var validationAPI = function () {
             formValid.usrID = false;
             return;
         }
-        xhr = new XMLHttpRequest();
-
-        xhr.open('POST', 'UserServlet');
-        xhr.onload = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                if (xhr.getResponseHeader("error") !== null) {
-                    document.getElementById("usrID_err").style.color = "red";
-                    document.getElementById("usrID_err").innerHTML = xhr.getResponseHeader("error");
-                    formValid.usrID = false;
-                } else {
-                    document.getElementById("usrID_err").style.color = "green";
-                    document.getElementById("usrID_err").innerHTML = "&#10004";
-                    formValid.usrID = true;
-                }
-            } else if (xhr.status !== 200) {
-                window.alert("Username check request failed. Returned status of " + xhr.status);
-                formValid.usrID = false;
-            }
-        };
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Action', 'check');
-        xhr.send('username=' + usrID.value);
-    }
-
-    function usrEMAILValidation() {
-        var usrEMAIL, xhr, pattern;
-        usrEMAIL = document.registration.usrEMAIL;
-        pattern = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*/;
-        if (usrEMAIL.value.match(pattern)) {
+        if (existCheck) {
             xhr = new XMLHttpRequest();
+
             xhr.open('POST', 'UserServlet');
             xhr.onload = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     if (xhr.getResponseHeader("error") !== null) {
-                        document.getElementById("usrEMAIL_err").style.color = "red";
-                        document.getElementById("usrEMAIL_err").innerHTML = xhr.getResponseHeader("error");
-                        formValid.usrEMAIL = false;
+                        document.getElementById("usrID_err").style.color = "red";
+                        document.getElementById("usrID_err").innerHTML = xhr.getResponseHeader("error");
+                        formValid.usrID = false;
                     } else {
-                        document.getElementById("usrEMAIL_err").style.color = "green";
-                        document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
-                        formValid.usrEMAIL = true;
+                        document.getElementById("usrID_err").style.color = "green";
+                        document.getElementById("usrID_err").innerHTML = "&#10004";
+                        formValid.usrID = true;
                     }
                 } else if (xhr.status !== 200) {
-                    window.alert("Email check request failed. Returned status of " + xhr.status);
-                    formValid.usrEMAIL = false;
+                    window.alert("Username check request failed. Returned status of " + xhr.status);
+                    formValid.usrID = false;
                 }
             };
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.setRequestHeader('Action', 'check');
-            xhr.send('email=' + usrEMAIL.value);
+            xhr.send('username=' + usrID.value);
+        }
+        document.getElementById("usrID_err").style.color = "green";
+        document.getElementById("usrID_err").innerHTML = "&#10004";
+        formValid.usrID = true;
+    }
+
+    function usrEMAILValidation(existCheck) {
+        var usrEMAIL, xhr, pattern;
+        usrEMAIL = document.registration.usrEMAIL;
+        pattern = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*/;
+        if (usrEMAIL.value.match(pattern)) {
+            if (existCheck) {
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', 'UserServlet');
+                xhr.onload = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        if (xhr.getResponseHeader("error") !== null) {
+                            document.getElementById("usrEMAIL_err").style.color = "red";
+                            document.getElementById("usrEMAIL_err").innerHTML = xhr.getResponseHeader("error");
+                            formValid.usrEMAIL = false;
+                        } else {
+                            document.getElementById("usrEMAIL_err").style.color = "green";
+                            document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
+                            formValid.usrEMAIL = true;
+                        }
+                    } else if (xhr.status !== 200) {
+                        window.alert("Email check request failed. Returned status of " + xhr.status);
+                        formValid.usrEMAIL = false;
+                    }
+                };
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.setRequestHeader('Action', 'check');
+                xhr.send('email=' + usrEMAIL.value);
+            } else {
+                document.getElementById("usrEMAIL_err").style.color = "green";
+                document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
+                formValid.usrID = true;
+            }
         } else {
             document.getElementById("usrEMAIL_err").style.color = "red";
             document.getElementById("usrEMAIL_err").innerHTML = "Invalid email";
@@ -212,16 +223,30 @@ var validationAPI = function () {
         formValid.usrTOWN = false;
     }
 
+    function validAll(existCheck){
+        usrIDValidation(existCheck);
+        usrEMAILValidation(existCheck);
+        usrPWValidation();
+        usrPW2Validation();
+        usrFNAMEValidation();
+        usrLNAMEValidation();
+        usrBDATEValidation();
+        usrTOWNValidation();
+    }
+    
     return{
         form: function () {
-            return (formValid.usrID && formValid.usrEMAIL && formValid.usrPW && formValid.usrPW2 && 
-                formValid.usrFNAME && formValid.usrLNAME && formValid.usrBDATE && formValid.usrTOWN);
+            return (formValid.usrID && formValid.usrEMAIL && formValid.usrPW && formValid.usrPW2 &&
+                    formValid.usrFNAME && formValid.usrLNAME && formValid.usrBDATE && formValid.usrTOWN);
         },
-        usrID: function () {
-            usrIDValidation();
+        validateAll: function (existCheck){
+            validAll(existCheck);
         },
-        usrEMAIL: function () {
-            usrEMAILValidation();
+        usrID: function (existCheck) {
+            usrIDValidation(existCheck);
+        },
+        usrEMAIL: function (existCheck) {
+            usrEMAILValidation(existCheck);
         },
         usrPW: function () {
             usrPWValidation();
@@ -240,6 +265,12 @@ var validationAPI = function () {
         },
         usrTOWN: function () {
             usrTOWNValidation();
+        },
+        emailValid: function(val){
+            formValid.usrEMAIL = val;
+        },
+        idValid: function(val){
+            formValid.usrID = val;
         }
     };
 }();

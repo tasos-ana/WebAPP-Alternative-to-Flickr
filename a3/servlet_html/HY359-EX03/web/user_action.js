@@ -4,10 +4,13 @@
  * and open the template in the editor.
  */
 
+/* global validationAPI */
+
 function register_action() {
     "use strict";
     document.getElementById("usr_form_container").reset();
     document.getElementById("usr_form_container").style.display = "table-cell";
+    document.getElementById("reg_form_desc").innerHTML = "Registration Form";
     document.getElementById("usr_login_error").innerHTML = "";
     document.registration.usrID.focus();
     document.getElementById("reply_container").innerHTML = "";
@@ -19,6 +22,12 @@ function register_action() {
     document.getElementById("usrLNAME_err").innerHTML = "";
     document.getElementById("usrBDATE_err").innerHTML = "";
     document.getElementById("usrTOWN_err").innerHTML = "";
+    
+    document.getElementById("new_usr_action").style.display = "inline";
+    document.getElementById("old_usr_action").style.display = "none";
+    
+    document.registration.usrID.removeAttribute("disabled");
+    document.registration.usrEMAIL.removeAttribute("disabled");
 }
 
 function login_action() {
@@ -62,6 +71,9 @@ function settings_action() {
 
     document.getElementById("new_usr_action").style.display = "none";
     document.getElementById("old_usr_action").style.display = "inline";
+    
+    document.registration.usrID.setAttribute("disabled","on");
+    document.registration.usrEMAIL.setAttribute("disabled","on");
     ajaxUserProfileRequest();
 }
 

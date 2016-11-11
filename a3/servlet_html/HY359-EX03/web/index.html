@@ -21,7 +21,7 @@
     <body>
         <div id="usr_settings_container">
             <button type="button" class="usr_but" id="all_members" onclick="allMembers_action()">All members</button>
-            <button type="button" class="usr_but" id="usr_settings" onclick="settings_action()">Settings</button>
+            <button type="button" class="usr_but" id="usr_settings" onclick="settings_action()">Account Settings</button>
         </div>
         <div id="usr_actions_container">
             <div id="usr_out_container">
@@ -44,8 +44,8 @@
                     <legend id="reg_form_desc">Registration Form</legend>
                     <fieldset>
                         <legend>Login Info</legend>
-                        <span>Username :</span><br><input type="text" name="usrID" placeholder="at least 8 characters" required size="38" onchange="validationAPI.usrID()"><div id="usrID_err"></div><br>
-                        <span>Email :   </span><br><input type="text" name="usrEMAIL" id="usrEMAIL" placeholder="eg. something@example.com" size="38" required onchange="validationAPI.usrEMAIL()"><div id="usrEMAIL_err"></div><br>
+                        <span>Username :</span><br><input type="text" name="usrID" placeholder="at least 8 characters" required size="38" onchange="validationAPI.usrID(true)"><div id="usrID_err"></div><br>
+                        <span>Email :   </span><br><input type="text" name="usrEMAIL" id="usrEMAIL" placeholder="eg. something@example.com" size="38" required onchange="validationAPI.usrEMAIL(true)"><div id="usrEMAIL_err"></div><br>
                         <span>Password :</span><br><input type="password" name="usrPW" placeholder="at least 1 number,symbol,letter" required size="38" onchange="validationAPI.usrPW()"><div id="usrPW_err"></div><br>
                         <span>Repeat :  </span><br><input type="password" name="usrPW2" placeholder="repeat password" required size="38" onchange="validationAPI.usrPW2()"><div id="usrPW2_err"></div><br>
                     </fieldset>

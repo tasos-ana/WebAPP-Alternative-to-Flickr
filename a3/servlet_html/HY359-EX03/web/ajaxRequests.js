@@ -7,17 +7,50 @@
 /* global validationAPI */
 
 function ajaxChangesRequest() {
-    //on succed change
-    document.getElementById("new_usr_action").style.display = "inline";
-    document.getElementById("old_usr_action").style.display = "none";
-    document.getElementById("reg_form_desc").innerHTML = "Registration Form";
+    if (!validationAPI.form()) {
+        window.alert("Form it's incomplete");
+        return;
+    }
+    var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA, xhr;
+    usrID = document.registration.usrID;
+    usrPW = document.registration.usrPW;
+    usrPW2 = document.registration.usrPW2;
+    usrEmail = document.registration.usrEMAIL;
+    usrFNAME = document.registration.usrFNAME;
+    usrLNAME = document.registration.usrLNAME;
+    usrBDATE = document.registration.usrBDATE;
+    usrSEX = document.registration.usrSEX;
+    usrCOUNTRY = document.registration.usrCOUNTRY;
+    usrTOWN = document.registration.usrTOWN;
+    usrEXTRA = document.registration.usrEXTRA;
+
+    xhr = new XMLHttpRequest();
+    //send data for change infos
+    xhr.open('POST', 'UserServlet');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById("usr_form_container").style.display = "none";
+            document.getElementById("reply_container").innerHTML = xhr.responseText;
+            document.getElementById("new_usr_action").style.display = "inline";
+            document.getElementById("old_usr_action").style.display = "none";
+            document.getElementById("usr_form_container").style.display = "none";
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Action', 'change');
+    xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
+            '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
+            '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
 
 function ajaxLoginRequest() {
+    "use strict";
     var username, pw, xhr;
     username = document.getElementById("usr_id");
     pw = document.getElementById("usr_pw");
-    
+
     xhr = new XMLHttpRequest();
 
     xhr.open('POST', 'UserServlet');
@@ -130,6 +163,7 @@ function ajaxUserProfileRequest() {
             if (xhr.getResponseHeader("extra") !== "") {
                 document.registration.usrEXTRA.value = xhr.getResponseHeader("extra");
             }
+            validationAPI.validateAll(false);
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -140,9 +174,9 @@ function ajaxUserProfileRequest() {
 }
 
 function ajaxUserExistRequest() {
-    
+
 }
 
 function ajaxEmailExistRequest() {
-    
+
 }
