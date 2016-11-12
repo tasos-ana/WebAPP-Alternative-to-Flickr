@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,33 @@ public class UserServlet extends HttpServlet {
         all_users = new Users();
     }
 
+    public static String getCookieValue(HttpServletRequest request,
+            String cookieName,
+            String defaultValue) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    return (cookie.getValue());
+                }
+            }
+        }
+        return (defaultValue);
+    }
+
+    public static Cookie getCookie(HttpServletRequest request,
+            String cookieName) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,9 +73,26 @@ public class UserServlet extends HttpServlet {
         String action = request.getHeader("action");
         if (action.compareTo("login") == 0) {
             String username = request.getParameter("username");
+            boolean fromCookie = false;
             String pw = request.getParameter("password");
 
+            if (username.compareTo("") == 0 && pw.compareTo("") == 0) {
+                username = getCookieValue(request, "username", "");
+                pw = getCookieValue(request, "password", "");
+
+                if (username != null && username.compareTo("") == 0 && pw != null && pw.compareTo("") == 0) {
+                    response.setHeader("error", "");
+                    return;
+                }
+                fromCookie = true;
+            }
             if (!all_users.userExist(username)) {
+                if(fromCookie){
+                    getCookie(request, "username").setMaxAge(0);
+                    getCookie(request,"password").setMaxAge(0);
+                    response.setHeader("error", "");
+                    return;
+                }
                 response.setHeader("error", "User not exist!");
                 return;
             }
@@ -58,6 +103,10 @@ public class UserServlet extends HttpServlet {
             }
             try (PrintWriter out = response.getWriter()) {
                 out.println(username);
+                Cookie usrIDCookie = new Cookie("username", username);
+                Cookie usrPWCookie = new Cookie("password", pw);
+                response.addCookie(usrIDCookie);
+                response.addCookie(usrPWCookie);
             }
         } else if (action.compareTo("register") == 0) {
             String username = request.getParameter("username");
@@ -81,10 +130,10 @@ public class UserServlet extends HttpServlet {
         } else if (action.compareTo("check") == 0) {
             String username = request.getParameter("username");
             String email = request.getParameter("email");
-            if (username!=null && all_users.userExist(username)) {
+            if (username != null && all_users.userExist(username)) {
                 response.setHeader("error", "Username Already Exist");
             } else {
-                if (email!=null && all_users.emailExist(email)) {
+                if (email != null && all_users.emailExist(email)) {
                     response.setHeader("error", "Email Already Exist");
                 }
             }
@@ -92,7 +141,7 @@ public class UserServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.println(all_users.printAllMembers());
             }
-        } else if (action.compareTo("userInfo") == 0){
+        } else if (action.compareTo("userInfo") == 0) {
             String username;
             info userData;
             username = request.getParameter("username");
@@ -107,7 +156,7 @@ public class UserServlet extends HttpServlet {
             response.setHeader("town", userData.getTown());
             response.setHeader("country", userData.getCountry());
             response.setHeader("extra", userData.getExtraInfo());
-        }else if (action.compareTo("change") == 0){
+        } else if (action.compareTo("change") == 0) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
@@ -118,17 +167,16 @@ public class UserServlet extends HttpServlet {
             String country = request.getParameter("country");
             String town = request.getParameter("town");
             String extra = request.getParameter("extra");
-            
+
             info newData = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
             all_users.update(username, email, newData);
 
-        } 
-        else{
+        } else {
             assert (true);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

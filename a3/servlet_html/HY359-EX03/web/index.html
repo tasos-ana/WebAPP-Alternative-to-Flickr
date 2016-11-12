@@ -18,7 +18,7 @@
         <script src="validationAPI.js" type="text/javascript"></script>
     </head>
 
-    <body>
+    <body onload="ajaxLoginRequest()">
         <div id="usr_settings_container">
             <button type="button" class="usr_but" id="all_members" onclick="allMembers_action()">All members</button>
             <button type="button" class="usr_but" id="usr_settings" onclick="settings_action()">Account Settings</button>
@@ -29,8 +29,8 @@
                 <button type="button" class="usr_but" id="usr_logout" onclick="logout_action()">Log out</button>
             </div>
             <div id="usr_in_container">
-                <input type="text" id="usr_id" placeholder="Username" autocomplete="on">
-                <input type="password" id="usr_pw" placeholder="Password" autocomplete="on">
+                <input type="text" id="usr_id" name="username" placeholder="Username" autocomplete="on">
+                <input type="password" id="usr_pw" name="password" placeholder="Password" autocomplete="on">
                 <button type="button" class="usr_but" id="usr_login" onclick="login_action()">Login</button>
                 <span id="seperation">/</span>
                 <button type="button" class="usr_but" id="usr_register" onclick="register_action()">Register</button>

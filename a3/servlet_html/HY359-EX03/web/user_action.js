@@ -6,6 +6,34 @@
 
 /* global validationAPI */
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookies(){
+    var username,pw;
+    username = getCookie("username");
+    pw = getCookie("password");
+    if (username !== "" && pw !== ""){
+        window.alert(username);
+        window.alert(pw);
+        document.getElementById("usr_id").value = username;
+        document.getElementById("usr_pw").value = pw;
+        ajaxLoginRequest();
+    }
+}
+
 function register_action() {
     "use strict";
     document.getElementById("usr_form_container").reset();
@@ -38,11 +66,13 @@ function login_action() {
 
     if (username.value === "") {
         document.getElementById("usr_login_error").innerHTML = "Username can't be empty";
+        username.focus();
         return;
     }
 
     if (pw.value === "") {
         document.getElementById("usr_login_error").innerHTML = "Password can't be empty";
+        pw.focus();
         return;
     }
     ajaxLoginRequest();
@@ -55,6 +85,9 @@ function logout_action() {
     document.getElementById("usr_settings_container").style.display = "none";
     document.getElementById("login_msg").style.display = "none";
 
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    
     document.getElementById("usr_id").value = "";
     document.getElementById("usr_pw").value = "";
 
