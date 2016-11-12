@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class Users {
 
-    private HashMap<String, info> user_by_username;
-    private HashMap<String, info> user_by_email;
+    private HashMap<String, info> user_by_username;//keep all the user with key the username
+    private HashMap<String, info> user_by_email;//keep all the user with key the  email
 
     public Users() {
         this.user_by_username = new HashMap<>();
@@ -75,7 +75,7 @@ public class Users {
         return sb.toString();
     }
 
-    public String print(info user) {
+    public String print(info user) {//create html with all user info
         StringBuilder sb = new StringBuilder();
         sb.append("<H2> Your registration complete with the following data:</H2><br>");
         

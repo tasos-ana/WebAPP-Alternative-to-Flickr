@@ -6,35 +6,7 @@
 
 /* global validationAPI */
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function checkCookies(){
-    var username,pw;
-    username = getCookie("username");
-    pw = getCookie("password");
-    if (username !== "" && pw !== ""){
-        window.alert(username);
-        window.alert(pw);
-        document.getElementById("usr_id").value = username;
-        document.getElementById("usr_pw").value = pw;
-        ajaxLoginRequest();
-    }
-}
-
-function register_action() {
+function register_action() {//do all the action that need for registration
     "use strict";
     document.getElementById("usr_form_container").reset();
     document.getElementById("usr_form_container").style.display = "table-cell";

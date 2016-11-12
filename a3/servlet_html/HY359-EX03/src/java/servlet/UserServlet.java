@@ -30,22 +30,29 @@ public class UserServlet extends HttpServlet {
         all_users = new Users();
     }
 
+    /*
+     *Takes the request,and what cookie value we want.
+    *if not found then we return the default value
+    */
     public static String getCookieValue(HttpServletRequest request,
-            String cookieName,
-            String defaultValue) {
-        Cookie[] cookies = request.getCookies();
+        String cookieName,
+        String defaultValue) {
+        Cookie[] cookies = request.getCookies();//get all the cookies from request
         if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
-                    return (cookie.getValue());
+            for (Cookie cookie : cookies) {//for each cookie we check the name
+                if (cookieName.equals(cookie.getName())) {//if it's equal with the recommended
+                    return (cookie.getValue());//return the value
                 }
             }
         }
         return (defaultValue);
     }
 
+    /*
+    Takes the request and what cookie we want to return
+    */
     public static Cookie getCookie(HttpServletRequest request,
-            String cookieName) {
+        String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -70,45 +77,45 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String action = request.getHeader("action");
-        if (action.compareTo("login") == 0) {
-            String username = request.getParameter("username");
+        String action = request.getHeader("action");//read from header tha value of the action header
+        if (action.compareTo("login") == 0) {//if the action it's login
+            String username = request.getParameter("username");//getting the username from request that client send
+            String pw = request.getParameter("password");//password too
             boolean fromCookie = false;
-            String pw = request.getParameter("password");
+            if (username.compareTo("") == 0 && pw.compareTo("") == 0) {//if the client didnt send username then check the cookies
+                username = getCookieValue(request, "username", "");//get username
+                pw = getCookieValue(request, "password", "");//and password
 
-            if (username.compareTo("") == 0 && pw.compareTo("") == 0) {
-                username = getCookieValue(request, "username", "");
-                pw = getCookieValue(request, "password", "");
-
-                if (username != null && username.compareTo("") == 0 && pw != null && pw.compareTo("") == 0) {
-                    response.setHeader("error", "");
+                if (username != null && username.compareTo("") == 0 && pw != null && pw.compareTo("") == 0) {//if we dont have cookie
+                    response.setHeader("error", "");//returned
                     return;
                 }
                 fromCookie = true;
             }
-            if (!all_users.userExist(username)) {
-                if(fromCookie){
+            if (!all_users.userExist(username)) {//checking if the user exist
+                if (fromCookie) {//we need that case because servlet can change and all user erased but cookies exist 
                     getCookie(request, "username").setMaxAge(0);
-                    getCookie(request,"password").setMaxAge(0);
+                    getCookie(request, "password").setMaxAge(0);
                     response.setHeader("error", "");
                     return;
                 }
                 response.setHeader("error", "User not exist!");
                 return;
             }
-            info in = all_users.getUserInfo(username);
-            if (in.getPassword().compareTo(pw) != 0) {
-                response.setHeader("error", "Wrong password try again!");
+            info in = all_users.getUserInfo(username);//getting the info about user
+            if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
+                response.setHeader("error", "Wrong password try again!");//return error
                 return;
             }
-            try (PrintWriter out = response.getWriter()) {
+            try (PrintWriter out = response.getWriter()) {//return the username
                 out.println(username);
-                Cookie usrIDCookie = new Cookie("username", username);
+                Cookie usrIDCookie = new Cookie("username", username);//create and set cookies
                 Cookie usrPWCookie = new Cookie("password", pw);
                 response.addCookie(usrIDCookie);
                 response.addCookie(usrPWCookie);
             }
-        } else if (action.compareTo("register") == 0) {
+        } else if (action.compareTo("register") == 0) {//if we have register action
+            //get from post all the data
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
@@ -120,32 +127,33 @@ public class UserServlet extends HttpServlet {
             String town = request.getParameter("town");
             String extra = request.getParameter("extra");
 
+            //creating new info for the user
             info new_user = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
-
+            //add him on servlet "database"
             all_users.add(new_user);
             try (PrintWriter out = response.getWriter()) {
                 out.println(all_users.print(new_user));
             }
 
-        } else if (action.compareTo("check") == 0) {
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            if (username != null && all_users.userExist(username)) {
-                response.setHeader("error", "Username Already Exist");
+        } else if (action.compareTo("check") == 0) {//if we have check action
+            String username = request.getParameter("username");//getting username
+            String email = request.getParameter("email");//and email
+            if (username != null && all_users.userExist(username)) {//if client send username the check if not exist
+                response.setHeader("error", "Username Already Exist");//send error message
             } else {
-                if (email != null && all_users.emailExist(email)) {
+                if (email != null && all_users.emailExist(email)) {//same with email
                     response.setHeader("error", "Email Already Exist");
                 }
             }
-        } else if (action.compareTo("members") == 0) {
+        } else if (action.compareTo("members") == 0) {//if the action it's member then we return all the member username
             try (PrintWriter out = response.getWriter()) {
                 out.println(all_users.printAllMembers());
             }
-        } else if (action.compareTo("userInfo") == 0) {
+        } else if (action.compareTo("userInfo") == 0) {//if the action it's userinfo return all the info for specified username
             String username;
             info userData;
-            username = request.getParameter("username");
-            userData = all_users.getUserInfo(username);
+            username = request.getParameter("username");//getting the username
+            userData = all_users.getUserInfo(username);//and the info for that member
             response.setHeader("username", userData.getUsername());
             response.setHeader("password", userData.getPassword());
             response.setHeader("email", userData.getEmail());
@@ -156,7 +164,7 @@ public class UserServlet extends HttpServlet {
             response.setHeader("town", userData.getTown());
             response.setHeader("country", userData.getCountry());
             response.setHeader("extra", userData.getExtraInfo());
-        } else if (action.compareTo("change") == 0) {
+        } else if (action.compareTo("change") == 0) {//if we have change action then we change the old info with new for specified username
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
