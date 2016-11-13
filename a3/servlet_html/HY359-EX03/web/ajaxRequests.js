@@ -6,6 +6,21 @@
 
 /* global validationAPI */
 
+function XSSValidator(name) {
+    var scriptStart, scriptStartEncoded, scriptEnd, scriptEndEncoded;
+    scriptStart = "<script>";
+    scriptStartEncoded = "&lt;script&gt;";
+
+    scriptEnd = "</script>";
+    scriptEndEncoded = "&lt;/script&gt;";
+    if(name.includes(scriptStart) && name.includes(scriptEnd)){
+       name = name.replace(scriptStart,scriptStartEncoded);
+        name = name.replace(scriptEnd,scriptEndEncoded);
+    }
+
+    return name;
+}
+
 function ajaxChangesRequest() {
     if (!validationAPI.form()) {
         window.alert("Form it's incomplete");
@@ -30,7 +45,7 @@ function ajaxChangesRequest() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("usr_form_container").style.display = "none";
-            document.getElementById("reply_container").innerHTML = xhr.responseText;
+            document.getElementById("reply_container").innerHTML = XSSValidator(xhr.responseText);
             document.getElementById("new_usr_action").style.display = "inline";
             document.getElementById("old_usr_action").style.display = "none";
             document.getElementById("usr_form_container").style.display = "none";
@@ -56,7 +71,7 @@ function ajaxLoginRequest(cookie) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") === null) {
                 document.getElementById("usr_login_error").innerHTML = "";
-                document.getElementById("login_as").innerHTML = xhr.responseText;
+                document.getElementById("login_as").innerHTML = XSSValidator(xhr.responseText);
                 document.getElementById("login_as").value = username.value;
                 document.getElementById("login_msg").style.display = "inline";
                 document.getElementById("usr_in_container").style.display = "none";
@@ -65,10 +80,10 @@ function ajaxLoginRequest(cookie) {
                 document.getElementById("usr_form_container").style.display = "none";
                 document.getElementById("reply_container").innerHTML = "";
             } else {
-                if(xhr.getResponseHeader("error") === "cookie"){
+                if (xhr.getResponseHeader("error") === "cookie") {
                     return;
                 }
-                document.getElementById("usr_login_error").innerHTML = xhr.getResponseHeader("error");
+                document.getElementById("usr_login_error").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -76,14 +91,14 @@ function ajaxLoginRequest(cookie) {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'login');
-    if (cookie === null){
+    if (cookie === null) {
         username = document.getElementById("usr_id");
         pw = document.getElementById("usr_pw");
         xhr.send('username=' + username.value + '&password=' + pw.value);
-    }else{
+    } else {
         xhr.send('username=cook&password=cook');
     }
-    
+
 }
 
 function ajaxRegisterRequest() {
@@ -115,7 +130,7 @@ function ajaxRegisterRequest() {
                 return;
             }
             document.getElementById("usr_form_container").style.display = "none";
-            document.getElementById("reply_container").innerHTML = xhr.responseText;
+            document.getElementById("reply_container").innerHTML = XSSValidator(xhr.responseText);
 
             document.getElementById("usr_id").value = usrID.value;
             document.getElementById("usr_pw").value = usrPW.value;
@@ -139,7 +154,7 @@ function ajaxAllMembersRequest() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("reply_container").innerHTML = xhr.responseText;
+            document.getElementById("reply_container").innerHTML = XSSValidator(xhr.responseText);
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -157,19 +172,19 @@ function ajaxUserProfileRequest() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.registration.usrID.value = xhr.getResponseHeader("username");
-            document.registration.usrPW.value = xhr.getResponseHeader("password");
-            document.registration.usrEMAIL.value = xhr.getResponseHeader("email");
-            document.registration.usrFNAME.value = xhr.getResponseHeader("fname");
-            document.registration.usrLNAME.value = xhr.getResponseHeader("lname");
-            document.registration.usrBDATE.value = xhr.getResponseHeader("birthday");
+            document.registration.usrID.value = XSSValidator(xhr.getResponseHeader("username"));
+            document.registration.usrPW.value = XSSValidator(xhr.getResponseHeader("password"));
+            document.registration.usrEMAIL.value = XSSValidator(xhr.getResponseHeader("email"));
+            document.registration.usrFNAME.value = XSSValidator(xhr.getResponseHeader("fname"));
+            document.registration.usrLNAME.value = XSSValidator(xhr.getResponseHeader("lname"));
+            document.registration.usrBDATE.value = XSSValidator(xhr.getResponseHeader("birthday"));
             if (xhr.getResponseHeader("sex") !== "") {
-                document.registration.usrSEX.value = xhr.getResponseHeader("sex");
+                document.registration.usrSEX.value = XSSValidator(xhr.getResponseHeader("sex"));
             }
-            document.registration.usrTOWN.value = xhr.getResponseHeader("town");
-            document.registration.usrCOUNTRY.value = xhr.getResponseHeader("country");
+            document.registration.usrTOWN.value = XSSValidator(xhr.getResponseHeader("town"));
+            document.registration.usrCOUNTRY.value = XSSValidator(xhr.getResponseHeader("country"));
             if (xhr.getResponseHeader("extra") !== "") {
-                document.registration.usrEXTRA.value = xhr.getResponseHeader("extra");
+                document.registration.usrEXTRA.value = XSSValidator(xhr.getResponseHeader("extra"));
             }
             validationAPI.validateAll(false);
         } else if (xhr.status !== 200) {
@@ -179,12 +194,4 @@ function ajaxUserProfileRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'userInfo');
     xhr.send('username=' + username.value);
-}
-
-function ajaxUserExistRequest() {
-
-}
-
-function ajaxEmailExistRequest() {
-
 }

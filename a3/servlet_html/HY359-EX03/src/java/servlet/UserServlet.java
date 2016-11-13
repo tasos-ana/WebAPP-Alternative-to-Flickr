@@ -9,7 +9,6 @@ import data.Users;
 import data.info;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.sql.DriverManager.println;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
