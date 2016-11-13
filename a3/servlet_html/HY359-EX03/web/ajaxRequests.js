@@ -45,11 +45,9 @@ function ajaxChangesRequest() {
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
 
-function ajaxLoginRequest() {
+function ajaxLoginRequest(cookie) {
     "use strict";
     var username, pw, xhr;
-    username = document.getElementById("usr_id");
-    pw = document.getElementById("usr_pw");
 
     xhr = new XMLHttpRequest();
 
@@ -67,6 +65,9 @@ function ajaxLoginRequest() {
                 document.getElementById("usr_form_container").style.display = "none";
                 document.getElementById("reply_container").innerHTML = "";
             } else {
+                if(xhr.getResponseHeader("error") === "cookie"){
+                    return;
+                }
                 document.getElementById("usr_login_error").innerHTML = xhr.getResponseHeader("error");
             }
         } else if (xhr.status !== 200) {
@@ -75,7 +76,14 @@ function ajaxLoginRequest() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'login');
-    xhr.send('username=' + username.value + '&password=' + pw.value);
+    if (cookie === null){
+        username = document.getElementById("usr_id");
+        pw = document.getElementById("usr_pw");
+        xhr.send('username=' + username.value + '&password=' + pw.value);
+    }else{
+        xhr.send('username=cook&password=cook');
+    }
+    
 }
 
 function ajaxRegisterRequest() {

@@ -18,7 +18,7 @@
         <script src="validationAPI.js" type="text/javascript"></script>
     </head>
 
-    <body onload="ajaxLoginRequest()">
+    <body onload="ajaxLoginRequest('cookie')">
         <div id="usr_settings_container">
             <button type="button" class="usr_but" id="all_members" onclick="allMembers_action()">All members</button>
             <button type="button" class="usr_but" id="usr_settings" onclick="settings_action()">Account Settings</button>
@@ -53,7 +53,7 @@
                         <legend>Personal Info</legend>
                         <span>First Name:</span><br><input type="text" name="usrFNAME" placeholder="at least 3 letters" required size="38" onchange="validationAPI.usrFNAME()"><div id="usrFNAME_err"></div><br>
                         <span>Last Name:</span><br><input type="text" name="usrLNAME" placeholder="at least 4 letters" required size="38" onchange="validationAPI.usrLNAME()"><div id="usrLNAME_err"></div><br>
-                        <span>Born Date:</span><br><input type="date" name="usrBDATE" required size="38" onchange="validationAPI.usrBDATE()"><div id="usrBDATE_err"></div><br>
+                        <span>Born Date:</span><br><input type="date" name="usrBDATE" placeholder="yyyy-mm-dd" required size="38" onchange="validationAPI.usrBDATE()"><div id="usrBDATE_err"></div><br>
                         <span>Gender (Optional):<br>
                             <input type="radio" value="male" name="usrSEX">Male 
                             <input type="radio" value="female" name="usrSEX">Female<br>

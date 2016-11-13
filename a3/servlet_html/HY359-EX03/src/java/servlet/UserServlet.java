@@ -9,6 +9,7 @@ import data.Users;
 import data.info;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.sql.DriverManager.println;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -33,10 +34,10 @@ public class UserServlet extends HttpServlet {
     /*
      *Takes the request,and what cookie value we want.
     *if not found then we return the default value
-    */
+     */
     public static String getCookieValue(HttpServletRequest request,
-        String cookieName,
-        String defaultValue) {
+            String cookieName,
+            String defaultValue) {
         Cookie[] cookies = request.getCookies();//get all the cookies from request
         if (cookies != null) {
             for (Cookie cookie : cookies) {//for each cookie we check the name
@@ -50,9 +51,9 @@ public class UserServlet extends HttpServlet {
 
     /*
     Takes the request and what cookie we want to return
-    */
+     */
     public static Cookie getCookie(HttpServletRequest request,
-        String cookieName) {
+            String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -82,12 +83,16 @@ public class UserServlet extends HttpServlet {
             String username = request.getParameter("username");//getting the username from request that client send
             String pw = request.getParameter("password");//password too
             boolean fromCookie = false;
-            if (username.compareTo("") == 0 && pw.compareTo("") == 0) {//if the client didnt send username then check the cookies
-                username = getCookieValue(request, "username", "");//get username
-                pw = getCookieValue(request, "password", "");//and password
+            if (username.compareTo("cook") == 0) {//if the client didnt send username then check the cookies
+                username = getCookieValue(request, "username", "null");//get username
+                pw = getCookieValue(request, "password", "null");//and password
 
-                if (username != null && username.compareTo("") == 0 && pw != null && pw.compareTo("") == 0) {//if we dont have cookie
-                    response.setHeader("error", "");//returned
+                if (username == null || pw == null) {
+                    response.setHeader("error", "cookie");//returned
+                    return;
+                }
+                if (username.compareTo("null") == 0 && pw.compareTo("null") == 0) {//if we dont have cookie
+                    response.setHeader("error", "cookie");//returned
                     return;
                 }
                 fromCookie = true;
@@ -96,7 +101,7 @@ public class UserServlet extends HttpServlet {
                 if (fromCookie) {//we need that case because servlet can change and all user erased but cookies exist 
                     getCookie(request, "username").setMaxAge(0);
                     getCookie(request, "password").setMaxAge(0);
-                    response.setHeader("error", "");
+                    response.setHeader("error", "cookie");
                     return;
                 }
                 response.setHeader("error", "User not exist!");

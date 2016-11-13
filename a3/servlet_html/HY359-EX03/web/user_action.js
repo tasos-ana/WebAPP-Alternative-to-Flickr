@@ -47,7 +47,7 @@ function login_action() {
         pw.focus();
         return;
     }
-    ajaxLoginRequest();
+    ajaxLoginRequest(null);
 }
 
 function logout_action() {
