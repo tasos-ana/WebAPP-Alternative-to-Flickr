@@ -238,9 +238,9 @@ var validationAPI = function () {
 
     return{
         form: function () {
-            window.alert(formValid.usrID + "usrID" + formValid.usrEMAIL + "email" + formValid.usrPW + "pw1" +
-                    formValid.usrPW2 + "pw2" + formValid.usrFNAME + "fname" + formValid.usrLNAME + "lname" +
-                    formValid.usrBDATE + "bdy" + formValid.usrTOWN + "town");
+//            window.alert(formValid.usrID + "usrID" + formValid.usrEMAIL + "email" + formValid.usrPW + "pw1" +
+//                    formValid.usrPW2 + "pw2" + formValid.usrFNAME + "fname" + formValid.usrLNAME + "lname" +
+//                    formValid.usrBDATE + "bdy" + formValid.usrTOWN + "town");
             return (formValid.usrID && formValid.usrEMAIL && formValid.usrPW && formValid.usrPW2 &&
                     formValid.usrFNAME && formValid.usrLNAME && formValid.usrBDATE && formValid.usrTOWN);
         },

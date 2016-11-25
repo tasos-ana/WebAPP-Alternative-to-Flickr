@@ -8,7 +8,7 @@
 
 var navBut = ["home_but", "member_but", "register_but", "login_but", "settings_but", "logout_but"];
 var elemVisibility = ["member_but", "register_but", "login_but", "settings_but", "logout_but",
-    "login_container", "register_container", "new_usr_action", "old_usr_action"];
+    "login_container", "register_container", "new_usr_action", "old_usr_action","img_container","tiles_container"];
 
 function renderPage() {
     var i, elem, attr;
@@ -74,8 +74,9 @@ function register_action() {//do all the action that need for registration
     document.getElementById("register_container").setAttribute("data-visible", "block");
     document.getElementById("new_usr_action").setAttribute("data-visible", "block");
     document.getElementById("old_usr_action").setAttribute("data-visible", "none");
-
-
+    document.getElementById("img_container").setAttribute("data-visible", "none");
+    document.getElementById("tiles_container").setAttribute("data-visible", "none");
+    
     document.registration.usrID.removeAttribute("disabled");
     document.registration.usrEMAIL.removeAttribute("disabled");
 
@@ -99,7 +100,8 @@ function login_action() {
     document.getElementById("register_container").setAttribute("data-visible", "none");
     document.getElementById("new_usr_action").setAttribute("data-visible", "none");
     document.getElementById("old_usr_action").setAttribute("data-visible", "none");
-
+    document.getElementById("img_container").setAttribute("data-visible", "none");
+    document.getElementById("tiles_container").setAttribute("data-visible", "none");
     activeNavButton("login_but");
     renderPage();
 }
@@ -117,6 +119,8 @@ function succeed_login_action() {
     document.getElementById("register_container").setAttribute("data-visible", "none");
     document.getElementById("new_usr_action").setAttribute("data-visible", "none");
     document.getElementById("old_usr_action").setAttribute("data-visible", "none");
+    document.getElementById("img_container").setAttribute("data-visible", "block");
+    document.getElementById("tiles_container").setAttribute("data-visible", "block");
 
     activeNavButton("home_but");
     renderPage();
@@ -138,6 +142,8 @@ function logout_action() {
     document.getElementById("register_container").setAttribute("data-visible", "none");
     document.getElementById("new_usr_action").setAttribute("data-visible", "none");
     document.getElementById("old_usr_action").setAttribute("data-visible", "none");
+    document.getElementById("img_container").setAttribute("data-visible", "none");
+    document.getElementById("tiles_container").setAttribute("data-visible", "none");
 
     activeNavButton("home_but");
     renderPage();
@@ -160,6 +166,8 @@ function settings_action() {
     document.getElementById("register_container").setAttribute("data-visible", "block");
     document.getElementById("new_usr_action").setAttribute("data-visible", "none");
     document.getElementById("old_usr_action").setAttribute("data-visible", "block");
+    document.getElementById("img_container").setAttribute("data-visible", "none");
+    document.getElementById("tiles_container").setAttribute("data-visible", "none");
 
     document.registration.usrID.setAttribute("disabled", "on");
     document.registration.usrEMAIL.setAttribute("disabled", "on");
@@ -181,6 +189,8 @@ function allMembers_action() {
     document.getElementById("register_container").setAttribute("data-visible", "none");
     document.getElementById("new_usr_action").setAttribute("data-visible", "none");
     document.getElementById("old_usr_action").setAttribute("data-visible", "none");
+    document.getElementById("img_container").setAttribute("data-visible", "none");
+    document.getElementById("tiles_container").setAttribute("data-visible", "none");
 
     ajaxAllMembersRequest();
     activeNavButton("member_but");
