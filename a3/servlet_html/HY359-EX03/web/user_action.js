@@ -22,10 +22,10 @@ function register_action() {//do all the action that need for registration
     document.getElementById("usrLNAME_err").innerHTML = "";
     document.getElementById("usrBDATE_err").innerHTML = "";
     document.getElementById("usrTOWN_err").innerHTML = "";
-    
+
     document.getElementById("new_usr_action").style.display = "inline";
     document.getElementById("old_usr_action").style.display = "none";
-    
+
     document.registration.usrID.removeAttribute("disabled");
     document.registration.usrEMAIL.removeAttribute("disabled");
 }
@@ -59,7 +59,7 @@ function logout_action() {
 
     document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    
+
     document.getElementById("usr_id").value = "";
     document.getElementById("usr_pw").value = "";
 
@@ -76,9 +76,9 @@ function settings_action() {
 
     document.getElementById("new_usr_action").style.display = "none";
     document.getElementById("old_usr_action").style.display = "inline";
-    
-    document.registration.usrID.setAttribute("disabled","on");
-    document.registration.usrEMAIL.setAttribute("disabled","on");
+
+    document.registration.usrID.setAttribute("disabled", "on");
+    document.registration.usrEMAIL.setAttribute("disabled", "on");
     ajaxUserProfileRequest();
 }
 

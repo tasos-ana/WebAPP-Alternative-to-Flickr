@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 23, 2016, 6:59:18 PM
+    Author     : Tasos198
+*/
+body,#header,#footer,#left_sidebar,#login_container,#register_container,#right_sidebar,#footer_img{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #d6d6d6;
+}
+
+
+#left_sidebar{
+    position: fixed;
+    width: 1%;
+    height: 100%;
+    background-color: #333333;
+    left: 0;
+}
+
+#right_sidebar{
+    position: fixed;
+    width: 1%;
+    height: 100%;
+    background-color: #333333;
+    
+    right: 0;
+}
+
+#header,#footer{
+    width: 100%;
+    height: 100%;
+    background-color: #333333;
+}
+
+#login_container,#register_container,#member_but,#logout_but,#settings_but{
+    display: none;
+}
+
+#footer_img{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+
