@@ -40,6 +40,7 @@ function register_action() {//do all the action that need for registration
     document.getElementById("logout_but").setAttribute("data-visible", "none");
     document.getElementById("profile_but").setAttribute("data-visible", "none");
 
+    document.getElementById("usrCOUNTRY").value = "Greece";
     activeNavButton("register_but");
     renderPage();
 }
@@ -67,7 +68,7 @@ function succeed_login_action() {
     document.getElementById("settings_but").setAttribute("data-visible", "block");
     document.getElementById("logout_but").setAttribute("data-visible", "block");
     document.getElementById("profile_but").setAttribute("data-visible", "block");
-    
+
     activeNavButton("home_but");
     renderPage();
 }
@@ -97,7 +98,7 @@ function settings_action() {
     document.getElementById("settings_but").setAttribute("data-visible", "block");
     document.getElementById("logout_but").setAttribute("data-visible", "block");
     document.getElementById("profile_but").setAttribute("data-visible", "block");
-    
+
     activeNavButton("settings_but");
     renderPage();
 }
@@ -110,7 +111,7 @@ function allMembers_action() {
     document.getElementById("settings_but").setAttribute("data-visible", "block");
     document.getElementById("logout_but").setAttribute("data-visible", "block");
     document.getElementById("profile_but").setAttribute("data-visible", "block");
-    
+
 
     activeNavButton("member_but");
     renderPage();

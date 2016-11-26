@@ -5,12 +5,14 @@
  */
 package servlet;
 
-import data.Users;
-import data.info;
+import cs359db.db.UserDB;
+import cs359db.model.User;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -29,7 +31,6 @@ public class UserServlet extends HttpServlet {
 
     Random rand = new Random(); // Seeded by current date/time
 
-    private Users all_users;
     private HashMap<Integer, String> servletCookies;
 
     private int addCookie(String username) {
@@ -67,7 +68,6 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void init() {
-        all_users = new Users();
         this.servletCookies = new HashMap<>();
     }
 
@@ -114,7 +114,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void loginAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         String username = request.getParameter("username");//getting the username from request that client send
         String pw = request.getParameter("password");//password too
         boolean foundedFromCookie = false;
@@ -127,9 +127,10 @@ public class UserServlet extends HttpServlet {
             }
             foundedFromCookie = true;
         }//we found username either from request or cookie
-        if (all_users.userExist(username)) {
+        if (!UserDB.checkValidUserName(username)) {
             if (!foundedFromCookie) {
-                info in = all_users.getUserInfo(username);//getting the info about user
+                User in;
+                in = UserDB.getUser(username);//getting the info about user
                 if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
                     response.setHeader("error", "Username and password isn't matched!");//return error
                     return;
@@ -142,9 +143,8 @@ public class UserServlet extends HttpServlet {
                 response.addCookie(usrCookie);
             }
             //return the user main page
-            info data = all_users.getUserInfo(username);
             ServletContext context = getServletContext();
-            context.setAttribute("data", data);
+            context.setAttribute("data", UserDB.getUser(username));
             forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
         } else {//remove the unexcepted cookie or return error msg
             if (foundedFromCookie) {
@@ -158,7 +158,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void registerAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         //get from post all the data
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -177,9 +177,9 @@ public class UserServlet extends HttpServlet {
             return;
         }
         //creating new info for the user
-        info new_user = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
+        User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
         //add him on servlet "database"
-        all_users.add(new_user);
+        UserDB.addUser(new_user);
         response.setHeader("id", username);
         Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
         usrCookie.setMaxAge(3600);
@@ -187,54 +187,54 @@ public class UserServlet extends HttpServlet {
         response.setHeader("servlet", "<h2 class=\"text-center\">Registration Completete.</h2>"
                 + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>");
         ServletContext context = getServletContext();
-        context.setAttribute("data", all_users.getUserInfo(username));
+        context.setAttribute("data", UserDB.getUser(username));
         forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
     }
 
     private void profileAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         String username;
         username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
-        info data = all_users.getUserInfo(username);
         ServletContext context = getServletContext();
-        context.setAttribute("data", data);
+        context.setAttribute("data", UserDB.getUser(username));
         forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
     }
 
     private void memberAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        List data = all_users.getAllMembmers();
+            throws IOException, ServletException, ClassNotFoundException {
+        List data = UserDB.getUsers();
         ServletContext context = getServletContext();
         context.setAttribute("data", data);
         forwardToPage(request, response, "/WEB-INF/JSP/memberPage.jsp");
     }
 
     private void checkAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         String username = request.getParameter("username");//getting username
         String email = request.getParameter("email");//and email
-        if (username != null && all_users.userExist(username)) {//if client send username the check if not exist
+        if (username != null && !UserDB.checkValidUserName(username)) {//if client send username the check if not exist
             response.setHeader("error", "Username Already Exist");//send error message
         } else {
-            if (email != null && all_users.emailExist(email)) {//same with email
+            if (email != null && !UserDB.checkValidUserName(email)) {//same with email
                 response.setHeader("error", "Email Already Exist");
             }
         }
     }
 
     private void profileSettingsAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         String username;
-        info userData;
+        User userData;
         username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
-        userData = all_users.getUserInfo(username);//and the info for that member
+        userData = UserDB.getUser(username);//and the info for that member
         ServletContext context = getServletContext();
         context.setAttribute("data", userData);
+        response.setHeader("usrCOUNTRY_val", userData.getCountry());
         forwardToPage(request, response, "/WEB-INF/JSP/settingsPage.jsp");
     }
 
     private void changeAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -246,8 +246,8 @@ public class UserServlet extends HttpServlet {
         String town = request.getParameter("town");
         String extra = request.getParameter("extra");
 
-        info newData = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
-        all_users.update(username, email, newData);
+        User newData = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
+        UserDB.updateUser(newData);
     }
 
     private void logoutAction(HttpServletRequest request, HttpServletResponse response)
@@ -268,9 +268,10 @@ public class UserServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
 
         String action = request.getHeader("action");//read from header tha value of the action header
@@ -315,7 +316,11 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -329,7 +334,11 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

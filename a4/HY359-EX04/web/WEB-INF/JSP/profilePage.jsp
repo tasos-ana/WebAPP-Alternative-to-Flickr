@@ -3,14 +3,15 @@
     Created on : Nov 25, 2016, 5:00:03 PM
     Author     : Tasos198
 --%>
-<%@page import="data.info"%>
+<%@page import="cs359db.model.User"%>
+<%@page import="cs359db.db.UserDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
-    info user;
+    User user;
 
-    assert (context.getAttribute("data") instanceof info);
-    user = (info) context.getAttribute("data");
+    assert (context.getAttribute("data") instanceof User);
+    user = (User) context.getAttribute("data");
 
     String firstPrint;
     firstPrint = response.getHeader("servlet");
@@ -24,7 +25,7 @@
         <tbody>
             <tr>
                 <td class="text-right"><b>Username: </b></td>
-                <td class="text-left"><%= user.getUsername()%></td>
+                <td class="text-left"><%= user.getUserName()%></td>
             </tr>
             <tr>
                 <td class="text-right"><b>Password:  </b></td>
@@ -36,20 +37,21 @@
             </tr>
             <tr>
                 <td class="text-right"><b>First Name:</b></td>
-                <td class="text-left"> <%= user.getFname()%></td>
+                <td class="text-left"> <%= user.getFirstName()%></td>
             </tr>
             <tr>
                 <td class="text-right"><b>Last Name:</b></td>
-                <td class="text-left"> <%= user.getLname()%></td>
+                <td class="text-left"> <%= user.getLastName()%></td>
             </tr>
             <tr>
                 <td class="text-right"><b>Birthday Date:</b></td>
-                <td class="text-left"> <%= user.getBday()%></td>
+                <td class="text-left"> <%= user.getBirthDate()%></td>
             </tr>
-            <% if (user.getSex().compareTo("") != 0) {%>
+            <% String gender = user.getGender().toString();
+                if (gender.compareTo("") != 0) {%>
             <tr>
                 <td class="text-right"><b>Sex:</b></td>
-                <td class="text-left">  <%= user.getSex()%></td>
+                <td class="text-left">  <%= gender%></td>
             </tr>
             <% }%>
             <tr>
@@ -60,10 +62,11 @@
                 <td class="text-right"><b>Town</b></td>
                 <td class="text-left">  <%= user.getTown()%></td>
             </tr>
-            <% if (user.getExtraInfo().compareTo("") != 0) {%>
+            <% String info = user.getInfo();
+                if (info.compareTo("") != 0) {%>
             <tr>
                 <td class="text-right"><b>Extra info:</b></td>
-                <td class="text-left">  <%= user.getExtraInfo()%></td>
+                <td class="text-left">  <%= info%></td>
             </tr>
             <% }%>
         </tbody>

@@ -118,6 +118,10 @@ function ajaxUserProfileRequest() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
+            var val = xhr.getResponseHeader("usrCOUNTRY_val");
+            if(val!==null){
+                document.getElementById("usrCOUNTRY").value = val;
+            }
             settings_action();
             validationAPI.validateAll(false);
         } else if (xhr.status !== 200) {

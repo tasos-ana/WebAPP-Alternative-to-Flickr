@@ -4,12 +4,13 @@
     Author     : Tasos198
 --%>
 
-<%@page import="data.info"%>
+<%@page import="cs359db.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
-    info user;
-    user = (info) context.getAttribute("data");
+    User user;
+    assert (context.getAttribute("data") instanceof User);
+    user = (User) context.getAttribute("data");
 %>
 <div class="animated_container">
     <h2 id="register_form_title" class="text-center">Profile Settings</h2>
@@ -21,7 +22,7 @@
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="usrID" name="usrID" placeholder="Enter Username" 
                        autofocus required size="38" onchange="validationAPI.usrID(true)"
-                       disabled="on" value= <%= user.getUsername()%> >
+                       disabled="on" value= <%= user.getUserName()%> >
             </div>
             <div id="usrID_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -40,7 +41,7 @@
             <label for="usrPW" class="control-label col-sm-3">Password:</label>
             <div class="col-sm-6">
                 <input type="password" class="form-control" id="usrPW" name="usrPW" placeholder="Enter Password" 
-                       required size="38" onchange="validationAPI.usrPW()">
+                       required size="38" onchange="validationAPI.usrPW(true)">
             </div>
             <div id="usrPW_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -49,7 +50,7 @@
             <label for="usrPW2" class="control-label col-sm-3">Repeat:</label>
             <div class="col-sm-6">
                 <input type="password" class="form-control" id="usrPW2" name="usrPW2" placeholder="Enter Password" 
-                       required size="38" onchange="validationAPI.usrPW2()">
+                       required size="38" onchange="validationAPI.usrPW2(true)">
             </div>
             <div id="usrPW2_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -60,7 +61,7 @@
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="usrFNAME" name="usrFNAME" placeholder="Enter First Name" 
                        required size="38" onchange="validationAPI.usrFNAME()"
-                       value= <%= user.getFname()%> >
+                       value= <%= user.getFirstName()%> >
             </div>
             <div id="usrFNAME_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -70,7 +71,7 @@
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="usrLNAME" name="usrLNAME" placeholder="Enter Last Name" 
                        required size="38" onchange="validationAPI.usrLNAME()"
-                       value= <%= user.getLname()%> >
+                       value= <%= user.getLastName()%> >
             </div>
             <div id="usrLNAME_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -80,7 +81,7 @@
             <div class="col-sm-6">
                 <input type="date" class="form-control" id="usrBDATE" name="usrBDATE" placeholder="yyyy-mm-dd" 
                        required size="38" onchange="validationAPI.usrBDATE()"
-                       value= <%= user.getBday()%> >
+                       value= <%= user.getBirthDate()%> >
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color:red;">*</div>
         </div>
@@ -88,14 +89,15 @@
         <div class="form-group">
             <div><label class="control-label col-sm-3 ">Gender:</label>
                 <div class="col-sm-6">
-                    <input type="radio" value="male" name="usrSEX" 
-                           <% if (user.getSex().compareTo("male") == 0) {%> <%= "checked"%> <% } %>
+                    <% String gender = user.getGender().toString(); %>
+                    <input type="radio" value="male" name="usrSEX"
+                           <% if (gender.compareTo("Male") == 0) {%> <%= "checked"%> <% } %>
                            >Male 
                     <input type="radio" value="female" name="usrSEX"
-                           <% if (user.getSex().compareTo("female") == 0) {%> <%= "checked"%> <% } %>
+                           <% if (gender.compareTo("Female") == 0) {%> <%= "checked"%> <% } %>
                            >Female
                     <input type="radio" value="other" name="usrSEX"
-                           <% if (user.getSex().compareTo("other") == 0) {%> <%= "checked"%> <% }%>
+                           <% if (gender.compareTo("Unknown") == 0) {%> <%= "checked"%> <% }%>
                            >Other
                 </div>
             </div>
@@ -104,7 +106,7 @@
         <div class="form-group">
             <label for="usrCOUNTRY" class="control-label col-sm-3">Country:</label>
             <div class="col-sm-6">
-                <select class="form-control" id="usrCOUNTRY" name="usrCOUNTRY" value="<%= user.getCountry()%>">
+                <select class="form-control" id="usrCOUNTRY" name="usrCOUNTRY">
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Åland Islands">Åland Islands</option>
                     <option value="Albania">Albania</option>
@@ -367,7 +369,7 @@
             <label for="txtarea" id="txtarea_desc" class="control-label col-sm-3">More Info:</label>
             <div class="col-sm-6">
                 <textarea id="txtarea" class="form-control" name="usrEXTRA" placeholder="Enter Extra info for you" 
-                          maxlength="500"> <%= user.getExtraInfo()%> </textarea>
+                          maxlength="500"> <%= user.getInfo()%> </textarea>
             </div>
         </div>
         <div id="form_alert" class="alert alert-danger" hidden>

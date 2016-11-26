@@ -32,7 +32,7 @@
             <label for="usrPW" class="control-label col-sm-3">Password:</label>
             <div class="col-sm-6">
                 <input type="password" class="form-control" id="usrPW" name="usrPW" placeholder="Enter Password" 
-                       required size="38" onchange="validationAPI.usrPW()">
+                       required size="38" onchange="validationAPI.usrPW(true)">
             </div>
             <div id="usrPW_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -41,7 +41,7 @@
             <label for="usrPW2" class="control-label col-sm-3">Repeat:</label>
             <div class="col-sm-6">
                 <input type="password" class="form-control" id="usrPW2" name="usrPW2" placeholder="Enter Password" 
-                       required size="38" onchange="validationAPI.usrPW2()">
+                       required size="38" onchange="validationAPI.usrPW2(true)">
             </div>
             <div id="usrPW2_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -77,9 +77,9 @@
         <div class="form-group">
             <div><label class="control-label col-sm-3">Gender:</label>
                 <div class="col-sm-6">
-                    <input type="radio" value="male" name="usrSEX">Male 
-                    <input type="radio" value="female" name="usrSEX">Female
-                    <input type="radio" value="other" name="usrSEX">Other
+                    <input type="radio" value="Male" name="usrSEX">Male 
+                    <input type="radio" value="Female" name="usrSEX">Female
+                    <input type="radio" value="Unknown" name="usrSEX">Unknown
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
         <div class="form-group">
             <label for="usrCOUNTRY" class="control-label col-sm-3">Country:</label>
             <div class="col-sm-6">
-                <select class="form-control" id="usrCOUNTRY" name="usrCOUNTRY" value="Greece">
+                <select class="form-control" id="usrCOUNTRY" name="usrCOUNTRY">
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Åland Islands">Åland Islands</option>
                     <option value="Albania">Albania</option>
@@ -171,7 +171,7 @@
                     <option value="Germany">Germany</option>
                     <option value="Ghana">Ghana</option>
                     <option value="Gibraltar">Gibraltar</option>
-                    <option value="Greece">Greece</option>
+                    <option value="Greece" selected>Greece</option>
                     <option value="Greenland">Greenland</option>
                     <option value="Grenada">Grenada</option>
                     <option value="Guadeloupe">Guadeloupe</option>
