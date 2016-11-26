@@ -8,7 +8,11 @@ package servlet;
 import data.Users;
 import data.info;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -23,18 +27,55 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
 public class UserServlet extends HttpServlet {
 
+    Random rand = new Random(); // Seeded by current date/time
+
     private Users all_users;
+    private HashMap<Integer, String> servletCookies;
+
+    private int addCookie(String username) {
+        int value = rand.nextInt();
+
+        while (servletCookies.containsKey(value)) {
+            value = rand.nextInt();
+        }
+        servletCookies.put(value, username);
+        return value;
+    }
+
+    private void removeCookie(String cookie) {
+        if (cookie == null) {
+            return;
+        }
+        int key;
+        key = Integer.parseInt(cookie);
+        if (servletCookies.containsKey(key)) {
+            servletCookies.remove(key);
+        }
+    }
+
+    private String getCookieValue(String cookie) {
+        if (cookie == null) {
+            return null;
+        }
+        int key;
+        key = Integer.parseInt(cookie);
+        if (servletCookies.containsKey(key)) {
+            return servletCookies.get(key);
+        }
+        return null;
+    }
 
     @Override
     public void init() {
         all_users = new Users();
+        this.servletCookies = new HashMap<>();
     }
 
     /*
      *Takes the request,and what cookie value we want.
     *if not found then we return the default value
      */
-    private static String getCookieValue(HttpServletRequest request,
+    private static String getRequestCookieValue(HttpServletRequest request,
             String cookieName,
             String defaultValue) {
         Cookie[] cookies = request.getCookies();//get all the cookies from request
@@ -45,13 +86,13 @@ public class UserServlet extends HttpServlet {
                 }
             }
         }
-        return (defaultValue);
+        return defaultValue;
     }
 
     /*
     Takes the request and what cookie we want to return
      */
-    private static Cookie getCookie(HttpServletRequest request,
+    private static Cookie getRequestCookie(HttpServletRequest request,
             String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -62,6 +103,161 @@ public class UserServlet extends HttpServlet {
             }
         }
         return null;
+    }
+
+    public void forwardToPage(final HttpServletRequest request,
+            final HttpServletResponse response,
+            String url)
+            throws IOException, ServletException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+    }
+
+    private void loginAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String username = request.getParameter("username");//getting the username from request that client send
+        String pw = request.getParameter("password");//password too
+        boolean foundedFromCookie = false;
+        if (username == null && pw == null) {//try to check if we have cookie for user
+            username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
+            if (username == null) {//we dont have cookie we must return welcome page
+                response.setHeader("error", "");//return error
+                forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
+                return;
+            }
+            foundedFromCookie = true;
+        }//we found username either from request or cookie
+        if (all_users.userExist(username)) {
+            if (!foundedFromCookie) {
+                info in = all_users.getUserInfo(username);//getting the info about user
+                if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
+                    response.setHeader("error", "Username and password isn't matched!");//return error
+                    return;
+                }
+                //Username match with password
+                //add cookies
+                response.setHeader("id", username);
+                Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
+                usrCookie.setMaxAge(3600);
+                response.addCookie(usrCookie);
+            }
+            //return the user main page
+            info data = all_users.getUserInfo(username);
+            ServletContext context = getServletContext();
+            context.setAttribute("data", data);
+            forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+        } else {//remove the unexcepted cookie or return error msg
+            if (foundedFromCookie) {
+                removeCookie(getRequestCookieValue(request, "tivUserServlet", null));
+                getRequestCookie(request, "tivUserServlet").setMaxAge(0);
+                response.setHeader("error", "cookie");
+                return;
+            }
+            response.setHeader("error", "User not exist!");//return error
+        }
+    }
+
+    private void registerAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        //get from post all the data
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String birthday = request.getParameter("birthday");
+        String sex = request.getParameter("sex");
+        String country = request.getParameter("country");
+        String town = request.getParameter("town");
+        String extra = request.getParameter("extra");
+
+        if (username == null || password == null || email == null || fname == null || lname == null
+                || birthday == null || sex == null || country == null || town == null || extra == null) {
+            assert (true);
+            return;
+        }
+        //creating new info for the user
+        info new_user = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
+        //add him on servlet "database"
+        all_users.add(new_user);
+        response.setHeader("id", username);
+        Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
+        usrCookie.setMaxAge(3600);
+        response.addCookie(usrCookie);
+        response.setHeader("servlet", "<h2 class=\"text-center\">Registration Completete.</h2>"
+                + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>");
+        ServletContext context = getServletContext();
+        context.setAttribute("data", all_users.getUserInfo(username));
+        forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
+    }
+
+    private void profileAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String username;
+        username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        info data = all_users.getUserInfo(username);
+        ServletContext context = getServletContext();
+        context.setAttribute("data", data);
+        forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
+    }
+
+    private void memberAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        List data = all_users.getAllMembmers();
+        ServletContext context = getServletContext();
+        context.setAttribute("data", data);
+        forwardToPage(request, response, "/WEB-INF/JSP/memberPage.jsp");
+    }
+
+    private void checkAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String username = request.getParameter("username");//getting username
+        String email = request.getParameter("email");//and email
+        if (username != null && all_users.userExist(username)) {//if client send username the check if not exist
+            response.setHeader("error", "Username Already Exist");//send error message
+        } else {
+            if (email != null && all_users.emailExist(email)) {//same with email
+                response.setHeader("error", "Email Already Exist");
+            }
+        }
+    }
+
+    private void profileSettingsAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String username;
+        info userData;
+        username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        userData = all_users.getUserInfo(username);//and the info for that member
+        ServletContext context = getServletContext();
+        context.setAttribute("data", userData);
+        forwardToPage(request, response, "/WEB-INF/JSP/settingsPage.jsp");
+    }
+
+    private void changeAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String birthday = request.getParameter("birthday");
+        String sex = request.getParameter("sex");
+        String country = request.getParameter("country");
+        String town = request.getParameter("town");
+        String extra = request.getParameter("extra");
+
+        info newData = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
+        all_users.update(username, email, newData);
+    }
+
+    private void logoutAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        removeCookie(getRequestCookieValue(request, "tivUserServlet", null));
+        Cookie nwCookie;
+        nwCookie = getRequestCookie(request, "tivUserServlet");
+        nwCookie.setMaxAge(0);
+        response.addCookie(nwCookie);
+        forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
     }
 
     /**
@@ -78,116 +274,32 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String action = request.getHeader("action");//read from header tha value of the action header
-        if (action.compareTo("login") == 0) {//if the action it's login
-            String username = request.getParameter("username");//getting the username from request that client send
-            String pw = request.getParameter("password");//password too
-            boolean fromCookie = false;
-            if (username.compareTo("cook") == 0) {//if the client didnt send username then check the cookies
-                username = getCookieValue(request, "username", "null");//get username
-                pw = getCookieValue(request, "password", "null");//and password
-
-                if (username == null || pw == null) {
-                    response.setHeader("error", "cookie");//returned
-                    return;
-                }
-                if (username.compareTo("null") == 0 && pw.compareTo("null") == 0) {//if we dont have cookie
-                    response.setHeader("error", "cookie");//returned
-                    return;
-                }
-                fromCookie = true;
-            }
-            if (!all_users.userExist(username)) {//checking if the user exist
-                if (fromCookie) {//we need that case because servlet can change and all user erased but cookies exist 
-                    getCookie(request, "username").setMaxAge(0);
-                    getCookie(request, "password").setMaxAge(0);
-                    response.setHeader("error", "cookie");
-                    return;
-                }
-                response.setHeader("error", "User not exist!");
-                return;
-            }
-            info in = all_users.getUserInfo(username);//getting the info about user
-            if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
-                response.setHeader("error", "Wrong password try again!");//return error
-                return;
-            }
-            try (PrintWriter out = response.getWriter()) {//return the username
-                out.println(username);
-                Cookie usrIDCookie = new Cookie("username", username);//create and set cookies
-                Cookie usrPWCookie = new Cookie("password", pw);
-                response.addCookie(usrIDCookie);
-                response.addCookie(usrPWCookie);
-            }
-        } else if (action.compareTo("register") == 0) {//if we have register action
-            //get from post all the data
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String fname = request.getParameter("fname");
-            String lname = request.getParameter("lname");
-            String birthday = request.getParameter("birthday");
-            String sex = request.getParameter("sex");
-            String country = request.getParameter("country");
-            String town = request.getParameter("town");
-            String extra = request.getParameter("extra");
-
-            //creating new info for the user
-            info new_user = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
-            //add him on servlet "database"
-            all_users.add(new_user);
-            try (PrintWriter out = response.getWriter()) {
-                out.println(all_users.print(new_user));
-            }
-
-        } else if (action.compareTo("check") == 0) {//if we have check action
-            String username = request.getParameter("username");//getting username
-            String email = request.getParameter("email");//and email
-            if (username != null && all_users.userExist(username)) {//if client send username the check if not exist
-                response.setHeader("error", "Username Already Exist");//send error message
-            } else {
-                if (email != null && all_users.emailExist(email)) {//same with email
-                    response.setHeader("error", "Email Already Exist");
-                }
-            }
-        } else if (action.compareTo("members") == 0) {//if the action it's member then we return all the member username
-            try (PrintWriter out = response.getWriter()) {
-                out.println(all_users.printAllMembers());
-            }
-        } else if (action.compareTo("userInfo") == 0) {//if the action it's userinfo return all the info for specified username
-            String username;
-            info userData;
-            username = getCookieValue(request, "username", "null");//get username
-            if(username.compareTo("null")==0){
-                return;
-            }
-            userData = all_users.getUserInfo(username);//and the info for that member
-            response.setHeader("username", userData.getUsername());
-            response.setHeader("password", userData.getPassword());
-            response.setHeader("email", userData.getEmail());
-            response.setHeader("fname", userData.getFname());
-            response.setHeader("lname", userData.getLname());
-            response.setHeader("birthday", userData.getBday());
-            response.setHeader("sex", userData.getSex());
-            response.setHeader("town", userData.getTown());
-            response.setHeader("country", userData.getCountry());
-            response.setHeader("extra", userData.getExtraInfo());
-        } else if (action.compareTo("change") == 0) {//if we have change action then we change the old info with new for specified username
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String fname = request.getParameter("fname");
-            String lname = request.getParameter("lname");
-            String birthday = request.getParameter("birthday");
-            String sex = request.getParameter("sex");
-            String country = request.getParameter("country");
-            String town = request.getParameter("town");
-            String extra = request.getParameter("extra");
-
-            info newData = new info(username, password, email, fname, lname, birthday, sex, country, town, extra);
-            all_users.update(username, email, newData);
-
-        } else {
-            assert (true);
+        switch (action) {
+            case "login":
+                loginAction(request, response);
+                break;
+            case "register":
+                registerAction(request, response);
+                break;
+            case "profilePage":
+                profileAction(request, response);
+                break;
+            case "memberPage":
+                memberAction(request, response);
+                break;
+            case "check":
+                checkAction(request, response);
+                break;
+            case "profileSettings":
+                profileSettingsAction(request, response);
+                break;
+            case "change":
+                changeAction(request, response);
+                break;
+            case "logout":
+                logoutAction(request, response);
+                break;
+            default:
         }
     }
 

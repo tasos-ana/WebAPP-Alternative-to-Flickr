@@ -5,7 +5,9 @@
  */
 package data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,42 +76,12 @@ public class Users {
         sb.append("</ol>");
         return sb.toString();
     }
-
-    public String print(info user) {//create html with all user info
-        StringBuilder sb = new StringBuilder();
-        sb.append("<H2> Your registration complete with the following data:</H2><br>");
-        
-        sb.append("<ul>");
-        /*Username*/
-        sb.append("<li>Username: ").append(user.getUsername()).append("</li>");
-        
-        /*Password*/
-        sb.append("<button type=\"button\" class=\"btn btn-info btn-xs\" data-toggle=\"collapse\" data-target=\"#pw\">Reveal Password</button>");
-        sb.append("<div id=\"pw\" class=\"collapse\">").append(user.getPassword());
-        sb.append("</div>");
-
-        sb.append("<li>Email: ").append(user.getEmail()).append("</li>");
-        
-        sb.append("<li>First Name: ").append(user.getFname()).append("</li>");
-
-        sb.append("<li>Last Name: ").append(user.getLname()).append("</li>");
-
-        sb.append("<li>Birthday Date: ").append(user.getBday()).append("</li>");
-
-        if (user.getSex().compareTo("") != 0) {
-            sb.append("<li>Sex: ").append(user.getSex()).append("</li>");
+    
+    public List getAllMembmers(){
+        List<String> myList = new ArrayList<String>();
+        for(Map.Entry<String, info> entry : user_by_username.entrySet()){
+            myList.add(entry.getKey());
         }
-
-        sb.append("<li>Country: ").append(user.getCountry()).append("</li>");
-
-        sb.append("<li>Town: ").append(user.getTown()).append("</li>");
-
-        if (user.getExtraInfo().compareTo("") != 0) {
-            sb.append("<li>Extra info: ").append(user.getExtraInfo()).append("</li>");
-        }
-        
-        sb.append("</ul>");
-        return sb.toString();
+        return myList;
     }
-
 }

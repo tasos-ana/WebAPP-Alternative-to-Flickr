@@ -99,8 +99,12 @@ var validationAPI = function () {
         }
     }
 
-    function usrPWValidation() {
+    function usrPWValidation(existCheck) {
         "use strict";
+        if(!existCheck){
+            return;
+        }
+        
         var usrPW, pw_len, letters, symbols, numbers;
         letters = /[A-Za-z]/;
         symbols = /[!"\[\]{}%^&*:@~#';/.<>\\|`]/g;
@@ -126,8 +130,11 @@ var validationAPI = function () {
         formValid.usrPW = false;
     }
 
-    function usrPW2Validation() {
+    function usrPW2Validation(existCheck) {
         "use strict";
+        if(!existCheck){
+            return;
+        }
         var usrPW, usrPW2, pw_len, pw2_len, letters, symbols, numbers;
 
         usrPW = document.registration.usrPW;
@@ -253,11 +260,11 @@ var validationAPI = function () {
         usrEMAIL: function (existCheck) {
             usrEMAILValidation(existCheck);
         },
-        usrPW: function () {
-            usrPWValidation();
+        usrPW: function (existCheck) {
+            usrPWValidation(existCheck);
         },
-        usrPW2: function () {
-            usrPW2Validation();
+        usrPW2: function (existCheck) {
+            usrPW2Validation(existCheck);
         },
         usrFNAME: function () {
             usrFNAMEValidation();
