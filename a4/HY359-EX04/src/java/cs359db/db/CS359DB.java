@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class CS359DB {
 
-    private static final String URL = "jdbc:mysql:83.212.108.136";
+    private static final String URL = "jdbc:mysql://83.212.108.136";
     private static final String DATABASE = "csd3166";
     private static final int PORT = 3306;
     private static final String UNAME = "csd3166";
