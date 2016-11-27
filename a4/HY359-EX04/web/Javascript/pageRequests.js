@@ -5,12 +5,14 @@
  */
 
 function requestLoginPage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
-            login_action(); 
+            login_action();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -19,7 +21,9 @@ function requestLoginPage() {
     xhr.send("page=login");
 }
 
-function requestMainProfilePage(){
+function requestMainProfilePage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
@@ -34,6 +38,8 @@ function requestMainProfilePage(){
 }
 
 function requestMemberPage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
@@ -45,11 +51,13 @@ function requestMemberPage() {
         }
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('action','memberPage');
+    xhr.setRequestHeader('action', 'memberPage');
     xhr.send();
 }
 
 function requestProfilePage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
@@ -61,11 +69,13 @@ function requestProfilePage() {
         }
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('action','profilePage');
+    xhr.setRequestHeader('action', 'profilePage');
     xhr.send();
 }
 
 function requestRegisterPage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
@@ -80,21 +90,9 @@ function requestRegisterPage() {
     xhr.send("page=register");
 }
 
-function requestSettingsPage() {
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', 'requestPageServlet');
-    xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("login_container").innerHTML = xhr.responseText;
-        } else if (xhr.status !== 200) {
-            window.alert("Request failed. Returned status of " + xhr.status);
-        }
-    };
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("page=settings");
-}
-
 function requestWelcomePage() {
+    "use strict";
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {

@@ -7,6 +7,7 @@
 /* global validationAPI */
 
 function XSSValidator(name) {
+    "use strict";
     var scriptStart, scriptStartEncoded, scriptEnd, scriptEndEncoded;
     scriptStart = "<script>";
     scriptStartEncoded = "&lt;script&gt;";
@@ -34,7 +35,7 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 if (username !== null) {
                     document.getElementById("page_message").innerHTML = "Welcome, " + username;
-                }else{
+                } else {
                     document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
                 }
                 document.getElementById("main_container").innerHTML = xhr.responseText;
@@ -67,8 +68,8 @@ function ajaxRegisterRequest() {
     "use strict";
     if (!validationAPI.form()) {
         document.getElementById("form_alert").removeAttribute("hidden");
-        document.getElementById("form_alert").addEventListener("mouseover",setTimeout(function () {
-                document.getElementById("form_alert").setAttribute("hidden","true");
+        document.getElementById("form_alert").addEventListener("mouseover", setTimeout(function () {
+                document.getElementById("form_alert").setAttribute("hidden", "true");
             }, 5000));
         return;
     }
@@ -111,6 +112,7 @@ function ajaxRegisterRequest() {
 }
 
 function ajaxUserProfileRequest() {
+    "use strict";
     var username, xhr;
     username = document.getElementById("page_message").getAttribute("data-login");
     xhr = new XMLHttpRequest();
@@ -119,7 +121,7 @@ function ajaxUserProfileRequest() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
             var val = xhr.getResponseHeader("usrCOUNTRY_val");
-            if(val!==null){
+            if (val !== null) {
                 document.getElementById("usrCOUNTRY").value = val;
             }
             settings_action();
@@ -134,10 +136,11 @@ function ajaxUserProfileRequest() {
 }
 
 function ajaxChangesRequest() {
+    "use strict";
     if (!validationAPI.form()) {
         document.getElementById("form_alert").removeAttribute("hidden");
-        document.getElementById("form_alert").addEventListener("mouseover",setTimeout(function () {
-                document.getElementById("form_alert").setAttribute("hidden","true");
+        document.getElementById("form_alert").addEventListener("mouseover", setTimeout(function () {
+                document.getElementById("form_alert").setAttribute("hidden", "true");
             }, 5000));
         return;
     }
@@ -171,8 +174,9 @@ function ajaxChangesRequest() {
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
 
-function ajaxLogoutRequest(){
-     var username, xhr;
+function ajaxLogoutRequest() {
+    "use strict";
+    var username, xhr;
     username = document.getElementById("page_message").getAttribute("data-login");
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'UserServlet');
