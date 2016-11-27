@@ -69,7 +69,7 @@
             <label for="usrBDATE" class="control-label col-sm-3">Born Date:</label>
             <div class="col-sm-6">
                 <input type="date" class="form-control" id="usrBDATE" name="usrBDATE" placeholder="yyyy-mm-dd" 
-                       required size="38" onchange="validationAPI.usrBDATE()">
+                max="2000-11-25" min="1900-01-01" required size="38" onchange="validationAPI.usrBDATE()">
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>

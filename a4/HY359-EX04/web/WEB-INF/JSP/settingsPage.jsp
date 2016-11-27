@@ -28,11 +28,12 @@
         </div>
         <!--EMAIL-->
         <div class="form-group">
-            <label for="usrEMAIL" class="control-label col-sm-3">Email:</label>
+            <label id="email_label" for="usrEMAIL" class="control-label col-sm-3" 
+                   data-current="<%= user.getEmail()%>" >Email:</label>
             <div class="col-sm-6">
                 <input type="text" class="form-control" id="usrEMAIL" name="usrEMAIL" placeholder="Enter Email" 
-                       size="38" required onchange="validationAPI.usrEMAIL(true)"
-                       disabled="on" value= <%= user.getEmail()%>>
+                       size="38" required onchange="validationAPI.usrEMAIL(true)" 
+                       value= <%= user.getEmail()%>>
             </div>
             <div id="usrEMAIL_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -80,7 +81,7 @@
             <label for="usrBDATE" class="control-label col-sm-3">Born Date:</label>
             <div class="col-sm-6">
                 <input type="date" class="form-control" id="usrBDATE" name="usrBDATE" placeholder="yyyy-mm-dd" 
-                       required size="38" onchange="validationAPI.usrBDATE()"
+                       required size="38" onchange="validationAPI.usrBDATE()" max="2000-11-25" min="1900-01-01"
                        value= <%= user.getBirthDate()%> >
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color:red;">*</div>
