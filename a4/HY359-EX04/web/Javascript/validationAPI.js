@@ -24,7 +24,6 @@ var validationAPI = function () {
             formValid.usrID = true;
             return;
         }
-        "use strict";
         var len, usrID, xhr;
         usrID = document.registration.usrID;
         len = usrID.value.length;
@@ -60,14 +59,16 @@ var validationAPI = function () {
     }
 
     function usrEMAILValidation(existCheck) {
-        if (!existCheck) {
+        var usrEMAIL, current, xhr, pattern;
+        usrEMAIL = document.registration.usrEMAIL;
+        current = document.getElementById("email_label").getAttribute("data-current");
+        if (!existCheck || (current!==null && current === usrEMAIL.value)) {
             document.getElementById("usrEMAIL_err").style.color = "green";
             document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
             formValid.usrEMAIL = true;
             return;
         }
-        var usrEMAIL, xhr, pattern;
-        usrEMAIL = document.registration.usrEMAIL;
+
         pattern = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*/;
         if (usrEMAIL.value.match(pattern)) {
 
@@ -100,11 +101,10 @@ var validationAPI = function () {
     }
 
     function usrPWValidation(existCheck) {
-        "use strict";
-        if(!existCheck){
+        if (!existCheck) {
             return;
         }
-        
+
         var usrPW, pw_len, letters, symbols, numbers;
         letters = /[A-Za-z]/;
         symbols = /[!"\[\]{}%^&*:@~#';/.<>\\|`]/g;
@@ -131,11 +131,10 @@ var validationAPI = function () {
     }
 
     function usrPW2Validation(existCheck) {
-        "use strict";
-        if(!existCheck){
+        if (!existCheck) {
             return;
         }
-        var usrPW, usrPW2, pw_len, pw2_len, letters, symbols, numbers;
+        var usrPW, usrPW2, letters, symbols, numbers;
 
         usrPW = document.registration.usrPW;
         usrPW2 = document.registration.usrPW2;
@@ -156,7 +155,6 @@ var validationAPI = function () {
     }
 
     function usrFNAMEValidation() {
-        "use strict";
         var usrFNAME, fnameLen, letter;
 
         usrFNAME = document.registration.usrFNAME;
@@ -175,7 +173,6 @@ var validationAPI = function () {
     }
 
     function usrLNAMEValidation() {
-        "use strict";
         var usrLNAME, lnameLen, letter;
 
         usrLNAME = document.registration.usrFNAME;
@@ -194,7 +191,6 @@ var validationAPI = function () {
     }
 
     function usrBDATEValidation() {
-        "use strict";
 
         var usrBDATE, currYear, bdYear;
 
@@ -214,7 +210,6 @@ var validationAPI = function () {
     }
 
     function usrTOWNValidation() {
-        "use strict";
         var usrTOWN, townLen, letter;
 
         usrTOWN = document.registration.usrTOWN;
@@ -235,15 +230,15 @@ var validationAPI = function () {
     function validAll(existCheck) {
         usrIDValidation(existCheck);
         usrEMAILValidation(existCheck);
-        usrPWValidation();
-        usrPW2Validation();
+        usrPWValidation(existCheck);
+        usrPW2Validation(existCheck);
         usrFNAMEValidation();
         usrLNAMEValidation();
         usrBDATEValidation();
         usrTOWNValidation();
     }
 
-    return{
+    return {
         form: function () {
 //            window.alert(formValid.usrID + "usrID" + formValid.usrEMAIL + "email" + formValid.usrPW + "pw1" +
 //                    formValid.usrPW2 + "pw2" + formValid.usrFNAME + "fname" + formValid.usrLNAME + "lname" +
@@ -286,6 +281,3 @@ var validationAPI = function () {
         }
     };
 }();
-
-
-
