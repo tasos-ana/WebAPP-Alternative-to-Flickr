@@ -378,7 +378,8 @@
         <div id="new_usr_action" class="form-group">
             <div class="col-sm-5"></div>
             <button type="button" onclick="ajaxRegisterRequest()" class="btn btn-default btn_style col-sm-2">Register</button>
-            <input type="reset" id="clear_form" class="btn btn-default col-sm-1 btn_style" value="Clear">
+            <input type="reset" id="clear_form" class="btn btn-default col-sm-1 btn_style"
+                   onclick="register_error_reset()" value="Clear">
         </div>
     </form>
 </div>

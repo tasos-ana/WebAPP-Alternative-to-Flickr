@@ -142,3 +142,29 @@ function profile_action() {
     activeNavButton("profile_but");
     renderPage();
 }
+
+function register_error_reset() {
+    document.getElementById("usrID_err").innerHTML = "*";
+    document.getElementById("usrID_err").style.color = "red";
+
+    document.getElementById("usrPW_err").innerHTML = "*";
+    document.getElementById("usrPW_err").style.color = "red";
+
+    document.getElementById("usrPW2_err").innerHTML = "*";
+    document.getElementById("usrPW2_err").style.color = "red";
+
+    document.getElementById("usrEMAIL_err").innerHTML = "*";
+    document.getElementById("usrEMAIL_err").style.color = "red";
+
+    document.getElementById("usrFNAME_err").innerHTML = "*";
+    document.getElementById("usrFNAME_err").style.color = "red";
+
+    document.getElementById("usrLNAME_err").innerHTML = "*";
+    document.getElementById("usrLNAME_err").style.color = "red";
+
+    document.getElementById("usrBDATE_err").innerHTML = "*";
+    document.getElementById("usrBDATE_err").style.color = "red";
+
+    document.getElementById("usrTOWN_err").innerHTML = "*";
+    document.getElementById("usrTOWN_err").style.color = "red";
+}
