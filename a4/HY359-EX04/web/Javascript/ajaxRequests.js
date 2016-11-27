@@ -80,7 +80,7 @@ function ajaxRegisterRequest() {
     usrEmail = document.registration.usrEMAIL;
     usrFNAME = document.registration.usrFNAME;
     usrLNAME = document.registration.usrLNAME;
-    usrBDATE = document.registration.usrBDATE;
+    usrBDATE = document.getElementById("usrBDATE");
     usrSEX = document.registration.usrSEX;
     usrCOUNTRY = document.registration.usrCOUNTRY;
     usrTOWN = document.registration.usrTOWN;
@@ -121,8 +121,15 @@ function ajaxUserProfileRequest() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
             var val = xhr.getResponseHeader("usrCOUNTRY_val");
+
             if (val !== null) {
                 document.getElementById("usrCOUNTRY").value = val;
+            }
+            
+            val = xhr.getResponseHeader("usrBDATE_val");
+            
+            if (val !== null) {
+                document.getElementById("usrBDATE_M").value = val;
             }
             settings_action();
             validationAPI.validateAll(false);
@@ -151,7 +158,7 @@ function ajaxChangesRequest() {
     usrEmail = document.registration.usrEMAIL;
     usrFNAME = document.registration.usrFNAME;
     usrLNAME = document.registration.usrLNAME;
-    usrBDATE = document.registration.usrBDATE;
+    usrBDATE = document.getElementById("usrBDATE");
     usrSEX = document.registration.usrSEX;
     usrCOUNTRY = document.registration.usrCOUNTRY;
     usrTOWN = document.registration.usrTOWN;

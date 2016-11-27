@@ -61,13 +61,13 @@ var validationAPI = function () {
     function usrEMAILValidation(existCheck) {
         var usrEMAIL, current, xhr, pattern;
         usrEMAIL = document.registration.usrEMAIL;
-        try{
+        try {
             current = document.getElementById("email_label").getAttribute("data-current");
-        }catch(e){
-            
+        } catch (e) {
+
         }
-        
-        if (!existCheck || (current!==null && current === usrEMAIL.value)) {
+
+        if (!existCheck || (current !== null && current === usrEMAIL.value)) {
             document.getElementById("usrEMAIL_err").style.color = "green";
             document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
             formValid.usrEMAIL = true;
@@ -196,27 +196,117 @@ var validationAPI = function () {
     }
 
     function usrBDATEValidation() {
+        var today, date, dd, mm, yyyy, currYYYY, usrBDATE;
 
-        var usrBDATE, currYear, bdYear;
+        today = new Date();
+        currYYYY = today.getFullYear();
 
-        usrBDATE = document.registration.usrBDATE;
-
-        currYear = (new Date()).getFullYear();
-        bdYear = (new Date(usrBDATE.value)).getFullYear();
-        if ((currYear - bdYear) > 15) {
-            document.getElementById("usrBDATE_err").style.color = "green";
-            document.getElementById("usrBDATE_err").innerHTML = "&#10004";
-            formValid.usrBDATE = true;
+        usrBDATE = document.getElementById("usrBDATE");
+        
+        yyyy = document.getElementById("usrBDATE_Y").value;
+        mm = document.getElementById("usrBDATE_M").value;
+        dd = document.getElementById("usrBDATE_D").value;
+        
+        if (!usrBDATEDValidation() || !usrBDATEYValidation()) {
+            document.getElementById("usrBDATE_err").style.color = "red";
+            document.getElementById("usrBDATE_err").innerHTML = "Incomplete birthday date";
+            formValid.usrBDATE = false;
             return;
         }
-        document.getElementById("usrBDATE_err").style.color = "red";
-        document.getElementById("usrBDATE_err").innerHTML = "Only child bigger that 15year old can register";
-        formValid.usrBDATE = false;
+
+        if ((Number(currYYYY) - Number(yyyy)) < 15) {
+            document.getElementById("usrBDATE_err").style.color = "red";
+            document.getElementById("usrBDATE_err").innerHTML = "Only child bigger that 15year old can register";
+            formValid.usrBDATE = false;
+            return;
+        }
+
+        date = yyyy + '-' + mm + '-' + dd;
+        usrBDATE.value = date;
+        
+        document.getElementById("usrBDATE_err").style.color = "green";
+        document.getElementById("usrBDATE_err").innerHTML = "&#10004";
+        formValid.usrBDATE = true;
+    }
+
+    //YEAR Validate
+    function usrBDATEYValidation() {
+        var today, currYYYY, maxYYYY, minYYYY, numbers;
+        numbers = /[0-9]/;
+        today = new Date();
+        maxYYYY = today.getFullYear();
+        minYYYY = 1900;
+
+        currYYYY = document.getElementById("usrBDATE_Y").value;
+        if (currYYYY === 'undefined') {
+            return false;
+        }
+        
+        if (!currYYYY.match(numbers)){
+            document.getElementById("usrBDATE_Y").value = "";
+            return false;
+        }
+
+        if (Number(currYYYY) < minYYYY || Number(currYYYY) > maxYYYY) {
+            document.getElementById("usrBDATE_Y").value = maxYYYY;
+        }
+       
+        return true;
+    }
+
+    //DATE Validate
+    function usrBDATEDValidation() {
+        var today, dd, yyyy, currDD, currMM, currYYYY, maxDD, numbers;
+        
+        numbers = /[0-9]/;
+
+        today = new Date();
+        dd = today.getDate();
+        yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        currDD = document.getElementById("usrBDATE_D").value;
+        if (currDD === 'undefined') {
+            return false;
+        }
+        if (!currDD.match(numbers)){
+            document.getElementById("usrBDATE_D").value = "";
+            return false;
+        }
+
+        currMM = document.getElementById("usrBDATE_M").value;
+
+        currYYYY = document.getElementById("usrBDATE_Y").value;
+
+        if (currMM === "01" || currMM === "03" || currMM === "05" || currMM === "07"
+                || currMM === "08" || currMM === "10" || currMM === "12") {//MONTH With 31 days
+            maxDD = 31;
+        } else if (currMM === "04" || currMM === "06" || currMM === "09" || currMM === "11") {//MONTH With 30 days
+            maxDD = 30;
+        } else if (currMM === "02") {//MONTH = february
+            maxDD = 28;
+        } else {
+            window.alert("Unexcepted Month Value");
+        }
+
+        //if the year is today set max day as today
+        if (currYYYY !== 'undefined' && Number(currYYYY) === yyyy) {
+            maxDD = Number(dd);
+        }
+
+        if (Number(currDD) < 0 || Number(currDD) > maxDD) {
+            document.getElementById("usrBDATE_D").value = Number(maxDD);
+        }
+
+        return true;
     }
 
     function usrTOWNValidation() {
         var usrTOWN, townLen, letter;
-
+        
         usrTOWN = document.registration.usrTOWN;
         townLen = usrTOWN.value.length;
         letter = /[A-Za-z]/;
@@ -274,6 +364,12 @@ var validationAPI = function () {
         },
         usrBDATE: function () {
             usrBDATEValidation();
+        },
+        usrBDATE_Y: function () {
+            usrBDATEYValidation();
+        },
+        usrBDATE_D: function () {
+            usrBDATEDValidation();
         },
         usrTOWN: function () {
             usrTOWNValidation();

@@ -66,10 +66,30 @@
         </div>
         <!--BORN DATE(BIRTH DATE)-->
         <div class="form-group">
-            <label for="usrBDATE" class="control-label col-sm-3">Born Date:</label>
+            <label class="control-label col-sm-3" id="usrBDATE">Birthday</label>
             <div class="col-sm-6">
-                <input type="date" class="form-control" id="usrBDATE" name="usrBDATE" placeholder="yyyy-mm-dd" 
-                max="2000-11-25" min="1900-01-01" required size="38" onchange="validationAPI.usrBDATE()">
+                <label>
+                    <select id="usrBDATE_M" name="BirthMonth">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select> 
+                </label>
+                <label>Day<input id="usrBDATE_D" maxlength="2" name="BirthDay" size="3"
+                                 placeholder="Day" required=""
+                                 onchange="validationAPI.usrBDATE_D(); validationAPI.usrBDATE();"></label>
+                <label>Year<input id="usrBDATE_Y" min="1900" max="2016" maxlength="4" name="BirthYear" size="5"
+                                  placeholder="Year" required="" 
+                                  onchange="validationAPI.usrBDATE_Y(); validationAPI.usrBDATE();"></label>
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
