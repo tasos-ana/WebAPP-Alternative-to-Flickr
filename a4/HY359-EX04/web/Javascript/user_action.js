@@ -11,22 +11,35 @@ var elemVisibility = ["member_but", "register_but", "login_but",
     "settings_but", "logout_but", "profile_but"];
 
 function renderPage() {
+    "use strict";
     var i, elem, attr;
-    for (i = 0; i < elemVisibility.length; i++) {
+    for (i = 0; i < elemVisibility.length; i += 1) {
         elem = document.getElementById(elemVisibility[i]);
         attr = elem.getAttribute("data-visible");
         elem.style.display = attr;
     }
+    toggleNav();
 }
 
 function activeNavButton(target) {
+    "use strict";
     var i;
-    for (i = 0; i < navBut.length; i++) {
+    for (i = 0; i < navBut.length; i += 1) {
         if (target === navBut[i]) {
             document.getElementById(navBut[i]).setAttribute("class", "active");
         } else {
             document.getElementById(navBut[i]).removeAttribute("class");
         }
+    }
+}
+
+function toggleNav() {
+    "use strict";
+    var status;
+    
+    status = document.getElementById("toggle_but").getAttribute("class");
+    if (status !== "navbar-toggle collapsed") {
+        document.getElementById("toggle_but").click();
     }
 }
 
