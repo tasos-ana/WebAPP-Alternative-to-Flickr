@@ -12,13 +12,13 @@
             <!--USERNAME-->
             <label for="usr_id">Username:</label>
             <input type="text" id="usr_id" name="username" placeholder="Enter Username" 
-                   autofocus required size="38"><br>
+                   autofocus required size="38" onkeydown="enterPress('login', event)"><br>
             <!--PASSWORD 1-->
             <label for="usr_pw">Password:</label>
             <input type="password" id="usr_pw" name="password" placeholder="Enter Password" 
-                   required size="38"><br>
+                   required size="38" onkeydown="enterPress('login', event)"><br>
             <div id="usr_login_error"></div>
         </div>
-        <button type="button" onclick="ajaxLoginRequest()" class="btn btn-default btn_style">Login</button>
+        <button id="login" type="button" onclick="ajaxLoginRequest()" class="btn btn-default btn_style">Login</button>
     </form>
 </div>

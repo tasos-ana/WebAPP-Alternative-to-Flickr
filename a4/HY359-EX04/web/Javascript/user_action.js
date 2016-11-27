@@ -168,3 +168,10 @@ function register_error_reset() {
     document.getElementById("usrTOWN_err").innerHTML = "*";
     document.getElementById("usrTOWN_err").style.color = "red";
 }
+
+function enterPress(elem, event){
+    var x = event.keyCode;
+    if (x === 13){
+        document.getElementById(elem).click();
+    }
+}
