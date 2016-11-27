@@ -216,7 +216,7 @@ var validationAPI = function () {
 
         if ((Number(currYYYY) - Number(yyyy)) < 15) {
             document.getElementById("usrBDATE_err").style.color = "red";
-            document.getElementById("usrBDATE_err").innerHTML = "Only child bigger that 15year old can register";
+            document.getElementById("usrBDATE_err").innerHTML = "Oups! You are too young for this site";
             formValid.usrBDATE = false;
             return;
         }
@@ -256,12 +256,13 @@ var validationAPI = function () {
 
     //DATE Validate
     function usrBDATEDValidation() {
-        var today, dd, yyyy, currDD, currMM, currYYYY, maxDD, numbers;
+        var today, dd, mm,  yyyy, currDD, currMM, currYYYY, maxDD, numbers;
         
         numbers = /[0-9]/;
 
         today = new Date();
         dd = today.getDate();
+        mm = today.getMonth();
         yyyy = today.getFullYear();
 
         if (dd < 10) {
@@ -293,7 +294,7 @@ var validationAPI = function () {
         }
 
         //if the year is today set max day as today
-        if (currYYYY !== 'undefined' && Number(currYYYY) === yyyy) {
+        if (currYYYY !== 'undefined' && Number(currYYYY) === yyyy && Number(currMM) === mm) {
             maxDD = Number(dd);
         }
 
