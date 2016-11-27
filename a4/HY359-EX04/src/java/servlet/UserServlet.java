@@ -117,7 +117,6 @@ public class UserServlet extends HttpServlet {
             throws IOException, ServletException, ClassNotFoundException {
         String username = request.getParameter("username");//getting the username from request that client send
         String pw = request.getParameter("password");//password too
-        boolean foundedFromCookie = false;
         if (username == null && pw == null) {//try to check if we have cookie for user
             username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
             if (username == null) {//we dont have cookie we must return welcome page
@@ -125,34 +124,29 @@ public class UserServlet extends HttpServlet {
                 forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
                 return;
             }
-            foundedFromCookie = true;
+            response.setHeader("id", "Hello, " + username);
+            ServletContext context = getServletContext();
+            context.setAttribute("data", UserDB.getUser(username));
+            forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+            return;
         }//we found username either from request or cookie
         if (!UserDB.checkValidUserName(username)) {
-            if (!foundedFromCookie) {
-                User in;
-                in = UserDB.getUser(username);//getting the info about user
-                if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
-                    response.setHeader("error", "Username and password isn't matched!");//return error
-                    return;
-                }
-                //Username match with password
-                //add cookies
-                response.setHeader("id", username);
-                Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
-                usrCookie.setMaxAge(3600);
-                response.addCookie(usrCookie);
+            User in;
+            in = UserDB.getUser(username);//getting the info about user
+            if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
+                response.setHeader("error", "Username and password isn't matched!");//return error
+                return;
             }
+            //Username match with password
+            response.setHeader("id", "Hello again, " + username);
+            Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
+            usrCookie.setMaxAge(3600);
+            response.addCookie(usrCookie);
             //return the user main page
             ServletContext context = getServletContext();
             context.setAttribute("data", UserDB.getUser(username));
             forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
         } else {//remove the unexcepted cookie or return error msg
-            if (foundedFromCookie) {
-                removeCookie(getRequestCookieValue(request, "tivUserServlet", null));
-                getRequestCookie(request, "tivUserServlet").setMaxAge(0);
-                response.setHeader("error", "cookie");
-                return;
-            }
             response.setHeader("error", "User not exist!");//return error
         }
     }
@@ -180,7 +174,7 @@ public class UserServlet extends HttpServlet {
         User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
         //add him on servlet "database"
         UserDB.addUser(new_user);
-        response.setHeader("id", username);
+        response.setHeader("id", "Welcome, " + username);
         Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
         usrCookie.setMaxAge(3600);
         response.addCookie(usrCookie);

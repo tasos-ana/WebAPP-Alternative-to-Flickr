@@ -34,7 +34,7 @@ function ajaxLoginRequest() {
             if (xhr.getResponseHeader("error") === null) {
                 var username = xhr.getResponseHeader("id");
                 if (username !== null) {
-                    document.getElementById("page_message").innerHTML = "Welcome, " + username;
+                    document.getElementById("page_message").innerHTML = username;
                 } else {
                     document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
                 }
