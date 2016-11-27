@@ -215,7 +215,7 @@ public class UserServlet extends HttpServlet {
         if (username != null && !UserDB.checkValidUserName(username)) {//if client send username the check if not exist
             response.setHeader("error", "Username Already Exist");//send error message
         } else {
-            if (email != null && !UserDB.checkValidUserName(email)) {//same with email
+            if (email != null && !UserDB.checkValidEmail(email)) {//same with email
                 response.setHeader("error", "Email Already Exist");
             }
         }
