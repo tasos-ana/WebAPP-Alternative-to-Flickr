@@ -61,7 +61,12 @@ var validationAPI = function () {
     function usrEMAILValidation(existCheck) {
         var usrEMAIL, current, xhr, pattern;
         usrEMAIL = document.registration.usrEMAIL;
-        current = document.getElementById("email_label").getAttribute("data-current");
+        try{
+            current = document.getElementById("email_label").getAttribute("data-current");
+        }catch(e){
+            
+        }
+        
         if (!existCheck || (current!==null && current === usrEMAIL.value)) {
             document.getElementById("usrEMAIL_err").style.color = "green";
             document.getElementById("usrEMAIL_err").innerHTML = "&#10004";
