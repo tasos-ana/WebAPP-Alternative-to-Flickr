@@ -89,8 +89,8 @@
         <div class="form-group">
             <label class="control-label col-sm-3" id="usrBDATE">Birthday</label>
             <div class="col-sm-6">
-                <label>
-                    <select id="usrBDATE_M" name="BirthMonth">
+                <label>Month: 
+                    <select id="usrBDATE_M" name="BirthMonth" onchange="validationAPI.usrBDATE()">
                         <option value="01">January</option>
                         <option value="02">February</option>
                         <option value="03">March</option>
@@ -105,12 +105,12 @@
                         <option value="12">December</option>
                     </select> 
                 </label>
-                <label>Day<input id="usrBDATE_D" maxlength="2" name="BirthDay" size="3"
+                <label>Day: <input id="usrBDATE_D" maxlength="2" name="BirthDay" size="3"
                                  placeholder="Day" required="" value="<%= day %>"
-                                 onchange="validationAPI.usrBDATE_D(); validationAPI.usrBDATE();"></label>
-                <label>Year<input id="usrBDATE_Y" min="1900" max="2016" maxlength="4" name="BirthYear" size="5"
+                                 onchange="validationAPI.usrBDATE()"></label>
+                <label>Year: <input id="usrBDATE_Y" min="1900" max="2016" maxlength="4" name="BirthYear" size="5"
                                   placeholder="Year" required="" value="<%= year %>"
-                                  onchange="validationAPI.usrBDATE_Y(); validationAPI.usrBDATE();"></label>
+                                  onchange="validationAPI.usrBDATE()"></label>
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
