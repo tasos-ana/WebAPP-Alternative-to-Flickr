@@ -121,6 +121,8 @@ public class UserServlet extends HttpServlet {
             username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
             if (username == null) {//we dont have cookie we must return welcome page
                 response.setHeader("error", "");//return error
+                ServletContext context = getServletContext();
+                context.setAttribute("data", UserDB.getUsers());
                 forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
                 return;
             }
@@ -196,9 +198,8 @@ public class UserServlet extends HttpServlet {
 
     private void memberAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
-        List data = UserDB.getUsers();
         ServletContext context = getServletContext();
-        context.setAttribute("data", data);
+        context.setAttribute("data", UserDB.getUsers());
         forwardToPage(request, response, "/WEB-INF/JSP/memberPage.jsp");
     }
 
@@ -245,12 +246,14 @@ public class UserServlet extends HttpServlet {
     }
 
     private void logoutAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ClassNotFoundException {
         removeCookie(getRequestCookieValue(request, "tivUserServlet", null));
         Cookie nwCookie;
         nwCookie = getRequestCookie(request, "tivUserServlet");
         nwCookie.setMaxAge(0);
         response.addCookie(nwCookie);
+        ServletContext context = getServletContext();
+        context.setAttribute("data", UserDB.getUsers());
         forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
     }
 
