@@ -175,3 +175,7 @@ function enterPress(elem, event){
         document.getElementById(elem).click();
     }
 }
+
+function closeImgModal() {
+    document.getElementById('imgModal').style.display = "none";
+}

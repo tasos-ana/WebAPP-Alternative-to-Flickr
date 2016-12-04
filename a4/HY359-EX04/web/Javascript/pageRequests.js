@@ -21,22 +21,6 @@ function requestLoginPage() {
     xhr.send("page=login");
 }
 
-function requestMainProfilePage() {
-    "use strict";
-    var xhr;
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', 'requestPageServlet');
-    xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("login_container").innerHTML = xhr.responseText;
-        } else if (xhr.status !== 200) {
-            window.alert("Request failed. Returned status of " + xhr.status);
-        }
-    };
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("page=mainProfile");
-}
-
 function requestMemberPage() {
     "use strict";
     var xhr;
@@ -88,20 +72,4 @@ function requestRegisterPage() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send("page=register");
-}
-
-function requestWelcomePage() {
-    "use strict";
-    var xhr;
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', 'requestPageServlet');
-    xhr.onload = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("login_container").innerHTML = xhr.responseText;
-        } else if (xhr.status !== 200) {
-            window.alert("Request failed. Returned status of " + xhr.status);
-        }
-    };
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send("page=welcome");
 }

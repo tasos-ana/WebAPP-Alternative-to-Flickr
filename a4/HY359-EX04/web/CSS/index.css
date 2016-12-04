@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : Nov 23, 2016, 6:59:18 PM
     Author     : Tasos198
 */
-body,#header,#footer,#left_sidebar,#login_container,#register_container,#right_sidebar,#footer_img,#footer_preContainer{
+body,#header{
     margin: 0;
     padding: 0;
 }
@@ -26,7 +26,7 @@ body{
     margin-top: -20px;
 }
 
-#header,#footer{
+#header{
     width: 100%;
     height: 100%;
     background-color: #333333;
@@ -42,10 +42,10 @@ body{
 
 .animated_container{
     -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadein 0.5s; /* Firefox < 16 */
-        -ms-animation: fadein 0.5s; /* Internet Explorer */
-         -o-animation: fadein 0.5s; /* Opera < 12.1 */
-            animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
 }
 
 @keyframes fadein {
@@ -92,11 +92,6 @@ body{
     color: #ffb62f;
 }
 
-#footer_img{
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-}
 /* STARTING TIV CSS RULES*/
 
 #main,#start,#end,div.text,div.tiles,img.tile,#unloaded,#loadImage,#images{
@@ -119,30 +114,6 @@ body{
 }
 
 #main{margin: auto; height: 300px; width: 908px;}
-
-#close{
-    display: none;
-    float: left;
-    position: relative;
-    color: #333333;
-    font-size: 40px;
-    font-weight: bold;
-}
-
-#close:hover,
-#close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-div.par{
-    font-size: 12px;
-    color: white;
-    height: 100%;
-    text-align: center;
-    width: 100%;
-}
 
 /******Tile*******/
 div.tile{
@@ -169,33 +140,31 @@ img.tile{
     width: 100%;
 }
 
-div.text{ 
-    background-color: #ffd966;
-    bottom: 0;
-    border-radius: 10px;
-    color: #664400;
-    font-style: italic;
-    font-size: 15px;
-    margin-bottom: -3px;
-    margin-right: 3px;
-    height: auto;
-    overflow:hidden;
-    opacity: 0;
+div.text{     
     position: absolute;
-    width: 140px;
-    text-align: center;
+    bottom: 0;
+    background-color: #333333;
+    border-radius: 10px;
+    color: #ffb62f;
+    font-style: italic;
+    font-size: 10px;
+    opacity: 0;
+    overflow: hidden;
     text-overflow:ellipsis;
-    right: 0;
+    margin: auto;
+    height: auto;
+    width: 136px;
+    text-align: center;
+    padding: 10px 0;
 }
 
 img.tile:hover{
-    -moz-box-shadow: 0 0 10px #664400;
-    -webkit-box-shadow: 0 0 10px #664400;
-    box-shadow: 10 10 10px #664400;
-    transform: translateX(5px);
-    transform: translateY(5px);
+    -moz-box-shadow: 0 0 10px #333333;
+    -webkit-box-shadow: 0 0 10px #333333;
+    box-shadow: 10 10 10px #333333;
+    opacity: 0.7;
 }
-img.tile:hover + div.text{ opacity: 0.7;}
+img.tile:hover + div.text{ opacity: 0.8;}
 
 @media only screen and (max-width: 586px) {
     div.head1{ font-size: 35px; }
@@ -217,3 +186,103 @@ img.tile:hover + div.text{ opacity: 0.7;}
     #main{width: 155px;height: 1810px;}
 }
 
+/*~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~ */
+
+/* The Modal (background) */
+.imgModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.imgModal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#imgCaption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+#imgMETA{
+    margin: 2%;
+    height: 400px;
+    max-height: 400px;
+    overflow: auto; /* Enable scroll if needed */
+    color: #ccc;
+    background-color: transparent;
+    font-size: 15px;
+}
+
+#imgMap-container{
+    margin: 2%;
+}
+
+#imgMap{
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+}
+
+
+/* Add Animation */
+.imgModal-content, #imgCaption {    
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes zoom {
+    from {transform: scale(0.1)} 
+    to {transform: scale(1)}
+}
+
+/* The Close Button */
+.imgClose{
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.imgClose:hover,
+.imgClose:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .imgModal-content {
+        width: 100%;
+    }
+}
