@@ -179,18 +179,18 @@ var validationAPI = function () {
     function usrLNAMEValidation() {
         var usrLNAME, lnameLen, letter;
 
-        usrLNAME = document.registration.usrFNAME;
+        usrLNAME = document.registration.usrLNAME;
         lnameLen = usrLNAME.value.length;
 
         letter = /[A-Za-z]/;
-        if (lnameLen >= 3 && lnameLen <= 20 && usrLNAME.value.match(letter)) {
+        if (lnameLen >= 4 && lnameLen <= 20 && usrLNAME.value.match(letter)) {
             document.getElementById("usrLNAME_err").style.color = "green";
             document.getElementById("usrLNAME_err").innerHTML = "&#10004";
             formValid.usrLNAME = true;
             return;
         }
         document.getElementById("usrLNAME_err").style.color = "red";
-        document.getElementById("usrLNAME_err").innerHTML = "Last name must contain at least 3 letters and less than 20";
+        document.getElementById("usrLNAME_err").innerHTML = "Last name must contain at least 4 letters and less than 20";
         formValid.usrLNAME = false;
     }
 
@@ -335,9 +335,6 @@ var validationAPI = function () {
 
     return {
         form: function () {
-//            window.alert(formValid.usrID + "usrID" + formValid.usrEMAIL + "email" + formValid.usrPW + "pw1" +
-//                    formValid.usrPW2 + "pw2" + formValid.usrFNAME + "fname" + formValid.usrLNAME + "lname" +
-//                    formValid.usrBDATE + "bdy" + formValid.usrTOWN + "town");
             return (formValid.usrID && formValid.usrEMAIL && formValid.usrPW && formValid.usrPW2 &&
                     formValid.usrFNAME && formValid.usrLNAME && formValid.usrBDATE && formValid.usrTOWN);
         },
