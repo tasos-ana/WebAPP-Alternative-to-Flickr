@@ -10,7 +10,7 @@
 <%
     ServletContext context = getServletContext();
     List member;
-    assert(context.getAttribute("data") instanceof List);
+    assert (context.getAttribute("data") instanceof List);
     member = (List) context.getAttribute("data");
     int i;
     User user = null;
@@ -30,20 +30,20 @@
         </thead>
         <tbody>
             <% for (i = 0; i < member.size(); i++) {
-                assert(member.get(i) instanceof User);
-                user = (User)member.get(i);
-                assert(user!=null);
+                    assert (member.get(i) instanceof User);
+                    user = (User) member.get(i);
+                    assert (user != null);
             %>
             <tr>
-                <td><%= i+1 %></td>
-                <td> <%= user.getUserName() %> </td>
-                <td> <%= user.getFirstName() %> </td>
-                <td> <%= user.getLastName() %> </td>
-                <td> <%= user.getGender().toString() %> </td>
-                <td> <%= user.getCountry() %> </td>
-                <td> <%= user.getTown() %> </td>
+                <td> <%= i + 1%></td>
+                <td> <%= user.getUserName()%> </td>
+                <td> <%= user.getFirstName()%> </td>
+                <td> <%= user.getLastName()%> </td>
+                <td> <%= user.getGender().toString()%> </td>
+                <td> <%= user.getCountry()%> </td>
+                <td> <%= user.getTown()%> </td>
             </tr>
-            <% } %>
+            <% }%>
         </tbody>
     </table>
     <div class="page-header"></div>

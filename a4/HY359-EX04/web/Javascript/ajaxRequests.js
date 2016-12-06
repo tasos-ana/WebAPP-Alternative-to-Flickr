@@ -39,8 +39,10 @@ function ajaxLoginRequest() {
                     document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
                 }
                 document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("loadingModal").style.display = "none";
                 succeed_login_action();
             } else {
+                document.getElementById("loadingModal").style.display = "none";
                 renderPage();
                 try {
                     document.getElementById("usr_login_error").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
@@ -57,6 +59,7 @@ function ajaxLoginRequest() {
     xhr.setRequestHeader('action', 'login');
     username = document.getElementById("usr_id");
     pw = document.getElementById("usr_pw");
+    document.getElementById("loadingModal").style.display = "block";
     if (username === null && pw === null) {
         xhr.send();
     } else {
@@ -69,8 +72,8 @@ function ajaxRegisterRequest() {
     if (!validationAPI.form()) {
         document.getElementById("form_alert").removeAttribute("hidden");
         document.getElementById("form_alert").addEventListener("mouseover", setTimeout(function () {
-                document.getElementById("form_alert").setAttribute("hidden", "true");
-            }, 5000));
+            document.getElementById("form_alert").setAttribute("hidden", "true");
+        }, 5000));
         return;
     }
     var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA, xhr;
@@ -90,6 +93,7 @@ function ajaxRegisterRequest() {
     //send data for register
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
+        document.getElementById("loadingModal").style.display = "none";
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") !== null) {
                 window.alert(xhr.getResponseHeader("error"));
@@ -105,6 +109,7 @@ function ajaxRegisterRequest() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'register');
+    document.getElementById("loadingModal").style.display = "block";
     xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
             '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
@@ -125,9 +130,9 @@ function ajaxUserProfileRequest() {
             if (val !== null) {
                 document.getElementById("usrCOUNTRY").value = val;
             }
-            
+
             val = xhr.getResponseHeader("usrBDATE_val");
-            
+
             if (val !== null) {
                 document.getElementById("usrBDATE_M").value = val;
             }
@@ -147,8 +152,8 @@ function ajaxChangesRequest() {
     if (!validationAPI.form()) {
         document.getElementById("form_alert").removeAttribute("hidden");
         document.getElementById("form_alert").addEventListener("mouseover", setTimeout(function () {
-                document.getElementById("form_alert").setAttribute("hidden", "true");
-            }, 5000));
+            document.getElementById("form_alert").setAttribute("hidden", "true");
+        }, 5000));
         return;
     }
     var usrID, usrPW, usrPW2, usrEmail, usrFNAME, usrLNAME, usrBDATE, usrSEX, usrCOUNTRY, usrTOWN, usrEXTRA, xhr;
@@ -168,6 +173,7 @@ function ajaxChangesRequest() {
     //send data for change infos
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
+        document.getElementById("loadingModal").style.display = "none";
         if (xhr.readyState === 4 && xhr.status === 200) {
             window.location.reload(true);
         } else if (xhr.status !== 200) {
@@ -176,6 +182,7 @@ function ajaxChangesRequest() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('Action', 'change');
+    document.getElementById("loadingModal").style.display = "block";
     xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
             '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);

@@ -73,8 +73,7 @@ var validationAPI = function () {
             formValid.usrEMAIL = true;
             return;
         }
-
-        pattern = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*/;
+        pattern = /(.+)@([A-Za-z]+)\.([A-Za-z]+)([\.A-Za-z]*)/;
         if (usrEMAIL.value.match(pattern)) {
 
             xhr = new XMLHttpRequest();

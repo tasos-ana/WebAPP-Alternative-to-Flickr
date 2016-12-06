@@ -271,7 +271,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String action = request.getHeader("action");//read from header tha value of the action header
+        String action = request.getHeader("action");//read from header the value of the action header
         switch (action) {
             case "login":
                 loginAction(request, response);
