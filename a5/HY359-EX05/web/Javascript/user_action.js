@@ -36,7 +36,7 @@ function activeNavButton(target) {
 function toggleNav() {
     "use strict";
     var status;
-    
+
     status = document.getElementById("toggle_but").getAttribute("class");
     if (status !== "navbar-toggle collapsed") {
         document.getElementById("toggle_but").click();
@@ -169,9 +169,9 @@ function register_error_reset() {
     document.getElementById("usrTOWN_err").style.color = "red";
 }
 
-function enterPress(elem, event){
+function enterPress(elem, event) {
     var x = event.keyCode;
-    if (x === 13){
+    if (x === 13) {
         document.getElementById(elem).click();
     }
 }

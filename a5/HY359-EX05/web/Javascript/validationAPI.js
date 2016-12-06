@@ -201,11 +201,11 @@ var validationAPI = function () {
         currYYYY = today.getFullYear();
 
         usrBDATE = document.getElementById("usrBDATE");
-        
+
         yyyy = document.getElementById("usrBDATE_Y").value;
         mm = document.getElementById("usrBDATE_M").value;
         dd = document.getElementById("usrBDATE_D").value;
-        
+
         if (!usrBDATEDValidation() || !usrBDATEYValidation()) {
             document.getElementById("usrBDATE_err").style.color = "red";
             document.getElementById("usrBDATE_err").innerHTML = "Incomplete birthday date";
@@ -222,7 +222,7 @@ var validationAPI = function () {
 
         date = yyyy + '-' + mm + '-' + dd;
         usrBDATE.value = date;
-        
+
         document.getElementById("usrBDATE_err").style.color = "green";
         document.getElementById("usrBDATE_err").innerHTML = "&#10004";
         formValid.usrBDATE = true;
@@ -240,8 +240,8 @@ var validationAPI = function () {
         if (currYYYY === 'undefined') {
             return false;
         }
-        
-        if (!currYYYY.match(numbers)){
+
+        if (!currYYYY.match(numbers)) {
             document.getElementById("usrBDATE_Y").value = "";
             return false;
         }
@@ -249,14 +249,14 @@ var validationAPI = function () {
         if (Number(currYYYY) < minYYYY || Number(currYYYY) > maxYYYY) {
             document.getElementById("usrBDATE_Y").value = maxYYYY;
         }
-       
+
         return true;
     }
 
     //DATE Validate
     function usrBDATEDValidation() {
-        var today, dd, mm,  yyyy, currDD, currMM, currYYYY, maxDD, numbers;
-        
+        var today, dd, mm, yyyy, currDD, currMM, currYYYY, maxDD, numbers;
+
         numbers = /[0-9]/;
 
         today = new Date();
@@ -272,7 +272,7 @@ var validationAPI = function () {
         if (currDD === 'undefined') {
             return false;
         }
-        if (!currDD.match(numbers)){
+        if (!currDD.match(numbers)) {
             document.getElementById("usrBDATE_D").value = "";
             return false;
         }
@@ -306,7 +306,7 @@ var validationAPI = function () {
 
     function usrTOWNValidation() {
         var usrTOWN, townLen, letter;
-        
+
         usrTOWN = document.registration.usrTOWN;
         townLen = usrTOWN.value.length;
         letter = /[A-Za-z]/;
