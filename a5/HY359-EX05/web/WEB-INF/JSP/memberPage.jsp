@@ -1,7 +1,7 @@
 <%-- 
-    Document   : memberForm
+    Document   : memberPage
     Created on : Nov 25, 2016, 2:57:59 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page import="cs359db.model.User"%>

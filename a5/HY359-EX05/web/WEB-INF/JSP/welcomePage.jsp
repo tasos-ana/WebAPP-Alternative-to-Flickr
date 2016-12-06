@@ -1,7 +1,7 @@
 <%-- 
     Document   : welcomePage
     Created on : Nov 25, 2016, 2:59:06 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page import="java.util.List"%>

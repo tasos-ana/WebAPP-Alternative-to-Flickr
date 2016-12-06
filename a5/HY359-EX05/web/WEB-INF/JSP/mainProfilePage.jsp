@@ -1,7 +1,7 @@
 <%-- 
-    Document   : mainProfile
+    Document   : mainProfilePage
     Created on : Nov 25, 2016, 5:12:19 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

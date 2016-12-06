@@ -1,7 +1,7 @@
 <%-- 
-    Document   : settingsForm
+    Document   : settingsPage
     Created on : Nov 25, 2016, 2:57:50 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page import="cs359db.model.User"%>
@@ -11,14 +11,14 @@
     User user;
     assert (context.getAttribute("data") instanceof User);
     user = (User) context.getAttribute("data");
-    String year,month,day;
+    String year, month, day;
     String[] date;
-    
+
     date = (user.getBirthDate()).split("-");
     year = date[0];
     month = date[1];
     day = date[2];
-    
+
     response.setHeader("usrBDATE_val", month);
 %>
 <div class="animated_container">
@@ -106,11 +106,11 @@
                     </select> 
                 </label>
                 <label>Day: <input id="usrBDATE_D" maxlength="2" name="BirthDay" size="3"
-                                 placeholder="Day" required="" value="<%= day %>"
-                                 onchange="validationAPI.usrBDATE()"></label>
+                                   placeholder="Day" required="" value="<%= day%>"
+                                   onchange="validationAPI.usrBDATE()"></label>
                 <label>Year: <input id="usrBDATE_Y" min="1900" max="2016" maxlength="4" name="BirthYear" size="5"
-                                  placeholder="Year" required="" value="<%= year %>"
-                                  onchange="validationAPI.usrBDATE()"></label>
+                                    placeholder="Year" required="" value="<%= year%>"
+                                    onchange="validationAPI.usrBDATE()"></label>
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>
@@ -132,6 +132,7 @@
             </div>
         </div>
         <!--Country-->
+        <!--TODO set countries with an array-->
         <div class="form-group">
             <label for="usrCOUNTRY" class="control-label col-sm-3">Country:</label>
             <div class="col-sm-6">
@@ -404,9 +405,10 @@
         <div id="form_alert" class="alert alert-danger" hidden>
             <strong>Incomplete form!</strong> You should check it again.
         </div>
-        <div id="old_usr_action" class="form-group text-right" data-visible="none">
+        <div id="old_usr_action" class="form-group" data-visible="none">
             <div class="col-sm-5"></div>
             <button type="button" onclick="ajaxChangesRequest()" class="btn btn-default btn_style col-sm-2">Apply changes</button>
+            <div class="col-sm-5"></div>
         </div>
     </form>
 </div>

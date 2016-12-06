@@ -1,7 +1,7 @@
 <%-- 
     Document   : profilePage
     Created on : Nov 25, 2016, 5:00:03 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 <%@page import="cs359db.model.User"%>
 <%@page import="cs359db.db.UserDB"%>
