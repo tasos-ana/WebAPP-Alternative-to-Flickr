@@ -256,9 +256,9 @@ public class PhotosDB {
      * @param contentType
      * @throws ClassNotFoundException
      */
-    public static void uploadPhoto(InputStream input, String userName, String contentType)
+    public static int uploadPhoto(InputStream input, String userName, String contentType)
             throws ClassNotFoundException, Exception {
-        uploadPhoto(input, userName, contentType, "Untitled");
+        return uploadPhoto(input, userName, contentType, "Untitled");
     }
     /**
      * Upload photo
