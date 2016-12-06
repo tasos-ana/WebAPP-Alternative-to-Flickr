@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package cs359db.servlets;
+package servlets;
 
 import cs359db.db.PhotosDB;
 import java.io.IOException;
@@ -20,16 +15,18 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author papadako
+ * @author Giakoumis Giwrgos
  */
-@WebServlet("/UploadImage")
-@MultipartConfig(maxFileSize = 1011074)    // upload file's size up to 1MB
+@WebServlet(name = "UploadImage", urlPatterns = {"/UploadImage"})
+@MultipartConfig(maxFileSize = 1011074) // upload file's size up to 1MB
 public class UploadImage extends HttpServlet {
 
+    @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        // gets values of text fields
+
         String userName = request.getParameter("userName");
+        String title = request.getParameter("title");
         String contentType = request.getParameter("contentType");
 
         InputStream inputStream = null; // input stream of the upload file
@@ -46,8 +43,19 @@ public class UploadImage extends HttpServlet {
             inputStream = filePart.getInputStream();
         }
         try {
+            int photoId;
             // uploadPhoto returns the id of the photo
-            PhotosDB.uploadPhoto(inputStream, userName, contentType);
+            if (title == null) {
+                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, "Untitled");
+            } else {
+                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
+            }
+            if (photoId == -1) {
+                response.setHeader("error", "image upload failed");
+            } else {
+                response.setHeader("id", "" + photoId);
+            }
+            System.out.println("servlets.UploadImage.doPost() --> " + photoId);
         } catch (Exception ex) {
             Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }

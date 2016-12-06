@@ -1,7 +1,7 @@
 // TODO bale munima sta assert
 // TODO change author in all files
 // TODO refresh cookie age se kathe request
-package servlet;
+package servlets;
 
 import cs359db.db.UserDB;
 import cs359db.model.User;
