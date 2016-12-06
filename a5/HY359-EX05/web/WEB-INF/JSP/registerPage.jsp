@@ -1,7 +1,7 @@
 <%-- 
-    Document   : registerForm
+    Document   : registerPage
     Created on : Nov 25, 2016, 2:57:26 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -85,11 +85,11 @@
                     </select> 
                 </label>
                 <label>Day: <input id="usrBDATE_D" maxlength="2" name="BirthDay" size="3"
-                                 placeholder="Day" required=""
-                                 onchange="validationAPI.usrBDATE()"></label>
+                                   placeholder="Day" required=""
+                                   onchange="validationAPI.usrBDATE()"></label>
                 <label>Year: <input id="usrBDATE_Y" min="1900" max="2016" maxlength="4" name="BirthYear" size="5"
-                                  placeholder="Year" required="" 
-                                  onchange="validationAPI.usrBDATE()"></label>
+                                    placeholder="Year" required="" 
+                                    onchange="validationAPI.usrBDATE()"></label>
             </div>
             <div id="usrBDATE_err" class="col-sm-3 text-left" style="color: red;">*</div>
         </div>

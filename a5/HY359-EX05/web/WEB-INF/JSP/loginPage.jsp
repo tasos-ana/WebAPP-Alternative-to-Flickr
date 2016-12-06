@@ -1,7 +1,7 @@
 <%-- 
-    Document   : loginForm
+    Document   : loginPage
     Created on : Nov 25, 2016, 2:57:39 PM
-    Author     : Tasos198
+    Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
             <label for="usr_id">Username:</label>
             <input type="text" id="usr_id" name="username" placeholder="Enter Username" 
                    autofocus required size="38" onkeydown="enterPress('login', event)"><br>
-            <!--PASSWORD 1-->
+            <!--PASSWORD-->
             <label for="usr_pw">Password:</label>
             <input type="password" id="usr_pw" name="password" placeholder="Enter Password" 
                    required size="38" onkeydown="enterPress('login', event)"><br>
