@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global validationAPI */
+/* global validationAPI, TIV3166 */
 
 var navBut = ["home_but", "member_but", "register_but", "login_but", "settings_but", "logout_but", "profile_but"];
 var elemVisibility = ["member_but", "register_but", "login_but",
@@ -178,4 +178,39 @@ function enterPress(elem, event) {
 
 function closeImgModal() {
     document.getElementById('imgModal').style.display = "none";
+}
+
+function uploadImage(){
+    "use strict";
+    var allImages, xhr;
+    var img,imgSrc,imgTitle,imgType , formData;
+    formData = new FormData();
+    allImages = TIV3166.getLoadedImages();
+    if(allImages.length === 0){
+        window.alert("image array error");
+        return;
+    }
+    img = allImages[0];
+    
+    imgSrc = img.src;
+    formData.append("photo",imgSrc);
+    
+    imgTitle = img.title;
+    
+    imgType = imgSrc.split(";")[0];
+    imgType = imgType.split(":")[1];
+
+    xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'UploadImage?userName=' + 'baremenos19' + '&title=' + imgTitle + '&contentType=' + imgType);
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            window.alert("kati pira isws");
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(formData);
+    window.alert("esteila");
 }

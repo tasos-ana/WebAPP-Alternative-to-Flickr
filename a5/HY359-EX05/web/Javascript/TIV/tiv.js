@@ -83,6 +83,7 @@ var TIV3166 = function () {
             display = document.getElementById('loadImage');
             display.disabled = true;//disable the button
             display.style.cursor = "default";//set cursor from pointer to default
+            uploadImage();
         },
         //draw image with 'index' = index from loadedImages on the elem 
         showImage: function (index, elem) {
