@@ -45,7 +45,7 @@ var TIV3166 = function () {
     return {
         //read all images from file
         loadImages: function () {
-            var files = document.getElementById("images").files, i, file, reader, img, index, func, display;
+            var files = document.getElementById("images").files, i, file, reader, display;
             display = document.getElementById('loadImage');//Get the button that load image so we disable it later
             for (i = 0; i < files.length; i += 1) {
                 file = files[i];
@@ -68,8 +68,6 @@ var TIV3166 = function () {
         },
         //using the tile from previous TIV html on ex01
         //drawing images inside on elem that user give
-        //on error add
-        //<h1>CANT LOAD THE IMAGE FROM THE COLLECTION</h1>
         showLoadedImages: function (elem) {
             var i, display;
             if (loadedImages.array.length === 0) {
