@@ -63,23 +63,26 @@ var TIV3166 = function () {
 
     function displayImage(elem) {
         var index, id, xhr, arr;
-
-        if (loadedImages.id.length === 0) {
-            document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
-        } else {
-            document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
-        }
         arr = loadedImages.id;
         for (index = 0; index < arr.length; ++index) {
             id = arr[index];
             xhr = new XMLHttpRequest();
             xhr.open('POST', 'GetImage');
+            xhr.responseType = "blob";
             xhr.onload = (function (index) {
                 return function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         if (xhr.getResponseHeader("error") === null) {
-                            addImg(xhr.responseText, "title", index);
-                            addHtmlCode(elem, index);
+                            var r = new FileReader();
+                            var b = xhr.response;
+                            r.onload = (function (index) {
+                                return function () {
+                                    var imgData = r.result;
+                                    addImg(imgData, "title", index);
+                                    addHtmlCode(elem, index);
+                                };
+                            })(index);
+                            r.readAsDataURL(b);
                         } else {
                             document.getElementById("main_container").innerHTML = xhr.responseText;
                         }
