@@ -109,7 +109,7 @@ body{
     to   { opacity: 1; }
 }
 
-#member_but,#logout_but,#settings_but,#profile_but{
+#member_but,#logout_but,#settings_but,#profile_but,#upload_but{
     display: none;
 }
 
@@ -131,7 +131,7 @@ body{
     padding: 0;
 }
 
-#loadImage,#images{
+#loadImage,#images,#uploadImage_but{
     border: none;
     padding: 10px 22px;
     text-align: center;
