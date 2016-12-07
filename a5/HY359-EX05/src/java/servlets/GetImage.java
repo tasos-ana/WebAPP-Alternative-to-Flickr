@@ -26,8 +26,11 @@ public class GetImage extends HttpServlet {
                 // TODO implement give metadata functionality
             } else {
                 byte[] blob = PhotosDB.getPhotoBlobWithID(Integer.parseInt(photoId));
-                ServletOutputStream out = response.getOutputStream();
-                out.write(blob);
+                response.setContentType("image/jpg");
+                try (ServletOutputStream out = response.getOutputStream()) {
+                    out.write(blob);
+                    out.flush();
+                }
             }
         } catch (ClassNotFoundException ex) {
             System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
