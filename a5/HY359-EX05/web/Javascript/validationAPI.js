@@ -24,9 +24,25 @@ var validationAPI = function () {
             formValid.usrID = true;
             return;
         }
-        var len, usrID, xhr;
+        var len, usrID, xhr, pattern;
+
         usrID = document.registration.usrID;
         len = usrID.value.length;
+        
+        pattern = /([A-Za-z0-9]{8,})/;
+        if(usrID.value.indexOf(" ") !== -1){
+            document.getElementById("usrID_err").style.color = "red";
+            document.getElementById("usrID_err").innerHTML = "Space not allowed";
+            formValid.usrID = false;
+            return;
+        }
+
+        if (!usrID.value.match(pattern)) {
+            document.getElementById("usrID_err").style.color = "red";
+            document.getElementById("usrID_err").innerHTML = "Username must contain only character and numbers";
+            formValid.usrID = false;
+            return;
+        }
 
         if (len < 8) {
             document.getElementById("usrID_err").style.color = "red";
@@ -73,6 +89,14 @@ var validationAPI = function () {
             formValid.usrEMAIL = true;
             return;
         }
+        
+        if(usrEMAIL.value.indexOf(" ") !== -1){
+            document.getElementById("usrEMAIL_err").style.color = "red";
+            document.getElementById("usrEMAIL_err").innerHTML = "Space not allowed";
+            formValid.usrID = false;
+            return;
+        }
+        
         pattern = /(.+)@([A-Za-z]+)\.([A-Za-z]+)([\.A-Za-z]*)/;
         if (usrEMAIL.value.match(pattern)) {
 
@@ -115,7 +139,14 @@ var validationAPI = function () {
         numbers = /[0-9]/;
 
         usrPW = document.registration.usrPW;
-
+        
+        if(usrPW.value.indexOf(" ") !== -1){
+            document.getElementById("usrPW_err").style.color = "red";
+            document.getElementById("usrPW_err").innerHTML = "Space not allowed";
+            formValid.usrID = false;
+            return;
+        }
+        
         pw_len = usrPW.value.length;
         if (pw_len >= 6 && pw_len <= 10) {
             if (usrPW.value.match(letters) && usrPW.value.match(symbols) && usrPW.value.match(numbers)) {
@@ -146,6 +177,13 @@ var validationAPI = function () {
         letters = /[A-Za-z]/;
         symbols = /[!"\[\]{}%^&*:@~#';/.<>\\|`]/g;
         numbers = /[0-9]/;
+        
+        if(usrPW2.value.indexOf(" ") !== -1){
+            document.getElementById("usrPW2_err").style.color = "red";
+            document.getElementById("usrPW2_err").innerHTML = "Invalid password";
+            formValid.usrID = false;
+            return;
+        }
 
         if (formValid.usrPW && usrPW.value === usrPW2.value) {
             document.getElementById("usrPW2_err").style.color = "green";
