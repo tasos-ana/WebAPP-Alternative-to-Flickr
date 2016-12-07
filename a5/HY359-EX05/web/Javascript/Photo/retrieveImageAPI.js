@@ -5,21 +5,20 @@ var TIV3166 = function () {
     //on Index keep the index of last img that drawed
     var loadedImages = {
         array: [],
-        index: 0
+        id: []
     };
 
     //Create an object IMG and give to him src,name and add a call function on click
     //Also push the object on array
-    function addImg(src, name) {
-        var index, func, img;
-        index = loadedImages.array.length;
+    function addImg(src, name, index) {
+        var func, img;
         func = ['TIV3166.showImage(\'', index, '\',\'imgModal\')'].join('');//Create the function that needed to call on click
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
         img.setAttribute("onclick", func);//Set the function on object img
         img.title = name;
-        loadedImages.array.push(img);//add img on array
+        loadedImages.array[index] = img;//add img on array
     }
 
     //Getting one index from loadImage, an element and draw it on elem
@@ -34,10 +33,9 @@ var TIV3166 = function () {
         textDive.innerHTML = loadedImages.array[index].title.toString();//Get the img name from img on index
         tileDiv.insertBefore(textDive, null);//Insert the text on first div-'tile'
         document.getElementById(elem).insertBefore(tileDiv, null);//insert the div on elem that we want
-        loadedImages.index = loadedImages.index + 1;// increase counter
     }
 
-    function requestImageID(num) {
+    function requestImageID(num, elem) {
         "use strict";
         var xhr, username;
 
@@ -50,8 +48,8 @@ var TIV3166 = function () {
         xhr.onload = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.getResponseHeader("error") === null) {
-                    var arr = JSON.parse(xhr.responseText);
-                    updateArray(arr);
+                    loadedImages.id = JSON.parse(xhr.responseText);
+                    showLoadedImages(elem);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
                 }
@@ -63,25 +61,34 @@ var TIV3166 = function () {
         xhr.send('userName=' + username + '&number=' + num);
     }
 
-    function updateArray(arr) {
-        var i, id, xhr;
+    function displayImage(elem) {
+        var index, id, xhr, arr;
 
-        for (i = 0; i < arr.length; ++i) {
-            id = arr[i];
+        if (loadedImages.array.length === 0) {
+            document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
+        } else {
+            document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
+        }
+        arr = loadedImages.id;
+        for (index = 0; index < arr.length; ++index) {
+            id = arr[index];
             xhr = new XMLHttpRequest();
             xhr.open('POST', 'GetImage');
-            xhr.onload = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    if (xhr.getResponseHeader("error") === null) {
-                        addImg(xhr.responseText,"title");
-                    } else {
+            xhr.onload = (function (index) {
+                return function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        if (xhr.getResponseHeader("error") === null) {
+                            addImg(xhr.responseText, "title");
+                            addHtmlCode(elem, index);
+                        } else {
+                            document.getElementById("main_container").innerHTML = xhr.responseText;
+                        }
+                    } else if (xhr.status !== 200) {
+                        window.alert("Request failed. Returned status of " + xhr.status);
                         document.getElementById("main_container").innerHTML = xhr.responseText;
                     }
-                } else if (xhr.status !== 200) {
-                    window.alert("Request failed. Returned status of " + xhr.status);
-                    document.getElementById("main_container").innerHTML = xhr.responseText;
-                }
-            };
+                };
+            })(index);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send('image=' + id + '&metadata=false');
         }
@@ -89,8 +96,8 @@ var TIV3166 = function () {
 
     return {
         //read all images from db
-        loadImages: function (num) {
-            requestImageID(num);
+        loadImages: function (num, elem) {
+            requestImageID(num, elem);
         },
         //return all the elements from the array
         getLoadedImages: function () {
@@ -99,18 +106,7 @@ var TIV3166 = function () {
         //using the tile from previous TIV html on ex01
         //drawing images inside on elem that user give
         showLoadedImages: function (elem) {
-            var i, display;
-            if (loadedImages.array.length === 0) {
-                document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
-            } else {
-                document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
-            }
-            for (i = loadedImages.index; i < loadedImages.array.length; i += 1) {//if the i was on loadedImage
-                addHtmlCode(elem, i);//add an html code for img
-            }
-            display = document.getElementById('loadImage');
-            display.disabled = true;//disable the button
-            display.style.cursor = "default";//set cursor from pointer to default
+            displayImage(elem);
         },
         //draw image with 'index' = index from loadedImages on the elem 
         showImage: function (index, elem) {
