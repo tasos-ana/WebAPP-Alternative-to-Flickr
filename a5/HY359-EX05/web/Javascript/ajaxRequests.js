@@ -35,6 +35,7 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 if (username !== null) {
                     document.getElementById("page_message").innerHTML = username;
+                    document.getElementById("page_message").setAttribute("data-username",username.split(" ")[1]);
                 } else {
                     document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
                 }

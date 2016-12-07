@@ -84,6 +84,7 @@ function succeed_login_action() {
 
     activeNavButton("home_but");
     renderPage();
+    getLatestImages();
 }
 
 function logout_action() {

@@ -5,7 +5,8 @@ var TIV3166 = function () {
     //on Index keep the index of last img that drawed
     var loadedImages = {
         array: [],
-        index: 0
+        index: 0,
+        forUpload: []
     };
 
     //Img name valitor
@@ -17,14 +18,14 @@ var TIV3166 = function () {
     //Also push the object on array
     function addImg(src, name) {
         var index, func, img;
-        index = loadedImages.array.length;
+        index = loadedImages.forUpload.length;
         func = ['TIV3166.showImage(\'', index, '\',\'imgModal\')'].join('');//Create the function that needed to call on click
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
         img.setAttribute("onclick", func);//Set the function on object img
         img.title = name;
-        loadedImages.array.push(img);//add img on array
+        loadedImages.forUpload.push(img);//add img on array
     }
 
     //Getting one index from loadImage, an element and draw it on elem
@@ -42,7 +43,61 @@ var TIV3166 = function () {
         loadedImages.index = loadedImages.index + 1;// increase counter
     }
 
+    function requestImageID(num) {
+        "use strict";
+        var xhr, username;
+
+        username = document.getElementById("page_message").getAttribute("data-username");
+        if (username === null || username === "") {
+            window.alert("tiv.js at requestImageFromDB null username");
+        }
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', 'GetImageCollection');
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.getResponseHeader("error") === null) {
+                    var arr = JSON.parse(xhr.responseText);
+                    updateArray(arr);
+                } else {
+                    document.getElementById("main_container").innerHTML = xhr.responseText;
+                }
+            } else if (xhr.status !== 200) {
+                window.alert("Request failed. Returned status of " + xhr.status);
+            }
+        };
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('userName=' + username + '&number=' + num);
+    }
+
+    function updateArray(arr) {
+        var i, id;
+
+        for (i = 0; i < arr.length; ++i) {
+            id = arr[i];
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', 'GetImageCollection');
+            xhr.onload = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (xhr.getResponseHeader("error") === null) {
+                        addImg(xhr.responseText,"title");
+                        showLoadedImages('list');
+                    } else {
+                        document.getElementById("main_container").innerHTML = xhr.responseText;
+                    }
+                } else if (xhr.status !== 200) {
+                    window.alert("Request failed. Returned status of " + xhr.status);
+                }
+            };
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('id=' + id);
+        }
+    }
+
     return {
+        //read all the images from DB
+        loadImagesFromDB: function (num) {
+            requestImageID(num);
+        },
         //read all images from file
         loadImages: function () {
             var files = document.getElementById("images").files, i, file, reader, display;
@@ -102,7 +157,7 @@ var TIV3166 = function () {
 
             img = loadedImages.array[index];//getting the img
             elemObj = document.getElementById(elem);//the element that we want to add the exif
-            
+
             elemObj2 = document.getElementById("imgMap");
             EXIF.getData(img, function () {//getting the data by calling the getData function
                 var data;
@@ -112,7 +167,7 @@ var TIV3166 = function () {
                     elemObj2.style.display = "block";
                     elemObj.innerHTML = data; //insert the data
                     TIV3166.showImageDetailedWithMap(index, "imgMap");//call the function to add map
-                }else{
+                } else {
                     elemObj.style.display = "none";
                     elemObj2.style.display = "none";
                 }
@@ -127,7 +182,7 @@ var TIV3166 = function () {
             lonRef = EXIF.getTag(img, 'GPSLongitudeRef');
             lat = EXIF.getTag(img, 'GPSLatitude');//take the latitude
             latRef = EXIF.getTag(img, 'GPSLatitudeRef');
-            
+
             //calculate tha array to one decimal
             calcLon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef === "W" ? -1 : 1);
             calcLat = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef === "N" ? 1 : -1);
