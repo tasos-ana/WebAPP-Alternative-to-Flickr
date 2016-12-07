@@ -1,6 +1,7 @@
 // TODO bale munima sta assert
-// TODO change author in all files
 // TODO refresh cookie age se kathe request
+// TODO filter for XSS
+// TODO make more strict missing or malformed data checks
 package servlets;
 
 import cs359db.db.UserDB;

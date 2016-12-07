@@ -20,6 +20,10 @@
         <servlet-name>GetImageCollection</servlet-name>
         <servlet-class>servlets.GetImageCollection</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteImage</servlet-name>
+        <servlet-class>servlets.DeleteImage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>requestPageServlet</servlet-name>
         <url-pattern>/requestPageServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>GetImageCollection</servlet-name>
         <url-pattern>/GetImageCollection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteImage</servlet-name>
+        <url-pattern>/DeleteImage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
