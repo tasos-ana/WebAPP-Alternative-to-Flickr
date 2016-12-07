@@ -38,8 +38,10 @@ public class DeleteImage extends HttpServlet {
         if (photoIds != null) {
             String[] ids = photoIds.split(",");
             try {
-                for (String id : ids) {
-                    PhotosDB.deletePhoto(Integer.parseInt(id));
+                synchronized (this) {
+                    for (String id : ids) {
+                        PhotosDB.deletePhoto(Integer.parseInt(id));
+                    }
                 }
             } catch (ClassNotFoundException ex) {
                 System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
