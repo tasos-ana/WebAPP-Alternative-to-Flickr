@@ -70,17 +70,17 @@ var TIV3166 = function () {
     }
 
     function updateArray(arr) {
-        var i, id;
+        var i, id, xhr;
 
         for (i = 0; i < arr.length; ++i) {
             id = arr[i];
             xhr = new XMLHttpRequest();
-            xhr.open('POST', 'GetImageCollection');
+            xhr.open('POST', 'GetImage');
             xhr.onload = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     if (xhr.getResponseHeader("error") === null) {
                         addImg(xhr.responseText,"title");
-                        showLoadedImages('list');
+                        TIV3166.showLoadedImages('list');
                     } else {
                         document.getElementById("main_container").innerHTML = xhr.responseText;
                     }
