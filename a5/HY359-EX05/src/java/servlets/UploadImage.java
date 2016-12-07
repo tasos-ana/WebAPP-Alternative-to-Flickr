@@ -43,12 +43,10 @@ public class UploadImage extends HttpServlet {
         try {
             int photoId;
             // uploadPhoto returns the id of the photo
-            synchronized (this) {
-                if (title == null) {
-                    photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
-                } else {
-                    photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
-                }
+            if (title == null) {
+                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
+            } else {
+                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
             }
             if (photoId == -1) {
                 response.setHeader("error", "image upload failed");

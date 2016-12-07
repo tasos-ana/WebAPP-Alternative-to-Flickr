@@ -34,6 +34,7 @@ public class requestPageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
         String page = request.getParameter("page");
         if (page != null) {
@@ -41,7 +42,7 @@ public class requestPageServlet extends HttpServlet {
             url.append("/WEB-INF/JSP/").append(page).append("Page.jsp");
             forwardToPage(request, response, url.toString());
         }
-    } // used in registerPage, loginPage
+    } // used to retrieve registerPage, loginPage, uploadPage
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -79,7 +80,7 @@ public class requestPageServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Can retrieve registerPage, loginPage, uploadPage";
     }// </editor-fold>
 
 }

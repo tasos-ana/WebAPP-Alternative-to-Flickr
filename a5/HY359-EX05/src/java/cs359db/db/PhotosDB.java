@@ -269,7 +269,7 @@ public class PhotosDB {
      * @param title
      * @throws ClassNotFoundException
      */
-    public static int uploadPhoto(InputStream input, String userName,
+    public synchronized static int uploadPhoto(InputStream input, String userName,
             String contentType, String title)
             throws ClassNotFoundException, Exception {
         int maxID = -1;

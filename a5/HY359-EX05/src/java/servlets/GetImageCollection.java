@@ -36,7 +36,7 @@ public class GetImageCollection extends HttpServlet {
         String number = request.getParameter("number");
 
         if (number == null) {
-            number = "10";
+            number = "10"; // the default
         }
 
         try {
@@ -53,9 +53,9 @@ public class GetImageCollection extends HttpServlet {
                     out.print("<h3>You have no uploaded images yet!!</h3>");
                 } else {
                     Iterator<Integer> i = ids.iterator();
-                    
-                    out.append("[" + i.next());
-                    i.forEachRemaining(id -> out.append("," + id));
+
+                    out.append("[" + i.next()); // add first id
+                    i.forEachRemaining(id -> out.append("," + id)); // add the remaining ids
                     out.append("]");
                 }
             }

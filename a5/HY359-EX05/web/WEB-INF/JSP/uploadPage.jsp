@@ -16,11 +16,17 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2">
-                    <input class="btn_style" id="loadImage" type="button" value="Preview Images" onclick="uploadImageAPI.previewImage('list');"/>
+                    <button type="button" id="loadImage" class="btn btn-default btn_style"
+                            onclick="uploadImageAPI.previewImage('list');">
+                        Preview Images
+                    </button>
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2">
-                    <button type="button" id="uploadImage_but" onclick="uploadImageAPI.uploadImage();" class="btn btn-default btn_style">Upload Images</button>
+                    <button type="button" id="uploadImage_but" class="btn btn-default btn_style"
+                            onclick="uploadImageAPI.uploadImage();">
+                        Upload Images
+                    </button>
                 </div>
             </div>
         </form><br><br>

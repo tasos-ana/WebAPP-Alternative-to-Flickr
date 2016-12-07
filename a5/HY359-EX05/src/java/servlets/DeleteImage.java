@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import cs359db.db.PhotosDB;
@@ -36,7 +31,7 @@ public class DeleteImage extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         if (photoIds != null) {
-            String[] ids = photoIds.split(",");
+            String[] ids = photoIds.split(","); // can take multiple ids to delete
             try {
                 synchronized (this) {
                     for (String id : ids) {

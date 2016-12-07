@@ -28,7 +28,7 @@ public class GetImage extends HttpServlet {
             if (wantMetadata != null && wantMetadata.equals("true")) {
                 Photo photo = PhotosDB.getPhotoMetadataWithID(photoId);
                 if (photo != null) {
-                    try (PrintWriter out = response.getWriter()) {
+                    try (PrintWriter out = response.getWriter()) { // construct JSON object
                         out.append("{'username':").append(photo.getUserName());
                         out.append(",'title':").append(photo.getTitle());
                         out.append(",'date':").append(photo.getDate());
@@ -42,7 +42,7 @@ public class GetImage extends HttpServlet {
             } else {
                 byte[] blob = PhotosDB.getPhotoBlobWithID(photoId);
                 if (blob != null) {
-                    response.setContentType("image/jpeg");
+                    response.setContentType("image/jpeg"); // TODO change
                     try (ServletOutputStream out = response.getOutputStream()) {
                         out.write(blob);
                         out.flush();
@@ -55,7 +55,7 @@ public class GetImage extends HttpServlet {
             System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
