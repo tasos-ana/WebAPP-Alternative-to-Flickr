@@ -5,27 +5,21 @@ var TIV3166 = function () {
     //on Index keep the index of last img that drawed
     var loadedImages = {
         array: [],
-        index: 0,
-        forUpload: []
+        index: 0
     };
-
-    //Img name valitor
-    function checkImg(name) {
-        return (name.match(/\.(jpeg|jpg|gif|png)$/) !== null);
-    }
 
     //Create an object IMG and give to him src,name and add a call function on click
     //Also push the object on array
     function addImg(src, name) {
         var index, func, img;
-        index = loadedImages.forUpload.length;
+        index = loadedImages.array.length;
         func = ['TIV3166.showImage(\'', index, '\',\'imgModal\')'].join('');//Create the function that needed to call on click
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
         img.setAttribute("onclick", func);//Set the function on object img
         img.title = name;
-        loadedImages.forUpload.push(img);//add img on array
+        loadedImages.array.push(img);//add img on array
     }
 
     //Getting one index from loadImage, an element and draw it on elem
@@ -80,42 +74,23 @@ var TIV3166 = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     if (xhr.getResponseHeader("error") === null) {
                         addImg(xhr.responseText,"title");
-                        TIV3166.showLoadedImages('list');
                     } else {
                         document.getElementById("main_container").innerHTML = xhr.responseText;
                     }
                 } else if (xhr.status !== 200) {
                     window.alert("Request failed. Returned status of " + xhr.status);
+                    document.getElementById("main_container").innerHTML = xhr.responseText;
                 }
             };
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.send('id=' + id);
+            xhr.send('image=' + id + '&metadata=false');
         }
     }
 
     return {
-        //read all the images from DB
-        loadImagesFromDB: function (num) {
+        //read all images from db
+        loadImages: function (num) {
             requestImageID(num);
-        },
-        //read all images from file
-        loadImages: function () {
-            var files = document.getElementById("images").files, i, file, reader, display;
-            display = document.getElementById('loadImage');//Get the button that load image so we disable it later
-            for (i = 0; i < files.length; i += 1) {
-                file = files[i];
-                reader = new FileReader();
-                if (checkImg(file.name)) {//validate img
-                    reader.onload = (function (file) {
-                        return function (e) {
-                            addImg(e.target.result, file.name);//add images on array
-                            display.disabled = false;//make enabled the button
-                            display.style.cursor = "pointer";//set pointer cursor
-                        };
-                    })(file);
-                }
-                reader.readAsDataURL(file);
-            }
         },
         //return all the elements from the array
         getLoadedImages: function () {
@@ -136,7 +111,6 @@ var TIV3166 = function () {
             display = document.getElementById('loadImage');
             display.disabled = true;//disable the button
             display.style.cursor = "default";//set cursor from pointer to default
-            uploadImage();
         },
         //draw image with 'index' = index from loadedImages on the elem 
         showImage: function (index, elem) {
