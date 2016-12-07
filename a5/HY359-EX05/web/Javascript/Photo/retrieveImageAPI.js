@@ -64,22 +64,26 @@ var TIV3166 = function () {
     function displayImage(elem) {
         var index, id, xhr, arr;
         arr = loadedImages.id;
+        document.getElementById("loadingModal").style.display = "block";
         for (index = 0; index < arr.length; ++index) {
             id = arr[index];
             xhr = new XMLHttpRequest();
             xhr.open('POST', 'GetImage');
             xhr.responseType = "blob";
-            xhr.onload = (function (index) {
+            xhr.onload = (function (index,xhr) {
                 return function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         if (xhr.getResponseHeader("error") === null) {
                             var r = new FileReader();
                             var b = xhr.response;
                             r.onload = (function (index) {
-                                return function () {
-                                    var imgData = r.result;
-                                    addImg(imgData, "title", index);
+                                return function (e) {
+                                    var imgData = e.target.result;
+                                    addImg(imgData, "title"+index, index);
                                     addHtmlCode(elem, index);
+                                    if(index === loadedImages.id.length-1){
+                                        document.getElementById("loadingModal").style.display = "none";
+                                    }
                                 };
                             })(index);
                             r.readAsDataURL(b);
@@ -88,10 +92,9 @@ var TIV3166 = function () {
                         }
                     } else if (xhr.status !== 200) {
                         window.alert("Request failed. Returned status of " + xhr.status);
-                        document.getElementById("main_container").innerHTML = xhr.responseText;
                     }
                 };
-            })(index);
+            })(index,xhr);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send('image=' + id + '&metadata=false');
         }
