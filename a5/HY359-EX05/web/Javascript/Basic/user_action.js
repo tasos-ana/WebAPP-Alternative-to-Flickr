@@ -7,7 +7,7 @@
 /* global validationAPI*/
 
 var navBut = ["home_but", "member_but", "register_but", "login_but", 
-    "settings_but", "logout_but", "profile_but","upload_but"];
+    "settings_but", "logout_but", "profile_but", "upload_but"];
 
 var elemVisibility = ["member_but", "register_but", "login_but",
     "settings_but", "logout_but", "profile_but", "upload_but"];
