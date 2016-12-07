@@ -10,7 +10,7 @@ var uploadImageAPI = function () {
 
     var images2Upload = {
         imgFile: [],
-        imgExtension: [],
+        imgType: [],
         imgName: [],
         total: 0
     };
@@ -31,9 +31,9 @@ var uploadImageAPI = function () {
         loadedImages.array.push(img);//add img on array
     }
 
-    function addUploadImage(imgData, imgExtension, imgName) {
+    function addUploadImage(imgData, imgType, imgName) {
         images2Upload.imgFile.push(imgData);
-        images2Upload.imgExtension.push(imgExtension);
+        images2Upload.imgType.push(imgType);
         images2Upload.imgName.push(imgName);
         images2Upload.total++;
     }
@@ -67,8 +67,8 @@ var uploadImageAPI = function () {
 
         formData = new FormData();
         img = images2Upload.imgFile[index];
-        imgTitle = images2Upload.imgExtension[index];
-        imgExt = images2Upload.imgName[index];
+        imgTitle = images2Upload.imgName[index];
+        imgExt = images2Upload.imgType[index];
 
         formData.append("photo", img);
 
@@ -138,12 +138,12 @@ var uploadImageAPI = function () {
                             upload_but.style.cursor = "pointer";//set pointer cursor
                         };
                     })(file);
-
-                    var ext = file.name;
-                    var imgExtension = ext.split(".").pop();
+                    var imgType = "image";
                     var imgData = file;
                     var imgName = file.name;
-                    addUploadImage(imgData, imgExtension, imgName);
+                    var ext = file.name.split(".").pop();
+                    imgName = imgName.replace("." + ext, "");
+                    addUploadImage(imgData, imgType, imgName);
 
                     display.disabled = false;//make enabled the button
                     display.style.cursor = "pointer";//set pointer cursor

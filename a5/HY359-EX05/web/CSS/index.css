@@ -184,10 +184,28 @@ div.text{
     overflow: hidden;
     text-overflow:ellipsis;
     margin: auto;
-    height: auto;
+    height: 30px;
     width: 136px;
     text-align: center;
     padding: 10px 0;
+}
+
+.tivImgName,.tivImgRate{
+    font-size: 8px;
+    bottom: 0;
+    position: absolute;
+    margin: 2px;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.tivImgName{
+    left: 0;
+}
+
+.tivImgRate{
+    right: 0;
+    font-size: 10px;
 }
 
 img.tile:hover{
