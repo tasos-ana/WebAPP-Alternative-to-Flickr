@@ -3,8 +3,6 @@ package servlets;
 import cs359db.db.PhotosDB;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -45,10 +43,12 @@ public class UploadImage extends HttpServlet {
         try {
             int photoId;
             // uploadPhoto returns the id of the photo
-            if (title == null) {
-                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
-            } else {
-                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
+            synchronized (this) {
+                if (title == null) {
+                    photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
+                } else {
+                    photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
+                }
             }
             if (photoId == -1) {
                 response.setHeader("error", "image upload failed");
@@ -57,7 +57,7 @@ public class UploadImage extends HttpServlet {
             }
             System.out.println("servlets.UploadImage.doPost() --> " + photoId);
         } catch (Exception ex) {
-            
+
         }
     }
 }

@@ -1,10 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
 import cs359db.db.PhotosDB;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Gle1deR
  */
-@WebServlet(name = "GetImageCollection", urlPatterns = {"/GetImageCollection"})
-public class GetImageCollection extends HttpServlet {
+@WebServlet(name = "DeleteImage", urlPatterns = {"/DeleteImage"})
+public class DeleteImage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,37 +32,23 @@ public class GetImageCollection extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("application/json");
+        String photoIds = request.getParameter("image");
 
-        String user = request.getParameter("user");
-        String number = request.getParameter("number");
-
-        if (number == null) {
-            number = "10";
-        }
-
-        try {
-            List<Integer> ids;
-            if (user == null) {
-                ids = PhotosDB.getPhotoIDs(Integer.parseInt(number));
-            } else {
-                ids = PhotosDB.getPhotoIDs(Integer.parseInt(number), user);
-            }
-
-            try (PrintWriter out = response.getWriter()) {
-                if (ids.isEmpty()) {
-                    response.setHeader("error", "not image in DB");
-                    out.print("<h3>You have no uploaded images yet!!</h3>");
-                } else {
-                    Iterator<Integer> i = ids.iterator();
-                    
-                    out.append("[" + i.next());
-                    i.forEachRemaining(id -> out.append("," + id));
-                    out.append("]");
+        response.setContentType("text/html;charset=UTF-8");
+        if (photoIds != null) {
+            String[] ids = photoIds.split(",");
+            try {
+                for (String id : ids) {
+                    PhotosDB.deletePhoto(Integer.parseInt(id));
                 }
+            } catch (ClassNotFoundException ex) {
+                System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
+            } catch (NumberFormatException e) {
+                response.setHeader("error",
+                        "'image' parameter must contain integers separated with ','");
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
+        } else {
+            response.setHeader("error", "'image' parameter missing");
         }
     }
 
