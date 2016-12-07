@@ -48,18 +48,18 @@ function uploadImage() {
     }
 }
 
-function getLatestUserImages(){
-    
+function getLatestUserImages() {
+
 }
 
 function getLatestImages() {
-    
+    TIV3166.loadImagesFromDB(5);
 }
 
-function getImageMeta(){
-    
+function getImageMeta() {
+
 }
 
-function getUserImage(){
-    
+function getUserImage() {
+
 }
