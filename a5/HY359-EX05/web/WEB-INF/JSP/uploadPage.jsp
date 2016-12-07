@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2">
-                    <button onclick="uploadImageAPI.uploadImage()" class="btn btn-default btn_style">Upload Images</button>
+                    <button id="uploadImage_but" onclick="uploadImageAPI.uploadImage()" class="btn btn-default btn_style">Upload Images</button>
                 </div>
                 <div class="col-sm-2"></div>
             </div>
