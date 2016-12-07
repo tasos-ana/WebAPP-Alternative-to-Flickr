@@ -46,7 +46,7 @@ public class UploadImage extends HttpServlet {
             int photoId;
             // uploadPhoto returns the id of the photo
             if (title == null) {
-                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, "Untitled");
+                photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType);
             } else {
                 photoId = PhotosDB.uploadPhoto(inputStream, userName, contentType, title);
             }
@@ -57,7 +57,7 @@ public class UploadImage extends HttpServlet {
             }
             System.out.println("servlets.UploadImage.doPost() --> " + photoId);
         } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 }

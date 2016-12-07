@@ -138,7 +138,7 @@ public class UserServlet extends HttpServlet {
                 return;
             }
             //Username match with password
-            response.setHeader("id", "Hello again, " + username);
+            response.setHeader("id", "Hello, " + username);
             Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies ,TODO rename addCookie
             usrCookie.setMaxAge(3600);
             response.addCookie(usrCookie);
