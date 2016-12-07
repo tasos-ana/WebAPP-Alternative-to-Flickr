@@ -49,7 +49,7 @@ var TIV3166 = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.getResponseHeader("error") === null) {
                     loadedImages.id = JSON.parse(xhr.responseText);
-                    showLoadedImages(elem);
+                    TIV3166.showLoadedImages(elem);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
                 }
@@ -64,7 +64,7 @@ var TIV3166 = function () {
     function displayImage(elem) {
         var index, id, xhr, arr;
 
-        if (loadedImages.array.length === 0) {
+        if (loadedImages.id.length === 0) {
             document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
         } else {
             document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
@@ -78,7 +78,7 @@ var TIV3166 = function () {
                 return function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         if (xhr.getResponseHeader("error") === null) {
-                            addImg(xhr.responseText, "title");
+                            addImg(xhr.responseText, "title", index);
                             addHtmlCode(elem, index);
                         } else {
                             document.getElementById("main_container").innerHTML = xhr.responseText;
