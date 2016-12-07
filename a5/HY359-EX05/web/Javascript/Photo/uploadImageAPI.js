@@ -43,11 +43,11 @@ var uploadImageAPI = function () {
     function uploadImage() {
         "use strict";
         var img2Upload, xhr, i;
-        var img, imgSrc, imgTitle, imgType, formData;
+        var img, imgSrc, imgTitle, imgType, formData, upload_but;
         formData = new FormData();
 
         img2Upload = uploadImageAPI.getLoadedImages();
-
+        upload_but = document.getElementById("uploadImage_but");
         for (i = 0; i < img2Upload.length; ++i) {
             img = img2Upload[i];
 
@@ -69,7 +69,7 @@ var uploadImageAPI = function () {
 
             xhr.onload = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    if (xhr.getResponseHeader("error") !== null) {
+                    if (xhr.getResponseHeader("error") === null) {
                         window.alert("uploaded img with id " + xhr.getResponseHeader("id"));
                     } else {
                         window.alert("error");
@@ -80,6 +80,8 @@ var uploadImageAPI = function () {
             };
             xhr.send(formData);
         }
+        upload_but.disabled = true;
+        upload_but.style.cursor = "default";//set pointer cursor
     }
 
     function imageExist() {
@@ -123,19 +125,15 @@ var uploadImageAPI = function () {
         //using the tile from previous TIV html on ex01
         //drawing images inside on elem that user give
         previewImage: function (elem) {
-            var i, display, upload_but;
+            var i, display;
             if (!imageExist())
                 return;
             for (i = loadedImages.index; i < loadedImages.array.length; i += 1) {//if the i was on loadedImage
                 addHtmlCode(elem, i);//add an html code for img
             }
             display = document.getElementById('loadImage');
-            upload_but = document.getElementById("uploadImage_but");
             display.disabled = true;//disable the button
             display.style.cursor = "default";//set cursor from pointer to default
-
-            upload_but.disabled = true;
-            upload_but.style.cursor = "default";//set pointer cursor
         },
         uploadImage: function () {
             if (!imageExist())
