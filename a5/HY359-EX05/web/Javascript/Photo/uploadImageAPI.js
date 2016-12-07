@@ -39,7 +39,7 @@ var uploadImageAPI = function () {
         document.getElementById(elem).insertBefore(tileDiv, null);//insert the div on elem that we want
         loadedImages.index = loadedImages.index + 1;// increase counter
     }
-    
+
     function uploadImage() {
         "use strict";
         var img2Upload, xhr, i;
@@ -82,11 +82,22 @@ var uploadImageAPI = function () {
         }
     }
 
+    function imageExist() {
+        if (loadedImages.array.length === 0) {
+            document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
+            return 0;
+        } else {
+            document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
+            return 1;
+        }
+    }
+
     return {
         //read all images from file
-        loadImages: function () {
-            var files = document.getElementById("images").files, i, file, reader, display;
-            display = document.getElementById('loadImage');//Get the button that load image so we disable it later
+        loadImages: function () { //TODO Rename loadImage -> previewImage  && id -> previewImageButton
+            var files = document.getElementById("images").files, i, file, reader, display, upload_but;
+            display = document.getElementById("loadImage");//Get the button that load image so we disable it later
+            upload_but = document.getElementById("uploadImage_but");
             for (i = 0; i < files.length; i += 1) {
                 file = files[i];
                 reader = new FileReader();
@@ -96,6 +107,9 @@ var uploadImageAPI = function () {
                             addImg(e.target.result, file.name);//add images on array
                             display.disabled = false;//make enabled the button
                             display.style.cursor = "pointer";//set pointer cursor
+
+                            upload_but.disabled = false;
+                            upload_but.style.cursor = "pointer";//set pointer cursor
                         };
                     })(file);
                 }
@@ -109,20 +123,23 @@ var uploadImageAPI = function () {
         //using the tile from previous TIV html on ex01
         //drawing images inside on elem that user give
         previewImage: function (elem) {
-            var i, display;
-            if (loadedImages.array.length === 0) {
-                document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
-            } else {
-                document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
-            }
+            var i, display, upload_but;
+            if (!imageExist())
+                return;
             for (i = loadedImages.index; i < loadedImages.array.length; i += 1) {//if the i was on loadedImage
                 addHtmlCode(elem, i);//add an html code for img
             }
             display = document.getElementById('loadImage');
+            upload_but = document.getElementById("uploadImage_but");
             display.disabled = true;//disable the button
             display.style.cursor = "default";//set cursor from pointer to default
+
+            upload_but.disabled = true;
+            upload_but.style.cursor = "default";//set pointer cursor
         },
         uploadImage: function () {
+            if (!imageExist())
+                return;
             uploadImage();
         }
     };
