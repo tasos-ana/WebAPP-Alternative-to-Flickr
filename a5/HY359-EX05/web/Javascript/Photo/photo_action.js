@@ -9,7 +9,7 @@
 
 
 function getLatestUserImages() {
-    TIV3166.loadImages(3,'list');
+    TIV3166.loadImages(5,'list');
 }
 
 function getLatestImages() {

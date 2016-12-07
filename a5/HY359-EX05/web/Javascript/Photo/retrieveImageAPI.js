@@ -5,7 +5,8 @@ var TIV3166 = function () {
     //on Index keep the index of last img that drawed
     var loadedImages = {
         array: [],
-        id: []
+        id: [],
+        remaining: 0
     };
 
     //Create an object IMG and give to him src,name and add a call function on click
@@ -49,6 +50,8 @@ var TIV3166 = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.getResponseHeader("error") === null) {
                     loadedImages.id = JSON.parse(xhr.responseText);
+                    loadedImages.remaining = loadedImages.id.length;
+                    document.getElementById("list").style.display = "none";
                     TIV3166.showLoadedImages(elem);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
@@ -79,10 +82,12 @@ var TIV3166 = function () {
                             r.onload = (function (index) {
                                 return function (e) {
                                     var imgData = e.target.result;
-                                    addImg(imgData, "title"+index, index);
+                                    addImg(imgData, "title", index);
                                     addHtmlCode(elem, index);
-                                    if(index === loadedImages.id.length-1){
+                                    loadedImages.remaining--;
+                                    if(loadedImages.remaining === 0 ) {
                                         document.getElementById("loadingModal").style.display = "none";
+                                        document.getElementById("list").style.display = "";
                                     }
                                 };
                             })(index);

@@ -8,6 +8,13 @@ var uploadImageAPI = function () {
         index: 0
     };
 
+    var images2Upload = {
+        imgFile: [],
+        imgExtension: [],
+        imgName: [],
+        total: 0
+    };
+
     //Img name valitor
     function checkImg(name) {
         return (name.match(/\.(jpeg|jpg|gif|png)$/) !== null);
@@ -16,13 +23,19 @@ var uploadImageAPI = function () {
     //Create an object IMG and give to him src,name and add a call function on click
     //Also push the object on array
     function addImg(src, name) {
-        var index, img;
-        index = loadedImages.array.length;
+        var img;
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
         img.title = name;
         loadedImages.array.push(img);//add img on array
+    }
+
+    function addUploadImage(imgData, imgExtension, imgName) {
+        images2Upload.imgFile.push(imgData);
+        images2Upload.imgExtension.push(imgExtension);
+        images2Upload.imgName.push(imgName);
+        images2Upload.total++;
     }
 
     //Getting one index from loadImage, an element and draw it on elem
@@ -40,46 +53,57 @@ var uploadImageAPI = function () {
         loadedImages.index = loadedImages.index + 1;// increase counter
     }
 
-    function uploadImage() {
-        "use strict";
-        var img2Upload, xhr, i;
-        var img, imgSrc, imgTitle, imgType, formData, upload_but;
+    function startUploading(index) {
+        var img, imgTitle, imgExt, formData, xhr, userName;
+        if (index === images2Upload.total) {
+            return;
+        }
+        userName = getUsername();
+
+        if (userName === null || userName === "") {
+            document.getElementById("loadingModal").style.display = "none";
+            window.alert("Image upload failed. Undefined username");
+        }
+
         formData = new FormData();
+        img = images2Upload.imgFile[index];
+        imgTitle = images2Upload.imgExtension[index];
+        imgExt = images2Upload.imgName[index];
 
-        img2Upload = uploadImageAPI.getLoadedImages();
-        upload_but = document.getElementById("uploadImage_but");
-        for (i = 0; i < img2Upload.length; ++i) {
-            img = img2Upload[i];
+        formData.append("photo", img);
 
-            imgSrc = img.src;
-            formData.append("photo", imgSrc);
+        xhr = new XMLHttpRequest();
+        if (imgTitle !== null) {
+            xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt + '&title=' + imgTitle);
+        } else {
+            xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt);
+        }
 
-            imgTitle = img.title;
-
-            imgType = imgSrc.split(";")[0];
-            imgType = imgType.split(":")[1];
-
-            xhr = new XMLHttpRequest();
-
-            if (imgTitle !== null) {
-                xhr.open('POST', 'UploadImage?userName=baremenos19&contentType=' + imgType + '&title=' + imgTitle);
-            } else {
-                xhr.open('POST', 'UploadImage?userName=baremenos19&contentType=' + imgType);
-            }
-
-            xhr.onload = function () {
+        xhr.onload = (function (index) {
+            return function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    if (xhr.getResponseHeader("error") === null) {
-                        window.alert("uploaded img with id " + xhr.getResponseHeader("id"));
-                    } else {
+                    if (xhr.getResponseHeader("error") !== null) {
                         window.alert("error");
+                    } else {
+                        index++;
+                        startUploading(index);
                     }
                 } else if (xhr.status !== 200) {
                     window.alert("Request failed. Returned status of " + xhr.status);
                 }
+                if (index === loadedImages.array.length - 1) {
+                    document.getElementById("loadingModal").style.display = "none";
+                }
             };
-            xhr.send(formData);
-        }
+        })(index);
+        xhr.send(formData);
+    }
+
+    function uploadImage() {
+        "use strict";
+        var upload_but;
+        upload_but = document.getElementById("uploadImage_but");
+        startUploading(0);
         upload_but.disabled = true;
         upload_but.style.cursor = "default";//set pointer cursor
     }
@@ -114,6 +138,18 @@ var uploadImageAPI = function () {
                             upload_but.style.cursor = "pointer";//set pointer cursor
                         };
                     })(file);
+
+                    var ext = file.name;
+                    var imgExtension = ext.split(".").pop();
+                    var imgData = file;
+                    var imgName = file.name;
+                    addUploadImage(imgData, imgExtension, imgName);
+
+                    display.disabled = false;//make enabled the button
+                    display.style.cursor = "pointer";//set pointer cursor
+
+                    upload_but.disabled = false;
+                    upload_but.style.cursor = "pointer";//set pointer cursor
                 }
                 reader.readAsDataURL(file);
             }
@@ -138,6 +174,7 @@ var uploadImageAPI = function () {
         uploadImage: function () {
             if (!imageExist())
                 return;
+            document.getElementById("loadingModal").style.display = "block";
             uploadImage();
         }
     };
