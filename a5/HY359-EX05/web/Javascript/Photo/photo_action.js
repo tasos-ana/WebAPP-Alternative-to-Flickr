@@ -7,6 +7,6 @@
 /* global TIV3166 */
 
 //user must be true or false
-function getLatestUserImages(imageNo, elem, user) {
+function getLatestImages(imageNo, elem, user) {
     TIV3166.loadImages(imageNo, elem, user);
 }

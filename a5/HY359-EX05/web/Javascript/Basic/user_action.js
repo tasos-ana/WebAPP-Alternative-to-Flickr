@@ -89,7 +89,7 @@ function succeed_login_action() {
 
     activeNavButton("home_but");
     renderPage();
-    getLatestUserImages(10, 'list', true);
+    getLatestImages(10, 'list', true);
 }
 
 function logout_action() {
