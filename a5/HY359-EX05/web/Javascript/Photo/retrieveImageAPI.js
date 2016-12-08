@@ -78,6 +78,13 @@ var TIV3166 = function () {
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send('image=' + id + '&metadata=true');
     }
+    
+    function resetAllImage(){
+        loadedImages.array = [];
+        loadedImages.id = [];
+        loadedImages.remaining = 0;
+        document.getElementById("list").innerHTML = "";
+    }
 
     function requestImageID(num, elem, user) {
         "use strict";
@@ -149,6 +156,9 @@ var TIV3166 = function () {
     }
 
     return {
+        resetImage: function(){
+          resetAllImage();  
+        },
         //read all images from db
         loadImages: function (num, elem, user) {
             requestImageID(num, elem, user);
