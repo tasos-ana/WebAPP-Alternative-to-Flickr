@@ -54,6 +54,7 @@ function ajaxLoginRequest() {
                     document.getElementById("usr_login_error").style.color = "red";
                 } catch (err) {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
+                    getLatestUserImages(10, 'list', false);
                 }
             }
         } else if (xhr.status !== 200) {
@@ -202,6 +203,7 @@ function ajaxLogoutRequest() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
+            getLatestUserImages(10,'list',false);
             logout_action();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
