@@ -212,3 +212,11 @@ function pagePrepare(){
     document.getElementById("main_container").style.display = "none";
 
 }
+
+function cookieExist(failError){
+    if(failError !== null && failError === "Missing Cookie"){
+        return 0;
+    }else{
+        return 1;
+    }
+}

@@ -28,8 +28,12 @@ function requestMemberPage() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            allMembers_action();
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                allMembers_action();
+            }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -46,8 +50,12 @@ function requestProfilePage() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            profile_action();
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                profile_action();
+            }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -74,15 +82,19 @@ function requestRegisterPage() {
     xhr.send("page=register");
 }
 
-function requestUploadPage(){
+function requestUploadPage() {
     "use strict";
     var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            upload_action();
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                upload_action();
+            }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
