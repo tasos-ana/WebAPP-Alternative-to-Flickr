@@ -32,6 +32,9 @@
         </form><br><br>
         <h4 id="unloaded" class="text-center">No images loaded yet</h4>
     </div>
+    <div id="upload_alert" class="alert alert-success" hidden>
+        <strong>Success!</strong> You upload <script>uploadImageAPI.getTotal();</script> images.
+    </div>
     <div id="tiles_container" class="text-center">
         <div  id="main">
             <span id="list"></span>
