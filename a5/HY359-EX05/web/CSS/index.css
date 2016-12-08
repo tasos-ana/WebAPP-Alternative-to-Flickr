@@ -335,3 +335,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
         width: 100%;
     }
 }
+
+.select_max_number{
+    width: 80px;
+}
