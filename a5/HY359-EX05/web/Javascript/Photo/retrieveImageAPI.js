@@ -58,9 +58,9 @@ var TIV3166 = function () {
                     if (xhr.getResponseHeader("error") === null) {
                         var author, imgName, imgRate, meta;
                         meta = JSON.parse(xhr.responseText);
-                        author = meta.META[0].username;
-                        imgName = meta.META[0].title;
-                        imgRate = meta.META[0].numberOfRatings;
+                        author = meta.username;
+                        imgName = meta.title;
+                        imgRate = meta.numberOfRatings;
                         addHtmlCode(elem, index, author, imgName, imgRate);
                         loadedImages.remaining--;
                         if (loadedImages.remaining === 0) {
@@ -79,14 +79,10 @@ var TIV3166 = function () {
         xhr.send('image=' + id + '&metadata=true');
     }
 
-    function requestImageID(num, elem) {
+    function requestImageID(num, elem, user) {
         "use strict";
-        var xhr, username;
+        var xhr;
 
-        username = document.getElementById("page_message").getAttribute("data-username");
-        if (username === null || username === "") {
-            window.alert("tiv.js at requestImageFromDB null username");
-        }
         xhr = new XMLHttpRequest();
         xhr.open('POST', 'GetImageCollection');
         xhr.onload = function () {
@@ -104,7 +100,16 @@ var TIV3166 = function () {
             }
         };
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send('userName=' + username + '&number=' + num);
+        if (user === true) {
+            var username;
+            username = document.getElementById("page_message").getAttribute("data-username");
+            if (username === null || username === "") {
+                window.alert("tiv.js at requestImageFromDB null username");
+            }
+            xhr.send('user=' + username + '&number=' + num);
+        } else {
+            xhr.send('number=' + num);
+        }
     }
 
     function displayImage(elem) {
@@ -145,8 +150,8 @@ var TIV3166 = function () {
 
     return {
         //read all images from db
-        loadImages: function (num, elem) {
-            requestImageID(num, elem);
+        loadImages: function (num, elem, user) {
+            requestImageID(num, elem, user);
         },
         //return all the elements from the array
         getLoadedImages: function () {
