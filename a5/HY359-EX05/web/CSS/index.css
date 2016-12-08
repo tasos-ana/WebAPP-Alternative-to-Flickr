@@ -43,7 +43,6 @@ body{
 /* Load animation */
 /* The Modal (background) */
 .loadingModal {
-
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
@@ -57,20 +56,14 @@ body{
 }
 
 #myLoader{
-    margin-left: 48%;
-    border: 8px solid #ffb62f;
-    border-top: 8px solid #333333;
-    border-bottom: 8px solid #333333;
-    border-radius: 50%;
+    position: absolute;
+    left: 46%;
+    top: 40%;
+    z-index: 1;
     width: 60px;
     height: 60px;
-    animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
 .animated_container{
     -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
@@ -341,11 +334,34 @@ img.tile:hover + div.text{ opacity: 0.8;}
 }
 
 .carousel-inner > .item > img,
-    .carousel-inner > .item > a > img {
+.carousel-inner > .item > a > img {
     width: 70%;
     margin: auto;
 }
 
 .carousel_img{
     cursor: pointer;
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+.make_hide{
+    display: none;
 }

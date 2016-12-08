@@ -17,3 +17,13 @@ function refreshPhoto(elem, user) {
     TIV3166.resetImage();
     getLatestImages(num.value, elem, user);
 }
+
+function uploadSucced() {
+    document.getElementById("upload_alert").removeAttribute("hidden");
+    document.getElementById("upload_alert").addEventListener("mouseover", (function () {
+        return setTimeout(function () {
+            document.getElementById("upload_alert").setAttribute("hidden", "true");
+        }, 5000);
+    })());
+
+}

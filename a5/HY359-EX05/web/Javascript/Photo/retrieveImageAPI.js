@@ -105,7 +105,7 @@ var TIV3166 = function () {
                             addCarouselCode(index, author, imgName);
                         }
                         if (loadedImages.remaining === 0) {
-                            document.getElementById("loadingModal").style.display = "none";
+                            pageReady();
                         }
                     } else {
                         document.getElementById("main_container").innerHTML = xhr.responseText;
@@ -163,7 +163,7 @@ var TIV3166 = function () {
     function displayImage(elem, user) {
         var index, id, xhr, arr;
         arr = loadedImages.id;
-        document.getElementById("loadingModal").style.display = "block";
+        pagePrepare();
         for (index = 0; index < arr.length; ++index) {
             id = arr[index];
             xhr = new XMLHttpRequest();

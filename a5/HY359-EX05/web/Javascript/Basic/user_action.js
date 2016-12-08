@@ -89,7 +89,6 @@ function succeed_login_action() {
 
     activeNavButton("home_but");
     renderPage();
-    getLatestImages(10, 'list', true);
 }
 
 function logout_action() {
@@ -201,4 +200,15 @@ function enterPress(elem, event) {
 
 function closeImgModal() {
     document.getElementById('imgModal').style.display = "none";
+}
+
+function pageReady(){
+    document.getElementById("loadingModal").style.display = "none";
+    document.getElementById("main_container").style.display = "block";
+}
+
+function pagePrepare(){
+    document.getElementById("loadingModal").style.display = "block";
+    document.getElementById("main_container").style.display = "none";
+
 }

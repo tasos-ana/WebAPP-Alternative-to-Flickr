@@ -61,7 +61,7 @@ var uploadImageAPI = function () {
         userName = getUsername();
 
         if (userName === null || userName === "") {
-            document.getElementById("loadingModal").style.display = "none";
+            pageReady();
             window.alert("Image upload failed. Undefined username");
         }
 
@@ -92,7 +92,7 @@ var uploadImageAPI = function () {
                     window.alert("Request failed. Returned status of " + xhr.status);
                 }
                 if (index === loadedImages.array.length - 1) {
-                    document.getElementById("loadingModal").style.display = "none";
+                    pageReady();
                 }
             };
         })(index);
@@ -108,9 +108,11 @@ var uploadImageAPI = function () {
         upload_but.style.cursor = "default";//set pointer cursor
     }
 
-    function imageExist() {
+    function imageExist(text) {
+        var elem = document.getElementById("unloaded");
         if (loadedImages.array.length === 0) {
-            document.getElementById("unloaded").style.display = 'block';//if the array is empty will saw msg
+            elem.style.display = 'block';//if the array is empty will saw msg
+            elem.innerText = text;
             return 0;
         } else {
             document.getElementById("unloaded").style.display = 'none';//hide msg if that array isnt empty
@@ -162,7 +164,8 @@ var uploadImageAPI = function () {
         //drawing images inside on elem that user give
         previewImage: function (elem) {
             var i, display;
-            if (!imageExist())
+            if (!imageExist("There is not image to preview"))
+                document.getElementById("images").click();
                 return;
             for (i = loadedImages.index; i < loadedImages.array.length; i += 1) {//if the i was on loadedImage
                 addHtmlCode(elem, i);//add an html code for img
@@ -172,10 +175,14 @@ var uploadImageAPI = function () {
             display.style.cursor = "default";//set cursor from pointer to default
         },
         uploadImage: function () {
-            if (!imageExist())
+            if (!imageExist("Choose image file before upload"))
+                document.getElementById("images").click();
                 return;
-            document.getElementById("loadingModal").style.display = "block";
+            pagePrepare();
             uploadImage();
+        },
+        getTotal: function (){
+            return images2Upload.total;
         }
     };
 }();
