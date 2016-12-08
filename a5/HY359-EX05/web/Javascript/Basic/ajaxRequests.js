@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-/* global validationAPI */
+/* global validationAPI, formValid */
 
-function getUsername(){
+function getUsername() {
     return document.getElementById("page_message").getAttribute("data-username");
 }
 
@@ -39,7 +39,7 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 if (username !== null) {
                     document.getElementById("page_message").innerHTML = username;
-                    document.getElementById("page_message").setAttribute("data-username",username.split(" ")[1]);
+                    document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
                 } else {
                     document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
                 }
@@ -102,13 +102,30 @@ function ajaxRegisterRequest() {
         document.getElementById("loadingModal").style.display = "none";
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") !== null) {
-                window.alert(xhr.getResponseHeader("error"));
-                return;
+                //TODO CHECK return error
+//                var err, msg, tag;
+//                err = xhr.getAllResponseHeader("error");
+//                err = err.split(":");
+//                msg = err[1];
+//                tag = err[0];
+//                if (tag === "username") {
+//                    document.getElementById("usrID_err").innerHTML = msg;
+//                    document.getElementById("usrID_err").style.color = "red";
+//                    formValid.idValid(false);
+//                    document.getElementById("usrID").focus();
+//                } else {
+//                    document.getElementById("usrEMAIL_err").innerHTML = msg;
+//                    document.getElementById("usrEMAIL_err").style.color = "red";
+//                    formValid.emailValid(false);
+//                    document.getElementById("usrEMAIL").focus();
+//                }
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                setTimeout(function () {
+                    window.location.reload(true);
+                }, 5000);
             }
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            setTimeout(function () {
-                window.location.reload(true);
-            }, 5000);
+
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -203,7 +220,7 @@ function ajaxLogoutRequest() {
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById("main_container").innerHTML = xhr.responseText;
-            getLatestImages(10,'list',false);
+            getLatestImages(10, 'list', false);
             logout_action();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
