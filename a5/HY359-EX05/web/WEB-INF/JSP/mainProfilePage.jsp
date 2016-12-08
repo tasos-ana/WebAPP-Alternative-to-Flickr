@@ -8,6 +8,31 @@
 <!--Image container-->
 <div class="animated_container">
     <h2 class="text-center">Welcome on Tiled Image Viewer</h2>
+    <div class="container">
+        <form>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <h5 class="col-sm-4">
+                    Select the maximum photos that you want to preview:</h5>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <select class="select_max_number" id="select_max_display_no">
+                        <option>1</option>
+                        <option>5</option>
+                        <option selected="">10</option>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                    <button type="button" class="btn_style" onclick="refreshPhoto('list', true)">Refresh</button>    
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </form>
+    </div><br>
     <div id="tiles_container" class="text-center">
         <div  id="main">
             <span id="list"></span>

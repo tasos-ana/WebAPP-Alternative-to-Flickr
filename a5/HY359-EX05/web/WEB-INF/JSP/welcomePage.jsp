@@ -26,6 +26,26 @@
     <h4> Join the Tiv community, home to <%= totalPhoto%> photos, 
         <br><%= totalMember%> people, and 0 groups. </h4><br>
 
-    <button type="button" onclick="requestRegisterPage()" 
-            class="btn btn-default btn_style">Register Now</button>
+    <button type="button" class="btn btn-default btn_style"  
+            onclick="requestRegisterPage();">
+        Register Now
+    </button><br/>
+    <div id="tiles_container" class="text-center">
+        <div  id="main">
+            <span id="list"></span>
+        </div>
+        <!-- The image Modal -->
+        <div id="imgModal" class="imgModal container">
+            <span class="imgClose" onclick="closeImgModal();">×</span>
+            <img class="imgModal-content" id="imgModal_img">
+            <div id="imgCaption"></div>
+            <div class="row">
+                <div class="col-sm-6" id="imgMap-container">
+                    <div id="imgMap"></div>
+                </div>
+                <div class="col-sm-1"></div>
+                <pre class="col-sm-5" id="imgMETA"></pre>
+            </div>
+        </div>    
+    </div>
 </div>
