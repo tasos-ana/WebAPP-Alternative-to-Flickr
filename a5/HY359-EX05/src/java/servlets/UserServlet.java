@@ -1,7 +1,6 @@
-// TODO bale munima sta assert
 // TODO refresh cookie age se kathe request
 // TODO filter for XSS
-// TODO make more strict missing or malformed data checks
+// TODO organize packages
 package servlets;
 
 import cs359db.db.UserDB;
@@ -31,237 +30,9 @@ public class UserServlet extends HttpServlet {
 
     private HashMap<Integer, String> servletCookies;
 
-    private int addCookie(String username) {
-        int value = rand.nextInt();
-
-        while (servletCookies.containsKey(value)) {
-            value = rand.nextInt();
-        }
-        servletCookies.put(value, username);
-        return value;
-    }
-
-    private void removeCookie(String cookie) {
-        if (cookie == null) {
-            return;
-        }
-        int key;
-        key = Integer.parseInt(cookie);
-        if (servletCookies.containsKey(key)) {
-            servletCookies.remove(key);
-        }
-    }
-
-    private String getCookieValue(String cookie) {
-        if (cookie == null) {
-            return null;
-        }
-        int key;
-        key = Integer.parseInt(cookie);
-        if (servletCookies.containsKey(key)) {
-            return servletCookies.get(key);
-        }
-        return null;
-    }
-
     @Override
     public void init() {
         this.servletCookies = new HashMap<>();
-    }
-
-    /**
-     * Takes the request, and what cookie value we want. if not found then we
-     * return the default value
-     */
-    private static String getRequestCookieValue(HttpServletRequest request,
-            String cookieName,
-            String defaultValue) {
-        Cookie[] cookies = request.getCookies();//get all the cookies from request
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {//for each cookie we check the name
-                if (cookieName.equals(cookie.getName())) {//if it's equal with the recommended
-                    return (cookie.getValue());//return the value
-                }
-            }
-        }
-        return defaultValue;
-    }
-
-    /*
-    Takes the request and what cookie we want to return
-     */
-    private static Cookie getRequestCookie(HttpServletRequest request,
-            String cookieName) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
-                    return cookie;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void forwardToPage(final HttpServletRequest request,
-            final HttpServletResponse response,
-            String url)
-            throws IOException, ServletException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
-    }
-
-    private void loginAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        String username = request.getParameter("username");//getting the username from request that client send
-        String pw = request.getParameter("password");//password too
-        if (username == null && pw == null) {//try to check if we have cookie for user
-            username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
-            if (username == null) {//we don't have cookie we must return welcome page
-                response.setHeader("error", "");//return error
-                ServletContext context = getServletContext();
-                context.setAttribute("data", UserDB.getUsers());
-                forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
-                return;
-            }
-            response.setHeader("id", "Hello, " + username);
-            ServletContext context = getServletContext();
-            context.setAttribute("data", UserDB.getUser(username));
-            forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
-            return;
-        }
-        //we found username from user login request
-        if (!UserDB.checkValidUserName(username)) {
-            User in;
-            in = UserDB.getUser(username);//getting the info about user
-            if (in.getPassword().compareTo(pw) != 0) {//if the password didnt matched
-                response.setHeader("error", "Username and password isn't matched!");//return error
-                return;
-            }
-            //Username match with password
-            response.setHeader("id", "Hello, " + username);
-            Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies ,TODO rename addCookie
-            usrCookie.setMaxAge(3600);
-            response.addCookie(usrCookie);
-            //return the user main page
-            ServletContext context = getServletContext();
-            context.setAttribute("data", UserDB.getUser(username));
-            forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
-        } else {
-            response.setHeader("error", "User not exist!");//return error
-        }
-    }
-
-    private void registerAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        //get from post all the data
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String fname = request.getParameter("fname");
-        String lname = request.getParameter("lname");
-        String birthday = request.getParameter("birthday");
-        String sex = request.getParameter("sex");
-        String country = request.getParameter("country");
-        String town = request.getParameter("town");
-        String extra = request.getParameter("extra");
-
-        if (username == null || password == null || email == null || fname == null || lname == null
-                || birthday == null || sex == null || country == null || town == null || extra == null) {
-            assert (false);
-            return;
-        }
-
-        // TODO validate username, email (maybe sync?)
-        //creating new info for the user
-        User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
-        //add him on servlet "database"
-        UserDB.addUser(new_user);
-
-        response.setHeader("id", "Welcome, " + username);
-        Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
-        usrCookie.setMaxAge(3600);
-        response.addCookie(usrCookie);
-        response.setHeader("servlet", "<h2 class=\"text-center\">Registration Completete.</h2>"
-                + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>"); // TODO setAttribute sto context
-        ServletContext context = getServletContext();
-        context.setAttribute("data", UserDB.getUser(username));
-        forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
-    }
-
-    // TODO na parw tin periptwsh na exei ginei expire to cookie
-    private void profileAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        String username;
-        username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
-        ServletContext context = getServletContext();
-        context.setAttribute("data", UserDB.getUser(username));
-        forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
-    }
-
-    private void memberAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        ServletContext context = getServletContext();
-        context.setAttribute("data", UserDB.getUsers());
-        forwardToPage(request, response, "/WEB-INF/JSP/memberPage.jsp");
-    }
-
-    private void checkAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        String username = request.getParameter("username");//getting username
-        String email = request.getParameter("email");//and email
-        if (username != null && !UserDB.checkValidUserName(username)) {//if client send username the check if not exist
-            response.setHeader("error", "Username Already Exist");//send error message
-        } else {
-            if (email != null && !UserDB.checkValidEmail(email)) {//same with email
-                response.setHeader("error", "Email Already Exist");
-            } else {
-                assert (false);
-            }
-        }
-    }
-
-    // TODO na parw tin periptwsh na exei ginei expire to cookie
-    private void profileSettingsAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        String username;
-        User userData;
-        username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
-        userData = UserDB.getUser(username);//and the info for that member
-        ServletContext context = getServletContext();
-        context.setAttribute("data", userData);
-        response.setHeader("usrCOUNTRY_val", userData.getCountry());
-        forwardToPage(request, response, "/WEB-INF/JSP/settingsPage.jsp");
-    }
-
-    private void changeAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String fname = request.getParameter("fname");
-        String lname = request.getParameter("lname");
-        String birthday = request.getParameter("birthday");
-        String sex = request.getParameter("sex");
-        String country = request.getParameter("country");
-        String town = request.getParameter("town");
-        String extra = request.getParameter("extra");
-
-        User newData = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
-        UserDB.updateUser(newData);
-    }
-
-    // TODO na parw tin periptwsh na exei ginei expire to cookie
-    private void logoutAction(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, ClassNotFoundException {
-        removeCookie(getRequestCookieValue(request, "tivUserServlet", null));
-        Cookie nwCookie;
-        nwCookie = getRequestCookie(request, "tivUserServlet");
-        nwCookie.setMaxAge(0);
-        response.addCookie(nwCookie);
-        ServletContext context = getServletContext();
-        context.setAttribute("data", UserDB.getUsers());
-        forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
     }
 
     /**
@@ -276,6 +47,7 @@ public class UserServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
+
         response.setContentType("text/html;charset=UTF-8");
 
         String action = request.getHeader("action");//read from header the value of the action header
@@ -305,7 +77,304 @@ public class UserServlet extends HttpServlet {
                 logoutAction(request, response);
                 break;
             default:
+                response.setHeader("fail", "Missing Parameters");
         }
+    }
+
+    private int addCookie(String username) {
+        int value = rand.nextInt();
+
+        while (servletCookies.containsKey(value)) {
+            value = rand.nextInt();
+        }
+        servletCookies.put(value, username);
+        return value;
+    }
+
+    private void removeCookie(String cookie) {
+        if (cookie == null) {
+            return;
+        }
+
+        int key = Integer.parseInt(cookie);
+        servletCookies.remove(key);
+    }
+
+    private String getCookieValue(String cookie) {
+        if (cookie == null) {
+            return null;
+        }
+
+        int key = Integer.parseInt(cookie);
+
+        return servletCookies.get(key);
+    }
+
+    /**
+     * Takes the request, and what cookie value we want. if not found then we
+     * return the default value
+     */
+    private static String getRequestCookieValue(HttpServletRequest request,
+            String cookieName,
+            String defaultValue) {
+
+        Cookie[] cookies = request.getCookies();//get all the cookies from request
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {//for each cookie we check the name
+                if (cookieName.equals(cookie.getName())) {//if it's equal with the recommended
+                    return (cookie.getValue());//return the value
+                }
+            }
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Takes the request and what cookie we want to return
+     */
+    private static Cookie getRequestCookie(HttpServletRequest request,
+            String cookieName) {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void forwardToPage(final HttpServletRequest request,
+            final HttpServletResponse response,
+            String url)
+            throws IOException, ServletException {
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+    }
+
+    private void loginAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        String username = request.getParameter("username");//getting the username from request that client send
+        String pw = request.getParameter("password");//password too
+        if (username == null && pw == null) {
+            // try to check if we have cookie for user
+            username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
+            if (username == null) {//we don't have cookie we must return welcome page
+                response.setHeader("error", "");//return error
+
+                ServletContext context = getServletContext();
+                context.setAttribute("data", UserDB.getUsers());
+                forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
+            } else {
+                response.setHeader("id", "Hello, " + username);
+                ServletContext context = getServletContext();
+                context.setAttribute("data", UserDB.getUser(username));
+                forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+            }
+        } else {
+            //we found username from user login request
+            if (!UserDB.checkValidUserName(username)) {
+                User in;
+                in = UserDB.getUser(username);//getting the info about user
+
+                if (in.getPassword().compareTo(pw) != 0) {//if the password didn't matched
+                    response.setHeader("error", "Username and password isn't matched!");//return error
+                } else {
+                    //Username match with password
+                    response.setHeader("id", "Hello, " + username);
+                    Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies ,TODO rename addCookie
+                    usrCookie.setMaxAge(3600);
+                    response.addCookie(usrCookie);
+                    //return the user main page
+                    ServletContext context = getServletContext();
+                    context.setAttribute("data", UserDB.getUser(username));
+                    forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+                }
+            } else {
+                response.setHeader("error", "User not exist!");//return error
+            }
+        }
+    }
+
+    private void registerAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        //get from post all the data
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String birthday = request.getParameter("birthday");
+        String sex = request.getParameter("sex");
+        String country = request.getParameter("country");
+        String town = request.getParameter("town");
+        String extra = request.getParameter("extra");
+
+        if (missing(username)
+                || missing(password)
+                || missing(email)
+                || missing(fname)
+                || missing(lname)
+                || missing(birthday)
+                || missing(sex)
+                || missing(country)
+                || missing(town)
+                || missing(extra)) {
+
+            response.setHeader("fail", "Missing Parameters");
+        } else {
+            // TODO (maybe sync?) because a user might register after validation
+            if (!UserDB.checkValidUserName(username)) {
+                response.setHeader("error", "username:Username Already Exist");
+            } else if (!UserDB.checkValidEmail(email)) {
+                response.setHeader("error", "email:Email Already Exist");
+            } else {
+                //creating new info for the user
+                User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
+                //add him on servlet "database"
+                UserDB.addUser(new_user);
+
+                response.setHeader("id", "Welcome, " + username);
+                Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
+                usrCookie.setMaxAge(3600);
+                response.addCookie(usrCookie);
+                response.setHeader("servlet", "<h2 class=\"text-center\">Registration Completete.</h2>"
+                        + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>"); // TODO setAttribute sto context
+                ServletContext context = getServletContext();
+                context.setAttribute("data", UserDB.getUser(username));
+                forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
+            }
+        }
+    }
+
+    private void profileAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        String username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+
+        if (username == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
+        } else {
+            ServletContext context = getServletContext();
+            context.setAttribute("data", UserDB.getUser(username));
+            forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
+        }
+    }
+
+    private void memberAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+        if (userCookie == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
+        } else {
+            ServletContext context = getServletContext();
+            context.setAttribute("data", UserDB.getUsers());
+            forwardToPage(request, response, "/WEB-INF/JSP/memberPage.jsp");
+        }
+    }
+
+    private void checkAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        String username = request.getParameter("username"); // getting username
+        String email = request.getParameter("email"); // and email
+
+        if (!missing(username)) { // if client send username
+            if (!missing(email)) { // send username and email
+                response.setHeader("fail", "Too many Parameters");
+            } else if (!UserDB.checkValidUserName(username)) {
+                response.setHeader("error", "Username Already Exist");//send error message
+            }
+        } else {
+            if (!missing(email)) { // same with email
+                if (!UserDB.checkValidEmail(email)) {
+                    response.setHeader("error", "Email Already Exist");
+                }
+            } else {
+                response.setHeader("fail", "Missing Parameters");
+            }
+        }
+    }
+
+    private void profileSettingsAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        String username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        if (username == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
+        } else {
+            User userData = UserDB.getUser(username);//and the info for that member
+            ServletContext context = getServletContext();
+            context.setAttribute("data", userData);
+            response.setHeader("usrCOUNTRY_val", userData.getCountry());
+            forwardToPage(request, response, "/WEB-INF/JSP/settingsPage.jsp");
+        }
+    }
+
+    private void changeAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String birthday = request.getParameter("birthday");
+        String sex = request.getParameter("sex");
+        String country = request.getParameter("country");
+        String town = request.getParameter("town");
+        String extra = request.getParameter("extra");
+
+        if (missing(username)
+                || missing(password)
+                || missing(email)
+                || missing(fname)
+                || missing(lname)
+                || missing(birthday)
+                || missing(sex)
+                || missing(country)
+                || missing(town)
+                || missing(extra)) {
+
+            response.setHeader("fail", "Missing Parameters");
+        } else {
+            String cookieVal = getRequestCookieValue(request, "tivUserServlet", null);
+            if (cookieVal == null) { // cookie has expired
+                response.setHeader("fail", "Missing Cookie");
+            } else {
+                User newData = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
+                UserDB.updateUser(newData);
+            }
+        }
+    }
+
+    private void logoutAction(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, ClassNotFoundException {
+
+        Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+        if (userCookie == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
+        } else {
+            userCookie.setValue(userCookie.getValue());
+            userCookie.setMaxAge(0);
+            response.addCookie(userCookie);
+
+            removeCookie(userCookie.getValue()); // from servlet cookies
+
+            ServletContext context = getServletContext();
+            context.setAttribute("data", UserDB.getUsers());
+            forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
+        }
+    }
+
+    private boolean missing(String param) {
+        return param == null || param.trim().isEmpty();
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

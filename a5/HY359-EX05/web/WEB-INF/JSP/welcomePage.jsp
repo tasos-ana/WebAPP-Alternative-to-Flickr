@@ -7,6 +7,8 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    // TODO get totalPhoto doing getPhotoIDs with LIMIT=18446744073709551615(max mySQL BIGINT)
+    // and counting returned ids
     ServletContext context = getServletContext();
     List member;
     assert (context.getAttribute("data") instanceof List);
@@ -29,7 +31,7 @@
     <button type="button" class="btn btn-default btn_style"  
             onclick="requestRegisterPage();">
         Register Now
-    </button><br/>
+    </button><br/><br/>
     <div id="tiles_container" class="text-center">
         <div  id="main">
             <span id="list"></span>
