@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tasos Anastasas, Giakoumis Giwrgos
  */
-@WebServlet(name = "requestPage", urlPatterns = {"/requestPage"})
+@WebServlet(name = "requestPage", urlPatterns = {"/requestPage"}) // TODO rename se RequestPage
 public class requestPageServlet extends HttpServlet {
 
     public void forwardToPage(final HttpServletRequest request,
