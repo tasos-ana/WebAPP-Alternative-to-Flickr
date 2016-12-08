@@ -53,9 +53,8 @@ public class UploadImage extends HttpServlet {
             } else {
                 response.setHeader("id", "" + photoId);
             }
-            System.out.println("servlets.UploadImage.doPost() --> " + photoId);
         } catch (Exception ex) {
-
+            System.out.println("servlets.UploadImage.doPost(): " + ex.getMessage());
         }
     }
 }

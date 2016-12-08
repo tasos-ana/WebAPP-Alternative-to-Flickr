@@ -29,11 +29,11 @@ public class GetImage extends HttpServlet {
                 Photo photo = PhotosDB.getPhotoMetadataWithID(photoId);
                 if (photo != null) {
                     try (PrintWriter out = response.getWriter()) { // construct JSON object
-                        out.append("{'username':").append(photo.getUserName());
-                        out.append(",'title':").append(photo.getTitle());
-                        out.append(",'date':").append(photo.getDate());
-                        out.append(",'contentType':").append(photo.getContentType());
-                        out.append(",'numberOfRatings':").append("" + photo.getNumberOfRatings());
+                        out.append("{\"username\":\"").append(photo.getUserName()).append("\"");
+                        out.append(",\"title\":\"").append(photo.getTitle()).append("\"");
+                        out.append(",\"date\":\"").append(photo.getDate()).append("\"");
+                        out.append(",\"contentType\":\"").append(photo.getContentType()).append("\"");
+                        out.append(",\"numberOfRatings\":\"").append("" + photo.getNumberOfRatings()).append("\"");
                         out.append("}");
                     }
                 } else {
@@ -42,7 +42,7 @@ public class GetImage extends HttpServlet {
             } else {
                 byte[] blob = PhotosDB.getPhotoBlobWithID(photoId);
                 if (blob != null) {
-                    response.setContentType("image/jpeg"); // TODO change
+                    response.setContentType("image/*");
                     try (ServletOutputStream out = response.getOutputStream()) {
                         out.write(blob);
                         out.flush();
