@@ -103,6 +103,7 @@ function ajaxRegisterRequest() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") !== null) {
                 //TODO CHECK return error
+                //TODO check for cookie expired (missing cookie se header me error key)
 //                var err, msg, tag;
 //                err = xhr.getAllResponseHeader("error");
 //                err = err.split(":");
@@ -113,12 +114,14 @@ function ajaxRegisterRequest() {
 //                    document.getElementById("usrID_err").style.color = "red";
 //                    formValid.idValid(false);
 //                    document.getElementById("usrID").focus();
-//                } else {
+//                } else if (tag === "email") {
 //                    document.getElementById("usrEMAIL_err").innerHTML = msg;
 //                    document.getElementById("usrEMAIL_err").style.color = "red";
 //                    formValid.emailValid(false);
 //                    document.getElementById("usrEMAIL").focus();
-//                }
+//                }else{
+//                   window.alert("kako");
+//                 }
             } else {
                 document.getElementById("main_container").innerHTML = xhr.responseText;
                 setTimeout(function () {
