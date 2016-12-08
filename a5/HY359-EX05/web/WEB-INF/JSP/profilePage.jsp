@@ -8,18 +8,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
-    User user;
 
-    assert (context.getAttribute("data") instanceof User);
-    user = (User) context.getAttribute("data");
+    if (context.getAttribute("data") instanceof User) {
+        User user = (User) context.getAttribute("data");
 
-    String firstPrint;
-    firstPrint = response.getHeader("servlet");
-    if (firstPrint != null) {
+        String firstPrint = (String) context.getAttribute("header");
+        if (firstPrint != null) {
 %>
-<%= firstPrint%>
-<%    }
-%>
+<%=         firstPrint%>
+<%      }%>
 <div class="animated_container container">
     <table class="table">
         <tbody>
@@ -72,3 +69,7 @@
         </tbody>
     </table>
 </div>
+<%  } else {
+        System.out.println("attribute \"data\" should contain a 'User' object");
+    }
+%>

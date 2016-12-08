@@ -243,10 +243,11 @@ public class UserServlet extends HttpServlet {
                 Cookie usrCookie = new Cookie("tivUserServlet", "" + addCookie(username));//create and set cookies
                 usrCookie.setMaxAge(3600);
                 response.addCookie(usrCookie);
-                response.setHeader("servlet", "<h2 class=\"text-center\">Registration Completete.</h2>"
-                        + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>"); // TODO setAttribute sto context
+
                 ServletContext context = getServletContext();
                 context.setAttribute("data", UserDB.getUser(username));
+                context.setAttribute("header", "<h2 class=\"text-center\">Registration Completete.</h2>"
+                        + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>");
                 forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
             }
         }
@@ -310,6 +311,7 @@ public class UserServlet extends HttpServlet {
             response.setHeader("fail", "Missing Cookie");
         } else {
             User userData = UserDB.getUser(username);//and the info for that member
+
             ServletContext context = getServletContext();
             context.setAttribute("data", userData);
             response.setHeader("usrCOUNTRY_val", userData.getCountry());
@@ -350,6 +352,11 @@ public class UserServlet extends HttpServlet {
             } else {
                 User newData = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
                 UserDB.updateUser(newData);
+
+                ServletContext context = getServletContext();
+                context.setAttribute("data", newData);
+                context.setAttribute("header", "<h2 class=\"text-center\">Profile changes applied</h2>");
+                forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
             }
         }
     }
