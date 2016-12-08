@@ -1,6 +1,7 @@
 // TODO refresh cookie age se kathe request
 // TODO filter for XSS
 // TODO organize packages
+// TODO get action from parameter kai oxi from header
 package servlets;
 
 import cs359db.db.UserDB;
