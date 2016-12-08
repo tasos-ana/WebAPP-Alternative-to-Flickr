@@ -5,34 +5,78 @@ var TIV3166 = function () {
     //on Index keep the index of last img that drawed
     var loadedImages = {
         array: [],
-        id: []
+        id: [],
+        remaining: 0
     };
 
     //Create an object IMG and give to him src,name and add a call function on click
     //Also push the object on array
-    function addImg(src, name, index) {
+    function addImg(src, index) {
         var func, img;
         func = ['TIV3166.showImage(\'', index, '\',\'imgModal\')'].join('');//Create the function that needed to call on click
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
         img.setAttribute("onclick", func);//Set the function on object img
-        img.title = name;
         loadedImages.array[index] = img;//add img on array
     }
 
     //Getting one index from loadImage, an element and draw it on elem
     //Also increase the index
-    function addHtmlCode(elem, index) {
-        var tileDiv, textDive;
+    function addHtmlCode(elem, index, author, imgName, imgRate) {
+        var tileDiv, textDiv, imgNameDiv, imgRateDiv;
         tileDiv = document.createElement('div');//Create a div and with class name tile
+        textDiv = document.createElement('div');//Create another div for img text
+        imgNameDiv = document.createElement('div');
+        imgRateDiv = document.createElement('div');
+
         tileDiv.className = "tile";
+        textDiv.className = "text";
+        imgNameDiv.className = "tivImgName";
+        imgRateDiv.className = "tivImgRate";
+
+        loadedImages.array[index].title = imgName;
+        imgNameDiv.innerHTML = imgName + "<br>" + "by " + author;
+        imgRateDiv.innerHTML = "\&\#9734;" + imgRate;
+
         tileDiv.appendChild(loadedImages.array[index]);//Add on div the img on 'index' from loadedImages
-        textDive = document.createElement('div');//Create another div for img text
-        textDive.className = "text";
-        textDive.innerHTML = loadedImages.array[index].title.toString();//Get the img name from img on index
-        tileDiv.insertBefore(textDive, null);//Insert the text on first div-'tile'
+        textDiv.appendChild(imgNameDiv);
+        textDiv.appendChild(imgRateDiv);
+
+        tileDiv.insertBefore(textDiv, null);//Insert the text on first div-'tile'
         document.getElementById(elem).insertBefore(tileDiv, null);//insert the div on elem that we want
+    }
+
+    function getImageMeta(elem, index) {
+        var xhr, id;
+        id = loadedImages.id[index];
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', 'GetImage');
+        xhr.onload = (function (index, elem) {
+            return function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (xhr.getResponseHeader("error") === null) {
+                        var author, imgName, imgRate, meta;
+                        meta = JSON.parse(xhr.responseText);
+                        author = meta.META[0].username;
+                        imgName = meta.META[0].title;
+                        imgRate = meta.META[0].numberOfRatings;
+                        addHtmlCode(elem, index, author, imgName, imgRate);
+                        loadedImages.remaining--;
+                        if (loadedImages.remaining === 0) {
+                            document.getElementById("loadingModal").style.display = "none";
+                            document.getElementById("list").style.display = "";
+                        }
+                    } else {
+                        document.getElementById("main_container").innerHTML = xhr.responseText;
+                    }
+                } else if (xhr.status !== 200) {
+                    window.alert("Request failed. Returned status of " + xhr.status);
+                }
+            };
+        })(index, elem);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('image=' + id + '&metadata=true');
     }
 
     function requestImageID(num, elem) {
@@ -49,6 +93,8 @@ var TIV3166 = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.getResponseHeader("error") === null) {
                     loadedImages.id = JSON.parse(xhr.responseText);
+                    loadedImages.remaining = loadedImages.id.length;
+                    document.getElementById("list").style.display = "none";
                     TIV3166.showLoadedImages(elem);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
@@ -64,22 +110,23 @@ var TIV3166 = function () {
     function displayImage(elem) {
         var index, id, xhr, arr;
         arr = loadedImages.id;
+        document.getElementById("loadingModal").style.display = "block";
         for (index = 0; index < arr.length; ++index) {
             id = arr[index];
             xhr = new XMLHttpRequest();
             xhr.open('POST', 'GetImage');
             xhr.responseType = "blob";
-            xhr.onload = (function (index) {
+            xhr.onload = (function (index, xhr) {
                 return function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         if (xhr.getResponseHeader("error") === null) {
                             var r = new FileReader();
                             var b = xhr.response;
                             r.onload = (function (index) {
-                                return function () {
-                                    var imgData = r.result;
-                                    addImg(imgData, "title", index);
-                                    addHtmlCode(elem, index);
+                                return function (e) {
+                                    var imgData = e.target.result;
+                                    addImg(imgData, index);
+                                    getImageMeta(elem, index);
                                 };
                             })(index);
                             r.readAsDataURL(b);
@@ -88,10 +135,9 @@ var TIV3166 = function () {
                         }
                     } else if (xhr.status !== 200) {
                         window.alert("Request failed. Returned status of " + xhr.status);
-                        document.getElementById("main_container").innerHTML = xhr.responseText;
                     }
                 };
-            })(index);
+            })(index, xhr);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send('image=' + id + '&metadata=false');
         }

@@ -6,6 +6,10 @@
 
 /* global validationAPI */
 
+function getUsername(){
+    return document.getElementById("page_message").getAttribute("data-username");
+}
+
 function XSSValidator(name) {
     "use strict";
     var scriptStart, scriptStartEncoded, scriptEnd, scriptEndEncoded;
