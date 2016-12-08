@@ -6,20 +6,7 @@
 
 /* global TIV3166 */
 
-
-
-function getLatestUserImages() {
-    TIV3166.loadImages(5,'list');
-}
-
-function getLatestImages() {
-    
-}
-
-function getImageMeta() {
-
-}
-
-function getUserImage() {
-
+//user must be true or false
+function getLatestUserImages(imageNo, elem, user) {
+    TIV3166.loadImages(imageNo, elem, user);
 }
