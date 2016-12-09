@@ -1,48 +1,23 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *     Document      :ajaxRequest.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
  */
 
 /* global validationAPI, formValid */
-
-function getUsername() {
-    return document.getElementById("page_message").getAttribute("data-username");
-}
-
-function XSSValidator(name) {
-    "use strict";
-    var scriptStart, scriptStartEncoded, scriptEnd, scriptEndEncoded;
-    scriptStart = "<script>";
-    scriptStartEncoded = "&lt;script&gt;";
-
-    scriptEnd = "</script>";
-    scriptEndEncoded = "&lt;/script&gt;";
-    if (name.includes(scriptStart) && name.includes(scriptEnd)) {
-        name = name.replace(scriptStart, scriptStartEncoded);
-        name = name.replace(scriptEnd, scriptEndEncoded);
-    }
-
-    return name;
-}
 
 function ajaxLoginRequest() {
     "use strict";
     var username, pw, xhr;
 
     xhr = new XMLHttpRequest();
-
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") === null) {
                 var username = xhr.getResponseHeader("id");
-                if (username !== null) {
-                    document.getElementById("page_message").innerHTML = username;
-                    document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
-                } else {
-                    document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
-                }
+                setWelcomeMessage(username);
                 document.getElementById("main_container").innerHTML = xhr.responseText;
                 succeed_login_action();
                 getLatestImages(10, 'list', true);
@@ -57,7 +32,6 @@ function ajaxLoginRequest() {
                     getLatestImages(10, 'list', false);
                 }
             }
-
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -106,24 +80,8 @@ function ajaxRegisterRequest() {
                 document.getElementById("home_but").click();
             } else {
                 if (xhr.getResponseHeader("error") !== null) {
-                    var err, msg, tag;
-                    err = xhr.getAllResponseHeader("error");
-                    err = err.split(":");
-                    msg = err[1];
-                    tag = err[0];
-                    if (tag === "username") {
-                        document.getElementById("usrID_err").innerHTML = msg;
-                        document.getElementById("usrID_err").style.color = "red";
-                        formValid.idValid(false);
-                        document.getElementById("usrID").focus();
-                    } else if (tag === "email") {
-                        document.getElementById("usrEMAIL_err").innerHTML = msg;
-                        document.getElementById("usrEMAIL_err").style.color = "red";
-                        formValid.emailValid(false);
-                        document.getElementById("usrEMAIL").focus();
-                    } else {
-                        window.alert("kako");
-                    }
+                    var err = xhr.getAllResponseHeader("error");
+                    registerErrorCheck(err);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
                     setTimeout(function () {
@@ -138,10 +96,11 @@ function ajaxRegisterRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'register');
     pagePrepare();
-    xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
-            '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
-            '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
-
+    xhr.send('username=' + usrID.value + '&password=' + usrPW.value +
+            '&email=' + usrEmail.value + '&fname=' + usrFNAME.value +
+            '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
+            '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value +
+            '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
 
 function ajaxUserProfileRequest() {
@@ -156,17 +115,12 @@ function ajaxUserProfileRequest() {
                 document.getElementById("login_but").click();
             } else {
                 document.getElementById("main_container").innerHTML = xhr.responseText;
-                var val = xhr.getResponseHeader("usrCOUNTRY_val");//FIXME na ftiaksw function gia select
-
-                if (val !== null) {
-                    document.getElementById("usrCOUNTRY").value = val;
-                }
+                var val = xhr.getResponseHeader("usrCOUNTRY_val");
+                setValueOfSelect("usrCOUNTRY",val);
 
                 val = xhr.getResponseHeader("usrBDATE_val");
+                setValueOfSelect("usrBDATE_M",val);
 
-                if (val !== null) {
-                    document.getElementById("usrBDATE_M").value = val;
-                }
                 settings_action();
                 validationAPI.validateAll(false);
             }
@@ -211,7 +165,8 @@ function ajaxChangesRequest() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                profile_action();
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -247,4 +202,39 @@ function ajaxLogoutRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'logout');
     xhr.send();
+}
+
+function setWelcomeMessage(username) {
+    if (username !== null) {
+        document.getElementById("page_message").innerHTML = username;
+        document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
+    } else {
+        document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
+    }
+}
+
+function registerErrorCheck(err) {
+    var msg, tag;
+    err = err.split(":");
+    msg = err[1];
+    tag = err[0];
+    if (tag === "username") {
+        document.getElementById("usrID_err").innerHTML = msg;
+        document.getElementById("usrID_err").style.color = "red";
+        formValid.idValid(false);
+        document.getElementById("usrID").focus();
+    } else if (tag === "email") {
+        document.getElementById("usrEMAIL_err").innerHTML = msg;
+        document.getElementById("usrEMAIL_err").style.color = "red";
+        formValid.emailValid(false);
+        document.getElementById("usrEMAIL").focus();
+    } else {
+        window.alert("kako");
+    }
+}
+
+function setValueOfSelect(selector, val) {
+    if (val !== null) {
+        document.getElementById(selector).value = val;
+    }
 }
