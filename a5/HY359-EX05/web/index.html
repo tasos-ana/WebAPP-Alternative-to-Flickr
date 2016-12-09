@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+    Document      :index.html
+    Project       :HY359-EX05
+    Author        :Tasos198
+    Created on    :Dec 9, 2016
+-->
 <html lang="en">
     <head>
         <title>Tiled Image Viewer</title>
@@ -14,17 +20,18 @@
         <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css" type="text/css">
 
         <link href="CSS/index.css" rel="stylesheet" type="text/css"/>
+        <script src="Javascript/PageStateUtilities/ResourcesManaging/ajaxRequest.js" type="text/javascript"></script>
+        <script src="Javascript/PageStateUtilities/ResourcesManaging/pageRequest.js" type="text/javascript"></script>
+        <script src="Javascript/PageStateUtilities/StateManaging/pageAction.js" type="text/javascript"></script>
+        <script src="Javascript/PhotoUtilities/ResourcesManaging/retrieveImageAPI.js" type="text/javascript"></script>
+        <script src="Javascript/PhotoUtilities/ResourcesManaging/uploadImageAPI.js" type="text/javascript"></script>
+        <script src="Javascript/PhotoUtilities/StateManaging/photoAction.js" type="text/javascript"></script>
+        <script src="Javascript/Utility/exif.js" type="text/javascript"></script>
+        <script src="Javascript/Utility/util.js" type="text/javascript"></script>
+        <script src="Javascript/Validators/validationAPI.js" type="text/javascript"></script>
+        <script src="Javascript/Validators/xssValidation.js" type="text/javascript"></script>
         
-        <script src="Javascript/Photo/photo_action.js" type="text/javascript"></script>
-        <script src="Javascript/Photo/retrieveImageAPI.js" type="text/javascript"></script>
-        <script src="Javascript/Photo/uploadImageAPI.js" type="text/javascript"></script>
         
-        <script src="Javascript/Basic/user_action.js" type="text/javascript"></script>
-        <script src="Javascript/Basic/ajaxRequests.js" type="text/javascript"></script>
-        <script src="Javascript/Basic/pageRequests.js" type="text/javascript"></script>
-        <script src="Javascript/Basic/validationAPI.js" type="text/javascript"></script>
-        <!--TIV JS-->
-        <script src="Javascript/exif.js" type="text/javascript"></script>
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFiC91L0jX0B2ghBmSN1E6VKgHRmlDtGI&callback=initMap">
         </script>
@@ -33,7 +40,7 @@
         <!--Header-->
         <div id="header" class="container">
             <div class="page-header">
-                <img id="img_banner" class="img-responsive center-block" src="media/banner.png" alt="" title="Tiled Image Viewer"/>
+                <img id="img_header_banner" class="img-responsive center-block" src="media/banner.png" alt="" title="Tiled Image Viewer"/>
             </div>
         </div>
         <!--Nav bar-->
@@ -44,7 +51,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
                 <div class="navbar-header">
                     <div class="navbar-brand" id="page_message">Tiled Image Viewer</div>
                 </div>
@@ -68,6 +74,7 @@
         </nav>
         <!--Main container-->
         <div id="main_container" class="container text-center animate-bottom make_hide"></div>
+        
         <!-- The loading Modal -->
         <div id="loadingModal" class="loadingModal container">
             <div id="myLoader" class="tab-pane fade active in"><img src="media/loader.svg" alt=""></div>
