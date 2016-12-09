@@ -178,10 +178,10 @@ public class UserServlet extends HttpServlet {
                 ServletContext context = getServletContext();
                 context.setAttribute("data", UserDB.getUsers().size());
                 context.setAttribute("data2", PhotosDB.getPhotoIDs(2147483647).size()); // with bigger int value
-                forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
+                forwardToPage(request, response, "/WEB-INF/JSP/guestUserHomePage.jsp");
             } else {
                 response.setHeader("id", "Hello, " + username);
-                forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+                forwardToPage(request, response, "/WEB-INF/JSP/loggedUserHomePage.jsp");
             }
         } else {
             //we found username from user login request
@@ -200,7 +200,7 @@ public class UserServlet extends HttpServlet {
                     //return the user main page
                     ServletContext context = getServletContext();
                     context.setAttribute("data", UserDB.getUser(username));
-                    forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
+                    forwardToPage(request, response, "/WEB-INF/JSP/loggedUserHomePage.jsp");
                 }
             } else {
                 response.setHeader("error", "User not exist!");//return error
@@ -387,7 +387,7 @@ public class UserServlet extends HttpServlet {
             ServletContext context = getServletContext();
             context.setAttribute("data", UserDB.getUsers().size());
             context.setAttribute("data2", PhotosDB.getPhotoIDs(2147483647).size()); // with bigger int value
-            forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
+            forwardToPage(request, response, "/WEB-INF/JSP/guestUserHomePage.jsp");
         }
     }
 

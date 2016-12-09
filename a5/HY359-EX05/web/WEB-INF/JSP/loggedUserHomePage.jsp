@@ -1,5 +1,5 @@
 <%-- 
-    Document   : mainProfilePage
+    Document   : loggedUserHomePage
     Created on : Nov 25, 2016, 5:12:19 PM
     Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
