@@ -8,8 +8,6 @@
 <%@page import="cs359db.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    // TODO get totalPhoto doing getPhotoIDs with LIMIT=18446744073709551615(max mySQL BIGINT)
-    // and counting returned ids
     ServletContext context = getServletContext();
 
     int totalMember = (int) context.getAttribute("data");
