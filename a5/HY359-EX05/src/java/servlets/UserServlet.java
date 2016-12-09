@@ -177,8 +177,6 @@ public class UserServlet extends HttpServlet {
                 forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
             } else {
                 response.setHeader("id", "Hello, " + username);
-                ServletContext context = getServletContext();
-                context.setAttribute("data", UserDB.getUser(username));
                 forwardToPage(request, response, "/WEB-INF/JSP/mainProfilePage.jsp");
             }
         } else {

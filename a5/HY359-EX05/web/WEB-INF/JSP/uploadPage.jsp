@@ -33,7 +33,7 @@
         <h4 id="unloaded" class="text-center">No images loaded yet</h4>
     </div>
     <div id="upload_alert" class="alert alert-success" hidden>
-        <strong>Success!</strong> You upload <span id="totalUploadedImages"></span> images.
+        <strong>Success!</strong> You uploaded <span id="totalUploadedImages"></span> images.
     </div>
     <div id="tiles_container" class="text-center">
         <div  id="main">
