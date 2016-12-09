@@ -12,12 +12,12 @@
             <div class="form-group">
                 <div class="col-sm-4">
                     <input class="btn_style" id="images" type="file" webkitdirectory mozdirectory directory name="myFiles" 
-                           onchange="uploadImageAPI.loadImages();" multiple/>
+                           onchange="TIV3166.loadImagesFromFile();" multiple/>
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2">
                     <button type="button" id="loadImage" class="btn btn-default btn_style"
-                            onclick="uploadImageAPI.previewImage('list');">
+                            onclick="TIV3166.previewLoadedImagesFromFile('list');">
                         Preview Images
                     </button>
                 </div>
