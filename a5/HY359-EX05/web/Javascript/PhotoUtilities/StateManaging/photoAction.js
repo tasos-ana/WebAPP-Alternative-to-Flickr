@@ -8,13 +8,13 @@
 /* global TIV3166 */
 
 //user must be true or false
-function getLatestImages(imageNo, elem, user) {
-    TIV3166.loadImagesFromDB(imageNo, elem, user);
+function getLatestImages(imageNo, elem, user, fromMain) {
+    TIV3166.loadImagesFromDB(imageNo, elem, user, fromMain);
 }
 
 function refreshPhoto(elem, user) {
     var num;
     num = document.getElementById("select_max_display_no");
-    TIV3166.resetImage(user,elem);
-    getLatestImages(num.value, elem, user);
+    TIV3166.resetImage(user, elem);
+    getLatestImages(num.value, elem, user, false);
 }

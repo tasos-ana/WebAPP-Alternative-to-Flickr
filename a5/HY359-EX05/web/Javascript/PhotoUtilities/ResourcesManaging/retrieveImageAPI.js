@@ -22,11 +22,11 @@ var TIV3166 = function () {
 
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*retrieveImageAPI functions*/
-    function loadImagesFromDB_inner(num, elem, user) {
+    function loadImagesFromDB_inner(num, elem, user, fromMain) {
         if (!user) {
             TIV3166.resetImage(elem, user);
         }
-        requestImageID(num, elem, user);
+        requestImageID(num, elem, user, fromMain);
     }
 
     function loadImagesFromFile_inner() {
@@ -155,7 +155,7 @@ var TIV3166 = function () {
 
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*Utils Functions*/
-    function requestImageID(num, elem, user) {
+    function requestImageID(num, elem, user, fromMain) {
         "use strict";
         var xhr;
         xhr = new XMLHttpRequest();
@@ -167,7 +167,9 @@ var TIV3166 = function () {
                     loadedImages.remaining = loadedImages.id.length;
                     TIV3166.previewLoadedImagesFromDB(elem, user);
                 } else {
-                    document.getElementById("main_container").innerHTML = xhr.responseText;
+                    if (!fromMain) {
+                        document.getElementById("main_container").innerHTML = xhr.responseText;
+                    }
                     pageReady();
                 }
             } else if (xhr.status !== 200) {
@@ -371,8 +373,8 @@ var TIV3166 = function () {
     /*The actual api*/
     return {
         //read all images from db
-        loadImagesFromDB: function (num, elem, user) {
-            loadImagesFromDB_inner(num, elem, user);
+        loadImagesFromDB: function (num, elem, user, fromMain) {
+            loadImagesFromDB_inner(num, elem, user, fromMain);
         },
         loadImagesFromFile: function () {
             loadImagesFromFile_inner();

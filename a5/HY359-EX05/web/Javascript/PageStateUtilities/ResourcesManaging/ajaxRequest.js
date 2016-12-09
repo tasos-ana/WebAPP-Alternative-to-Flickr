@@ -5,7 +5,7 @@
  *     Created on    :Dec 9, 2016
  */
 
-/* global validationAPI, formValid */
+/* global validationAPI, formValid, TIV3166 */
 
 function ajaxLoginRequest() {
     "use strict";
@@ -19,7 +19,7 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 setWelcomeMessage(username);
                 document.getElementById("main_container").innerHTML = xhr.responseText;
-                getLatestImages(10, 'list', true);
+                getLatestImages(10, 'list', true, false);
                 succeed_login_action();
             } else {
                 renderPage();
@@ -29,7 +29,7 @@ function ajaxLoginRequest() {
                     pageReady();
                 } catch (err) {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
-                    getLatestImages(10, 'list', false);
+                    getLatestImages(10, 'list', false, true);
                 }
             }
         } else if (xhr.status !== 200) {
@@ -76,18 +76,14 @@ function ajaxRegisterRequest() {
     xhr.onload = function () {
         pageReady();
         if (xhr.readyState === 4 && xhr.status === 200) {
-            if (!cookieExist(xhr.getResponseHeader("fail"))) {//FIXME : na to kanw remove
-                document.getElementById("home_but").click();
+            if (xhr.getResponseHeader("error") !== null) {
+                var err = xhr.getAllResponseHeader("error");
+                registerErrorCheck(err);
             } else {
-                if (xhr.getResponseHeader("error") !== null) {
-                    var err = xhr.getAllResponseHeader("error");
-                    registerErrorCheck(err);
-                } else {
-                    document.getElementById("main_container").innerHTML = xhr.responseText;
-                    setTimeout(function () {
-                        window.location.reload(true);
-                    }, 5000);
-                }
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                setTimeout(function () {
+                    document.getElementById("login_but").click();
+                }, 5000);
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -95,7 +91,7 @@ function ajaxRegisterRequest() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'register');
-    pagePrepare();
+    document.getElementById("loadingModal").style.display = "block";
     xhr.send('username=' + usrID.value + '&password=' + usrPW.value +
             '&email=' + usrEmail.value + '&fname=' + usrFNAME.value +
             '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
@@ -116,10 +112,10 @@ function ajaxUserProfileRequest() {
             } else {
                 document.getElementById("main_container").innerHTML = xhr.responseText;
                 var val = xhr.getResponseHeader("usrCOUNTRY_val");
-                setValueOfSelect("usrCOUNTRY",val);
+                setValueOfSelect("usrCOUNTRY", val);
 
                 val = xhr.getResponseHeader("usrBDATE_val");
-                setValueOfSelect("usrBDATE_M",val);
+                setValueOfSelect("usrBDATE_M", val);
 
                 settings_action();
                 validationAPI.validateAll(false);
@@ -192,7 +188,7 @@ function ajaxLogoutRequest() {
                 document.getElementById("home_but").click();
             } else {
                 document.getElementById("main_container").innerHTML = xhr.responseText;
-                getLatestImages(10, 'list', false);
+                getLatestImages(10, 'list', false, false);
                 logout_action();
             }
         } else if (xhr.status !== 200) {
