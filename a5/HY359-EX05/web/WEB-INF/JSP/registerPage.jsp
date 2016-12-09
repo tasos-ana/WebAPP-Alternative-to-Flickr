@@ -99,7 +99,7 @@
                 <div class="col-sm-6">
                     <input type="radio" value="Male" name="usrSEX">Male 
                     <input type="radio" value="Female" name="usrSEX">Female
-                    <input type="radio" value="Unknown" name="usrSEX">Unknown
+                    <input type="radio" value="Unknown" name="usrSEX" checked>Unknown
                 </div>
             </div>
         </div>

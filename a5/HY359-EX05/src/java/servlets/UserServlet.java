@@ -227,8 +227,7 @@ public class UserServlet extends HttpServlet {
                 || missing(birthday)
                 || missing(sex)
                 || missing(country)
-                || missing(town)
-                || missing(extra)) {
+                || missing(town)) {
 
             response.setHeader("fail", "Missing Parameters");
         } else {
@@ -238,6 +237,9 @@ public class UserServlet extends HttpServlet {
             } else if (!UserDB.checkValidEmail(email)) {
                 response.setHeader("error", "email:Email Already Exist");
             } else {
+                if (extra == null) {
+                    extra = "";
+                }
                 //creating new info for the user
                 User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
                 //add him on servlet "database"
