@@ -11,8 +11,11 @@
 
     if (context.getAttribute("data") instanceof User) {
         User user = (User) context.getAttribute("data");
+        context.removeAttribute("data"); // clear after use
 
         String firstPrint = (String) context.getAttribute("header");
+        context.removeAttribute("header"); // clear after use
+
         if (firstPrint != null) {
 %>
 <%=         firstPrint%>
@@ -65,11 +68,11 @@
                 <td class="text-right"><b>Extra info:</b></td>
                 <td class="text-left">  <%= info%></td>
             </tr>
-            <% }%>
+            <%  } %>
         </tbody>
     </table>
 </div>
 <%  } else {
-        System.out.println("attribute \"data\" should contain a 'User' object");
+        System.out.println("profilePage.jsp: attribute \"data\" should contain a 'User' object");
     }
 %>

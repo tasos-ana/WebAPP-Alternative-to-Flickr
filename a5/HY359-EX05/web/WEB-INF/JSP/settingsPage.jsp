@@ -8,18 +8,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
-    User user;
-    assert (context.getAttribute("data") instanceof User);
-    user = (User) context.getAttribute("data");
-    String year, month, day;
-    String[] date;
 
-    date = (user.getBirthDate()).split("-");
-    year = date[0];
-    month = date[1];
-    day = date[2];
+    if (context.getAttribute("data") instanceof User) {
+        User user = (User) context.getAttribute("data");
+        context.removeAttribute("data");
 
-    response.setHeader("usrBDATE_val", month);
+        String[] date = (user.getBirthDate()).split("-");
+        String year = date[0];
+        String month = date[1];
+        String day = date[2];
+
+        response.setHeader("usrBDATE_val", month);
 %>
 <div class="animated_container">
     <h2 id="register_form_title" class="text-center">Profile Settings</h2>
@@ -412,3 +411,7 @@
         </div>
     </form>
 </div>
+<%  } else {
+        System.out.println("settingsPage.jsp: attribute \"data\" should contain a 'User' object");
+    }
+%>
