@@ -5,18 +5,18 @@
 --%>
 
 <%@page import="java.util.List"%>
+<%@page import="cs359db.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     // TODO get totalPhoto doing getPhotoIDs with LIMIT=18446744073709551615(max mySQL BIGINT)
     // and counting returned ids
     ServletContext context = getServletContext();
-    List member;
-    assert (context.getAttribute("data") instanceof List);
-    member = (List) context.getAttribute("data");
 
-    int totalMember, totalPhoto;
-    totalMember = member.size();
-    totalPhoto = 0;
+    if (context.getAttribute("data") instanceof List) {
+        List<User> member = (List<User>) context.getAttribute("data");
+
+        int totalMember = member.size();
+        int totalPhoto = 0;
 %>
 <div id="animated_container" class="animated_container">
     <h1 
@@ -64,3 +64,7 @@
         Register Now
     </button>    
 </div>
+<%  } else {
+        System.out.println("welcomePage.jsp: attribute \"data\" should contain a 'List' object");
+    }
+%>

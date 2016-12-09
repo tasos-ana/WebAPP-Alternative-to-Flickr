@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "requestPage", urlPatterns = {"/requestPage"}) // TODO rename se RequestPage
 public class requestPageServlet extends HttpServlet {
 
-    public void forwardToPage(final HttpServletRequest request,
-            final HttpServletResponse response,
-            String url)
-            throws IOException, ServletException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+    private ArrayList<String> ownedPages;
+
+    @Override
+    public void init() {
+        ownedPages = new ArrayList<>();
+
+        ownedPages.add("login");
+        ownedPages.add("register");
+        ownedPages.add("upload");
     }
 
     /**
@@ -36,13 +40,33 @@ public class requestPageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
+
         String page = request.getParameter("page");
-        if (page != null) {
-            StringBuilder url = new StringBuilder();
-            url.append("/WEB-INF/JSP/").append(page).append("Page.jsp");
-            forwardToPage(request, response, url.toString());
+        if (page == null || page.trim().isEmpty()) {
+            response.setHeader("fail", "Missing Parameters");
+        } else {
+            if (havePage(page)) {
+                StringBuilder url = new StringBuilder();
+                url.append("/WEB-INF/JSP/").append(page).append("Page.jsp");
+                forwardToPage(request, response, url.toString());
+            } else {
+                response.setHeader("fail", "Wrong Parameters");
+            }
         }
-    } // used to retrieve registerPage, loginPage, uploadPage
+    }
+
+    private void forwardToPage(HttpServletRequest request,
+            HttpServletResponse response,
+            String url)
+            throws IOException, ServletException {
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+    }
+
+    private boolean havePage(String page) {
+        return ownedPages.contains(page);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

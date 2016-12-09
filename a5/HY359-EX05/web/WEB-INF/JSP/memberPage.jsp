@@ -9,11 +9,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
-    List member;
-    assert (context.getAttribute("data") instanceof List);
-    member = (List) context.getAttribute("data");
-    int i;
-    User user = null;
+
+    if (context.getAttribute("data") instanceof List) {
+        List<User> member = (List<User>) context.getAttribute("data");
+        context.removeAttribute("data"); // clear after use
+
+        int i;
+        User user = null;
 %>
 <div class="animated_container table-responsive">
     <table class="table table-hover text-left">
@@ -30,9 +32,7 @@
         </thead>
         <tbody>
             <% for (i = 0; i < member.size(); i++) {
-                    assert (member.get(i) instanceof User);
                     user = (User) member.get(i);
-                    assert (user != null);
             %>
             <tr>
                 <td> <%= i + 1%></td>
@@ -49,3 +49,7 @@
     <div class="page-header"></div>
     <p class="text-center"><b>Total Members: <%=i%></b></p>
 </div>
+<%  } else {
+        System.out.println("memberPage.jsp: attribute \"data\" should contain a 'List' object");
+    }
+%>

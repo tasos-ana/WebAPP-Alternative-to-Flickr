@@ -2,6 +2,7 @@
 // TODO filter for XSS
 // TODO organize packages
 // TODO get action from parameter kai oxi from header
+// TODO add checks for too many parameters
 package servlets;
 
 import cs359db.db.UserDB;
@@ -52,33 +53,37 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String action = request.getHeader("action");//read from header the value of the action header
-        switch (action) {
-            case "login":
-                loginAction(request, response);
-                break;
-            case "register":
-                registerAction(request, response);
-                break;
-            case "profilePage":
-                profileAction(request, response);
-                break;
-            case "memberPage":
-                memberAction(request, response);
-                break;
-            case "check":
-                checkAction(request, response);
-                break;
-            case "profileSettings":
-                profileSettingsAction(request, response);
-                break;
-            case "change":
-                changeAction(request, response);
-                break;
-            case "logout":
-                logoutAction(request, response);
-                break;
-            default:
-                response.setHeader("fail", "Missing Parameters");
+        if (missing(action)) {
+            response.setHeader("fail", "Missing Parameters");
+        } else {
+            switch (action) {
+                case "login":
+                    loginAction(request, response);
+                    break;
+                case "register":
+                    registerAction(request, response);
+                    break;
+                case "profilePage":
+                    profileAction(request, response);
+                    break;
+                case "memberPage":
+                    memberAction(request, response);
+                    break;
+                case "check":
+                    checkAction(request, response);
+                    break;
+                case "profileSettings":
+                    profileSettingsAction(request, response);
+                    break;
+                case "change":
+                    changeAction(request, response);
+                    break;
+                case "logout":
+                    logoutAction(request, response);
+                    break;
+                default:
+                    response.setHeader("fail", "Wrong Parameters");
+            }
         }
     }
 

@@ -12,12 +12,12 @@
             <div class="form-group">
                 <div class="col-sm-4">
                     <input class="btn_style" id="images" type="file" webkitdirectory mozdirectory directory name="myFiles" 
-                           onchange="uploadImageAPI.loadImages();" multiple/>
+                           onchange="TIV3166.loadImagesFromFile();" multiple/>
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2">
                     <button type="button" id="loadImage" class="btn btn-default btn_style"
-                            onclick="uploadImageAPI.previewImage('list');">
+                            onclick="TIV3166.previewLoadedImagesFromFile('list');">
                         Preview Images
                     </button>
                 </div>
@@ -33,7 +33,7 @@
         <h4 id="unloaded" class="text-center">No images loaded yet</h4>
     </div>
     <div id="upload_alert" class="alert alert-success" hidden>
-        <strong>Success!</strong> You upload <script>uploadImageAPI.getTotal();</script> images.
+        <strong>Success!</strong> You upload <span id="totalUploadedImages"></span> images.
     </div>
     <div id="tiles_container" class="text-center">
         <div  id="main">
