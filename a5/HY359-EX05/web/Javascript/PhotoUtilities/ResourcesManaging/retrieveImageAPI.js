@@ -14,7 +14,8 @@ var TIV3166 = function () {
     var loadedImages = {
         array: [],
         id: [],
-        remaining: 0
+        remaining: 0,
+        carouselCnt: 0
     };
     /*============================================================================*/
 
@@ -22,8 +23,8 @@ var TIV3166 = function () {
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*retrieveImageAPI functions*/
     function loadImagesFromDB_inner(num, elem, user) {
-        if(!user){
-            TIV3166.resetImage(elem,user);
+        if (!user) {
+            TIV3166.resetImage(elem, user);
         }
         requestImageID(num, elem, user);
     }
@@ -140,11 +141,12 @@ var TIV3166 = function () {
         });
     }
 
-    function resetImage_inner(user,elem) {
+    function resetImage_inner(user, elem) {
         loadedImages.array = [];
         loadedImages.id = [];
         loadedImages.remaining = 0;
-        if(user === true){
+        loadedImages.carouselCnt = 0;
+        if (user === true) {
             document.getElementById(elem).innerHTML = "";
         }
     }
@@ -248,12 +250,12 @@ var TIV3166 = function () {
                         author = meta.username;
                         imgName = meta.title;
                         imgRate = meta.numberOfRatings;
-                        loadedImages.remaining--;
                         if (user === true) {
                             addTivCode(elem, index, author, imgName, imgRate);
                         } else {
                             addCarouselCode(index, author, imgName);
                         }
+                        loadedImages.remaining--;
                         if (loadedImages.remaining === 0) {
                             pageReady();
                         }
@@ -292,16 +294,18 @@ var TIV3166 = function () {
     }
 
     function addCarouselCode(index, author, imgName) {
-        var carouselList, carouselContainer;
+        var carouselList, carouselContainer, num;
         carouselList = document.getElementById("carouselSlideTo");
         carouselContainer = document.getElementById("carousel_container");
         var listElem;
         listElem = document.createElement('li');
         listElem.setAttribute("data-target", "#myCarousel");
-        listElem.setAttribute("data-slide-to", "#" + index);
+        num = loadedImages.carouselCnt;
+        loadedImages.carouselCnt++;
         if (index === 0) {
             listElem.className = "active";
         }
+        listElem.setAttribute("data-slide-to", "" + num);
         carouselList.appendChild(listElem);
 
         var containerElem, img, containerText, imgNameElem, authorElem, lastElem;
@@ -311,9 +315,9 @@ var TIV3166 = function () {
         authorElem = document.createElement('p');
         imgNameElem = document.createElement('h3');
         if (index === 0) {
-            containerElem.className = "item active";
+            containerElem.setAttribute("class", "item active");
         } else {
-            containerElem.className = "item";
+            containerElem.setAttribute("class", "item");
         }
         img.setAttribute("width", "460");
         img.setAttribute("height", "345");
@@ -397,7 +401,7 @@ var TIV3166 = function () {
             showImageDetailedWithMap_inner(index, elem);
         },
         resetImage: function (user, elem) {
-            resetImage_inner(user,elem);
+            resetImage_inner(user, elem);
         }
     };
     /*============================================================================*/

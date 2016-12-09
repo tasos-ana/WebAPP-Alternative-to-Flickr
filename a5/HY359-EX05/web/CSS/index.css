@@ -6,7 +6,7 @@
 */
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                                /*Basic Style*/
+/*Basic Style*/
 body,#header{ margin: 0; padding: 0; }
 
 body{ background-color: #d6d6d6; font-family: 'Muli', sans-serif; }
@@ -31,7 +31,7 @@ img_header_banner{ width: 200px; height: 100px; }
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Loader and his modal*/
+/*Loader and his modal*/
 .loadingModal {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -57,7 +57,7 @@ img_header_banner{ width: 200px; height: 100px; }
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Animation on container*/
+/*Animation on container*/
 .animated_container{
     -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadein 0.5s; /* Firefox < 16 */
@@ -98,7 +98,7 @@ img_header_banner{ width: 200px; height: 100px; }
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                        /*TIV container basic style*/
+/*TIV container basic style*/
 #main,#start,#end,div.text,div.tiles,img.tile,#unloaded,#loadImage,#images{
     margin: 0; padding: 0;
 }
@@ -119,7 +119,7 @@ img_header_banner{ width: 200px; height: 100px; }
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Style for each TIV*/
+/*Style for each TIV*/
 div.tile{
     border: 1px;
     height: 100%;
@@ -147,7 +147,7 @@ img.tile{
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*TIV Caption*/
+/*TIV Caption*/
 div.text{     
     position: absolute;
     bottom: 0;
@@ -182,7 +182,7 @@ div.text{
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*TIV hovering and responsive*/
+/*TIV hovering and responsive*/
 img.tile:hover{
     -moz-box-shadow: 0 0 10px #333333;
     -webkit-box-shadow: 0 0 10px #333333;
@@ -214,7 +214,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Basic for Image Modal*/
+/*Basic for Image Modal*/
 /* The Modal (background) */
 .imgModal {
     display: none; /* Hidden by default */
@@ -267,7 +267,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Animation for Image Modal*/
+/*Animation for Image Modal*/
 /* Add Animation */
 .imgModal-content, #imgCaption {    
     -webkit-animation-name: zoom;
@@ -310,13 +310,13 @@ img.tile:hover + div.text{ opacity: 0.8;}
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Preview Image select*/
+/*Preview Image select*/
 .select_max_number{width: 80px; }
 /*============================================================================*/
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Basic Carousel Style*/
+/*Basic Carousel Style*/
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img { width: 70%; margin: auto; }
 
@@ -325,7 +325,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*Carousel animation*/
+/*Carousel animation*/
 /* Add animation to "page content" */
 .animate-bottom {
     position: relative;
@@ -348,7 +348,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
-                             /*General Styles*/
+/*General Styles*/
 .make_hide{ display: none; }
 
 .btn_style{
