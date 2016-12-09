@@ -205,7 +205,7 @@ var TIV3166 = function () {
                             r.onload = (function (index) {
                                 return function (e) {
                                     var imgData = e.target.result;
-                                    addImg(imgData, index, "untitled");
+                                    addImg(imgData, index, "");
                                     getImageMeta(elem, index, user);
                                 };
                             })(index);
@@ -322,6 +322,7 @@ var TIV3166 = function () {
         img.setAttribute("width", "460");
         img.setAttribute("height", "345");
         img.className = "carousel_img";
+        img.title = imgName;
         containerElem.appendChild(img);
         containerText.className = "carousel-caption";
         imgNameElem.innerText = imgName;
