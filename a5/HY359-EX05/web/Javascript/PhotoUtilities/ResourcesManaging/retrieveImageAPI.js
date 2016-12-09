@@ -64,7 +64,7 @@ var TIV3166 = function () {
         }
     }
 
-    function showLoadedImages_inner(elem, user) {
+    function previewLoadedImagesFromDB_inner(elem, user) {
         displayImage(elem, user);
     }
 
@@ -165,7 +165,7 @@ var TIV3166 = function () {
                 if (xhr.getResponseHeader("error") === null) {
                     loadedImages.id = JSON.parse(xhr.responseText);
                     loadedImages.remaining = loadedImages.id.length;
-                    TIV3166.showLoadedImages(elem, user);
+                    TIV3166.previewLoadedImagesFromDB(elem, user);
                 } else {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
                     pageReady();
@@ -382,8 +382,8 @@ var TIV3166 = function () {
         },
         //using the tile from previous TIV html on ex01
         //drawing images inside on elem that user give
-        showLoadedImages: function (elem, user) {//TODO rename se preview from db
-            showLoadedImages_inner(elem, user);
+        previewLoadedImagesFromDB: function (elem, user) {
+            previewLoadedImagesFromDB_inner(elem, user);
         },
         previewLoadedImagesFromFile(elem) {
             previewLoadedImagesFromFile(elem);
