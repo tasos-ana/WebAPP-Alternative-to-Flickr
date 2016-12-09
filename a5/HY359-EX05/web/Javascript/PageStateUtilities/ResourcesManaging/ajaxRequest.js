@@ -157,7 +157,6 @@ function ajaxChangesRequest() {
     xhr.onload = function () {
         pageReady();
         if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.reload(true);
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
