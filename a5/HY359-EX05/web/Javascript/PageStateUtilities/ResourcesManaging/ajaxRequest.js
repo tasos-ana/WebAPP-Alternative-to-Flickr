@@ -19,8 +19,8 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 setWelcomeMessage(username);
                 document.getElementById("main_container").innerHTML = xhr.responseText;
-                succeed_login_action();
                 getLatestImages(10, 'list', true);
+                succeed_login_action();
             } else {
                 renderPage();
                 try {
