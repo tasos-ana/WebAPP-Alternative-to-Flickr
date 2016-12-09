@@ -131,7 +131,7 @@ var uploadImageAPI = function () {
         display.disabled = false;//disable the button
         display.style.cursor = "pointer";//set cursor from pointer to default
         document.getElementById('list').innerHTML = "";
-        document.getElementById("totalUploadedImages").value = uploadImageAPI.getTotal();
+        document.getElementById("totalUploadedImages").innerText = uploadImageAPI.getTotal();
     }
     /*============================================================================*/
 
