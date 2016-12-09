@@ -1,57 +1,32 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *     Document      :ajaxRequest.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
  */
 
 /* global validationAPI, formValid */
-
-function getUsername() {
-    return document.getElementById("page_message").getAttribute("data-username");
-}
-
-function XSSValidator(name) {
-    "use strict";
-    var scriptStart, scriptStartEncoded, scriptEnd, scriptEndEncoded;
-    scriptStart = "<script>";
-    scriptStartEncoded = "&lt;script&gt;";
-
-    scriptEnd = "</script>";
-    scriptEndEncoded = "&lt;/script&gt;";
-    if (name.includes(scriptStart) && name.includes(scriptEnd)) {
-        name = name.replace(scriptStart, scriptStartEncoded);
-        name = name.replace(scriptEnd, scriptEndEncoded);
-    }
-
-    return name;
-}
 
 function ajaxLoginRequest() {
     "use strict";
     var username, pw, xhr;
 
     xhr = new XMLHttpRequest();
-
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (xhr.getResponseHeader("error") === null) {
                 var username = xhr.getResponseHeader("id");
-                if (username !== null) {
-                    document.getElementById("page_message").innerHTML = username;
-                    document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
-                } else {
-                    document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
-                }
+                setWelcomeMessage(username);
                 document.getElementById("main_container").innerHTML = xhr.responseText;
-                document.getElementById("loadingModal").style.display = "none";
+                getLatestImages(10, 'list', true);
                 succeed_login_action();
             } else {
-                document.getElementById("loadingModal").style.display = "none";
                 renderPage();
                 try {
                     document.getElementById("usr_login_error").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
                     document.getElementById("usr_login_error").style.color = "red";
+                    pageReady();
                 } catch (err) {
                     document.getElementById("main_container").innerHTML = xhr.responseText;
                     getLatestImages(10, 'list', false);
@@ -65,7 +40,7 @@ function ajaxLoginRequest() {
     xhr.setRequestHeader('action', 'login');
     username = document.getElementById("usr_id");
     pw = document.getElementById("usr_pw");
-    document.getElementById("loadingModal").style.display = "block";
+    pagePrepare();
     if (username === null && pw === null) {
         xhr.send();
     } else {
@@ -99,44 +74,33 @@ function ajaxRegisterRequest() {
     //send data for register
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
-        document.getElementById("loadingModal").style.display = "none";
+        pageReady();
         if (xhr.readyState === 4 && xhr.status === 200) {
-            if (xhr.getResponseHeader("error") !== null) {
-                //TODO CHECK return error
-//                var err, msg, tag;
-//                err = xhr.getAllResponseHeader("error");
-//                err = err.split(":");
-//                msg = err[1];
-//                tag = err[0];
-//                if (tag === "username") {
-//                    document.getElementById("usrID_err").innerHTML = msg;
-//                    document.getElementById("usrID_err").style.color = "red";
-//                    formValid.idValid(false);
-//                    document.getElementById("usrID").focus();
-//                } else {
-//                    document.getElementById("usrEMAIL_err").innerHTML = msg;
-//                    document.getElementById("usrEMAIL_err").style.color = "red";
-//                    formValid.emailValid(false);
-//                    document.getElementById("usrEMAIL").focus();
-//                }
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {//FIXME : na to kanw remove
+                document.getElementById("home_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
-                setTimeout(function () {
-                    window.location.reload(true);
-                }, 5000);
+                if (xhr.getResponseHeader("error") !== null) {
+                    var err = xhr.getAllResponseHeader("error");
+                    registerErrorCheck(err);
+                } else {
+                    document.getElementById("main_container").innerHTML = xhr.responseText;
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 5000);
+                }
             }
-
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'register');
-    document.getElementById("loadingModal").style.display = "block";
-    xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
-            '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
-            '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
-
+    pagePrepare();
+    xhr.send('username=' + usrID.value + '&password=' + usrPW.value +
+            '&email=' + usrEmail.value + '&fname=' + usrFNAME.value +
+            '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
+            '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value +
+            '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
 
 function ajaxUserProfileRequest() {
@@ -147,20 +111,19 @@ function ajaxUserProfileRequest() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            var val = xhr.getResponseHeader("usrCOUNTRY_val");
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                var val = xhr.getResponseHeader("usrCOUNTRY_val");
+                setValueOfSelect("usrCOUNTRY",val);
 
-            if (val !== null) {
-                document.getElementById("usrCOUNTRY").value = val;
+                val = xhr.getResponseHeader("usrBDATE_val");
+                setValueOfSelect("usrBDATE_M",val);
+
+                settings_action();
+                validationAPI.validateAll(false);
             }
-
-            val = xhr.getResponseHeader("usrBDATE_val");
-
-            if (val !== null) {
-                document.getElementById("usrBDATE_M").value = val;
-            }
-            settings_action();
-            validationAPI.validateAll(false);
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -196,16 +159,22 @@ function ajaxChangesRequest() {
     //send data for change infos
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
-        document.getElementById("loadingModal").style.display = "none";
+        pageReady();
         if (xhr.readyState === 4 && xhr.status === 200) {
             window.location.reload(true);
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                profile_action();
+            }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Action', 'change');
-    document.getElementById("loadingModal").style.display = "block";
+    xhr.setRequestHeader('action', 'change');
+    pagePrepare();
     xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
             '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
@@ -219,9 +188,13 @@ function ajaxLogoutRequest() {
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
-            getLatestImages(10, 'list', false);
-            logout_action();
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("home_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = xhr.responseText;
+                getLatestImages(10, 'list', false);
+                logout_action();
+            }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
@@ -229,4 +202,39 @@ function ajaxLogoutRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'logout');
     xhr.send();
+}
+
+function setWelcomeMessage(username) {
+    if (username !== null) {
+        document.getElementById("page_message").innerHTML = username;
+        document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
+    } else {
+        document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
+    }
+}
+
+function registerErrorCheck(err) {
+    var msg, tag;
+    err = err.split(":");
+    msg = err[1];
+    tag = err[0];
+    if (tag === "username") {
+        document.getElementById("usrID_err").innerHTML = msg;
+        document.getElementById("usrID_err").style.color = "red";
+        formValid.idValid(false);
+        document.getElementById("usrID").focus();
+    } else if (tag === "email") {
+        document.getElementById("usrEMAIL_err").innerHTML = msg;
+        document.getElementById("usrEMAIL_err").style.color = "red";
+        formValid.emailValid(false);
+        document.getElementById("usrEMAIL").focus();
+    } else {
+        window.alert("kako");
+    }
+}
+
+function setValueOfSelect(selector, val) {
+    if (val !== null) {
+        document.getElementById(selector).value = val;
+    }
 }

@@ -1,49 +1,38 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+    Document      :index.css
+    Project       :HY359-EX05
+    Author        :Tasos198
+    Created on    :Dec 9, 2016
 */
-/* 
-    Created on : Nov 23, 2016, 6:59:18 PM
-    Author     : Tasos198
-*/
-body,#header{
-    margin: 0;
-    padding: 0;
-}
 
-body{
-    background-color: #d6d6d6;
-    font-family: 'Muli', sans-serif;
-}
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Basic Style*/
+body,#header{ margin: 0; padding: 0; }
 
-#img_banner{
-    width: 200px;
-    height: 100px;
-}
+body{ background-color: #d6d6d6; font-family: 'Muli', sans-serif; }
+
+img_header_banner{ width: 200px; height: 100px; }
 
 #header{
-    margin-top: -20px;
-}
-
-#header{
-    width: 100%;
-    height: 100%;
     background-color: #333333;
+    margin-top: -20px;
+    height: 100%;
+    width: 100%;
 }
 
-.btn_style{
-    border-radius: 10px; 
-    background-color: #333333; 
-    color: white; 
-    cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
+#member_but,#logout_but,#settings_but,#profile_but,#upload_but{ display: none; }
 
-/* Load animation */
-/* The Modal (background) */
+.footer-default{ background-color: #333333; margin-bottom: -30px; }
+
+.page-header_bottom { border-bottom:none; }
+
+#footer_txt{ color: #ffb62f; }
+/*============================================================================*/
+
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Loader and his modal*/
 .loadingModal {
-
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
@@ -57,21 +46,18 @@ body{
 }
 
 #myLoader{
-    margin-left: 48%;
-    border: 8px solid #ffb62f;
-    border-top: 8px solid #333333;
-    border-bottom: 8px solid #333333;
-    border-radius: 50%;
+    position: absolute;
+    left: 46%;
+    top: 40%;
+    z-index: 1;
     width: 60px;
     height: 60px;
-    animation: spin 1s linear infinite;
 }
+/*============================================================================*/
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Animation on container*/
 .animated_container{
     -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadein 0.5s; /* Firefox < 16 */
@@ -108,27 +94,13 @@ body{
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+/*============================================================================*/
 
-#member_but,#logout_but,#settings_but,#profile_but,#upload_but{
-    display: none;
-}
 
-.footer-default{
-    background-color: #333333;
-    margin-bottom: -30px;
-}
-
-.page-header_bottom { border-bottom:none; }
-
-#footer_txt{
-    color: #ffb62f;
-}
-
-/* STARTING TIV CSS RULES*/
-
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*TIV container basic style*/
 #main,#start,#end,div.text,div.tiles,img.tile,#unloaded,#loadImage,#images{
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
 }
 
 #loadImage,#images,#uploadImage_but{
@@ -140,14 +112,14 @@ body{
     margin: 4px 2px;
 }
 
-#unloaded{
-    display: none;
-    margin: 50px;
-}
+#unloaded{ display: none; margin: 50px; }
 
 #main{margin: auto; height: 300px; width: 908px;}
+/*============================================================================*/
 
-/******Tile*******/
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Style for each TIV*/
 div.tile{
     border: 1px;
     height: 100%;
@@ -171,7 +143,11 @@ img.tile{
     max-width: 140px;
     width: 100%;
 }
+/*============================================================================*/
 
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*TIV Caption*/
 div.text{     
     position: absolute;
     bottom: 0;
@@ -198,16 +174,15 @@ div.text{
     padding: 2px;
     overflow: hidden;
 }
+/*Author,imgName META*/
+.tivImgName{left: 0;}
 
-.tivImgName{
-    left: 0;
-}
+.tivImgRate{right: 0;font-size: 10px;}
+/*============================================================================*/
 
-.tivImgRate{
-    right: 0;
-    font-size: 10px;
-}
 
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*TIV hovering and responsive*/
 img.tile:hover{
     -moz-box-shadow: 0 0 10px #333333;
     -webkit-box-shadow: 0 0 10px #333333;
@@ -235,9 +210,11 @@ img.tile:hover + div.text{ opacity: 0.8;}
 @media screen and (max-width: 319px) and (min-width: 155px){
     #main{width: 155px;height: 1810px;}
 }
+/*============================================================================*/
 
-/*~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~ */
 
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Basic for Image Modal*/
 /* The Modal (background) */
 .imgModal {
     display: none; /* Hidden by default */
@@ -283,16 +260,14 @@ img.tile:hover + div.text{ opacity: 0.8;}
     font-size: 15px;
 }
 
-#imgMap-container{
-    margin: 2%;
-}
+#imgMap-container{margin: 2%;}
 
-#imgMap{
-    width: 100%;
-    height: 400px;
-    background-color: grey;
-}
+#imgMap{ width: 100%; height: 400px; background-color: grey; }
+/*============================================================================*/
 
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Animation for Image Modal*/
 /* Add Animation */
 .imgModal-content, #imgCaption {    
     -webkit-animation-name: zoom;
@@ -323,11 +298,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 }
 
 .imgClose:hover,
-.imgClose:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
+.imgClose:focus { color: #bbb; text-decoration: none; cursor: pointer; }
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
@@ -335,7 +306,56 @@ img.tile:hover + div.text{ opacity: 0.8;}
         width: 100%;
     }
 }
+/*============================================================================*/
 
-.select_max_number{
-    width: 80px;
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Preview Image select*/
+.select_max_number{width: 80px; }
+/*============================================================================*/
+
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Basic Carousel Style*/
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img { width: 70%; margin: auto; }
+
+.carousel_img{ cursor: pointer; }
+/*============================================================================*/
+
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*Carousel animation*/
+/* Add animation to "page content" */
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
 }
+
+@-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 } 
+    to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+    from{ bottom:-100px; opacity:0 } 
+    to{ bottom:0; opacity:1 }
+}
+/*============================================================================*/
+
+
+/*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
+/*General Styles*/
+.make_hide{ display: none; }
+
+.btn_style{
+    border-radius: 10px; 
+    background-color: #333333; 
+    color: white; 
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+/*============================================================================*/
