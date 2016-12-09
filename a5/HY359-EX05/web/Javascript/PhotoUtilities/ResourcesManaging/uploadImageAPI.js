@@ -1,3 +1,9 @@
+/* 
+ *     Document      :uploadImageAPI.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
+ */
 var uploadImageAPI = function () {
     "use strict";
 
@@ -14,12 +20,20 @@ var uploadImageAPI = function () {
         imgName: [],
         total: 0
     };
-
+    
     //Img name valitor
     function checkImg(name) {
         return (name.match(/\.(jpeg|jpg|gif|png)$/) !== null);
     }
 
+    function uploadSucceed() {
+        document.getElementById("upload_alert").removeAttribute("hidden");
+        document.getElementById("upload_alert").addEventListener("mouseover", (function () {
+            return setTimeout(function () {
+                document.getElementById("upload_alert").setAttribute("hidden", "true");
+            }, 5000);
+        })());
+    }
     //Create an object IMG and give to him src,name and add a call function on click
     //Also push the object on array
     function addImg(src, name) {
@@ -93,6 +107,7 @@ var uploadImageAPI = function () {
                 }
                 if (index === loadedImages.array.length - 1) {
                     pageReady();
+                    uploadSucceed();
                 }
             };
         })(index);
@@ -166,7 +181,7 @@ var uploadImageAPI = function () {
             var i, display;
             if (!imageExist("There is not image to preview"))
                 document.getElementById("images").click();
-                return;
+            return;
             for (i = loadedImages.index; i < loadedImages.array.length; i += 1) {//if the i was on loadedImage
                 addHtmlCode(elem, i);//add an html code for img
             }
@@ -177,11 +192,11 @@ var uploadImageAPI = function () {
         uploadImage: function () {
             if (!imageExist("Choose image file before upload"))
                 document.getElementById("images").click();
-                return;
+            return;
             pagePrepare();
             uploadImage();
         },
-        getTotal: function (){
+        getTotal: function () {
             return images2Upload.total;
         }
     };

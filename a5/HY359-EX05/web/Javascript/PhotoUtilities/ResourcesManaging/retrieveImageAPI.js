@@ -1,3 +1,10 @@
+/* 
+ *     Document      :retrieveImageAPI.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
+ */
+
 var TIV3166 = function () {
     "use strict";
     //On array we keep all the img that loaded

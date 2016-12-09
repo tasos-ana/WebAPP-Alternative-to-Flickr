@@ -1,7 +1,8 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *     Document      :validationAPI.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
  */
 
 var validationAPI = function () {

@@ -1,7 +1,8 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *     Document      :photoAction.js
+ *     Project       :HY359-EX05
+ *     Author        :Tasos198
+ *     Created on    :Dec 9, 2016
  */
 
 /* global TIV3166 */
@@ -16,14 +17,4 @@ function refreshPhoto(elem, user) {
     num = document.getElementById("select_max_display_no");
     TIV3166.resetImage();
     getLatestImages(num.value, elem, user);
-}
-
-function uploadSucced() {
-    document.getElementById("upload_alert").removeAttribute("hidden");
-    document.getElementById("upload_alert").addEventListener("mouseover", (function () {
-        return setTimeout(function () {
-            document.getElementById("upload_alert").setAttribute("hidden", "true");
-        }, 5000);
-    })());
-
 }
