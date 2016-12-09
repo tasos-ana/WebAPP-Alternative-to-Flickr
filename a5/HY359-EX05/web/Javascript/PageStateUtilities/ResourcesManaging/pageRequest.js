@@ -5,6 +5,8 @@
  *     Created on    :Dec 9, 2016
  */
 
+/* global TIV3166 */
+
 function requestLoginPage() {
     "use strict";
     var xhr;
@@ -90,6 +92,7 @@ function requestUploadPage() {
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            TIV3166.resetImage('list',true);
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
