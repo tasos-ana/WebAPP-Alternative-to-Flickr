@@ -22,6 +22,9 @@ var TIV3166 = function () {
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*retrieveImageAPI functions*/
     function loadImagesFromDB_inner(num, elem, user) {
+        if(!user){
+            TIV3166.resetImage(elem,user);
+        }
         requestImageID(num, elem, user);
     }
 
@@ -137,11 +140,13 @@ var TIV3166 = function () {
         });
     }
 
-    function resetImage_inner() {
+    function resetImage_inner(user,elem) {
         loadedImages.array = [];
         loadedImages.id = [];
         loadedImages.remaining = 0;
-        document.getElementById("list").innerHTML = "";
+        if(user === true){
+            document.getElementById(elem).innerHTML = "";
+        }
     }
     /*============================================================================*/
 
@@ -391,9 +396,9 @@ var TIV3166 = function () {
         showImageDetailedWithMap: function (index, elem) {
             showImageDetailedWithMap_inner(index, elem);
         },
-        resetImage: function () {
-            resetImage_inner();
-        },
+        resetImage: function (user, elem) {
+            resetImage_inner(user,elem);
+        }
     };
     /*============================================================================*/
 }();
