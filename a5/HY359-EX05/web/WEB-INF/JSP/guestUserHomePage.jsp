@@ -1,5 +1,5 @@
 <%-- 
-    Document   : welcomePage
+    Document   : guestUserHomePage
     Created on : Nov 25, 2016, 2:59:06 PM
     Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
@@ -30,8 +30,7 @@
     <div class="container"><br>
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
-            <ol id="carouselSlideTo" class="carousel-indicators">            
-            </ol>
+            <ol id="carouselSlideTo" class="carousel-indicators"></ol>
             <!-- Wrapper for slides -->
             <div id="carousel_container" class="carousel-inner" role="listbox">
                 <!-- Left and right controls -->
