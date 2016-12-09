@@ -32,7 +32,7 @@ img_header_banner{ width: 200px; height: 100px; }
 
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
 /*Loader and his modal*/
-.loadingModal {
+.loadingModal{
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
@@ -219,7 +219,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 .imgModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 2; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -321,6 +321,10 @@ img.tile:hover + div.text{ opacity: 0.8;}
 .carousel-inner > .item > a > img { width: 70%; margin: auto; }
 
 .carousel_img{ cursor: pointer; }
+
+#carouselSlideTo{
+    z-index: 1;
+}
 /*============================================================================*/
 
 
