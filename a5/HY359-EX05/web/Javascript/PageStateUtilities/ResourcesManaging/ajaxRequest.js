@@ -18,7 +18,7 @@ function ajaxLoginRequest() {
             if (xhr.getResponseHeader("error") === null) {
                 var username = xhr.getResponseHeader("id");
                 setWelcomeMessage(username);
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 getLatestImages(10, 'list', true, false);
                 succeed_login_action();
             } else {
@@ -28,7 +28,7 @@ function ajaxLoginRequest() {
                     document.getElementById("usr_login_error").style.color = "red";
                     pageReady();
                 } catch (err) {
-                    document.getElementById("main_container").innerHTML = xhr.responseText;
+                    document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                     getLatestImages(10, 'list', false, true);
                 }
             }
@@ -80,7 +80,7 @@ function ajaxRegisterRequest() {
                 var err = xhr.getAllResponseHeader("error");
                 registerErrorCheck(err);
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 setTimeout(function () {
                     document.getElementById("login_but").click();
                 }, 5000);
@@ -110,7 +110,7 @@ function ajaxUserProfileRequest() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 var val = xhr.getResponseHeader("usrCOUNTRY_val");
                 setValueOfSelect("usrCOUNTRY", val);
 
@@ -160,7 +160,7 @@ function ajaxChangesRequest() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 profile_action();
             }
         } else if (xhr.status !== 200) {
@@ -186,7 +186,7 @@ function ajaxLogoutRequest() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("home_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 getLatestImages(10, 'list', false, false);
                 logout_action();
             }
@@ -201,10 +201,10 @@ function ajaxLogoutRequest() {
 
 function setWelcomeMessage(username) {
     if (username !== null) {
-        document.getElementById("page_message").innerHTML = username;
+        document.getElementById("page_message").innerHTML = XSSValidator(username);
         document.getElementById("page_message").setAttribute("data-username", username.split(" ")[1]);
     } else {
-        document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
+        document.getElementById("page_message").innerHTML = XSSValidator("Tiled Image Viewer");
     }
 }
 
@@ -214,12 +214,12 @@ function registerErrorCheck(err) {
     msg = err[1];
     tag = err[0];
     if (tag === "username") {
-        document.getElementById("usrID_err").innerHTML = msg;
+        document.getElementById("usrID_err").innerHTML = XSSValidator(msg);
         document.getElementById("usrID_err").style.color = "red";
         formValid.idValid(false);
         document.getElementById("usrID").focus();
     } else if (tag === "email") {
-        document.getElementById("usrEMAIL_err").innerHTML = msg;
+        document.getElementById("usrEMAIL_err").innerHTML = XSSValidator(msg);
         document.getElementById("usrEMAIL_err").style.color = "red";
         formValid.emailValid(false);
         document.getElementById("usrEMAIL").focus();

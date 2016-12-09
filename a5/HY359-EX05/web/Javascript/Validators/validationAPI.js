@@ -21,7 +21,7 @@ var validationAPI = function () {
     function usrIDValidation(existCheck) {
         if (!existCheck) {
             document.getElementById("usrID_err").style.color = "green";
-            document.getElementById("usrID_err").innerHTML = "&#10004";
+            document.getElementById("usrID_err").innerHTML = XSSValidator("&#10004");
             formValid.usrID = true;
             return;
         }
@@ -58,7 +58,7 @@ var validationAPI = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.getResponseHeader("error") !== null) {
                     document.getElementById("usrID_err").style.color = "red";
-                    document.getElementById("usrID_err").innerHTML = xhr.getResponseHeader("error");
+                    document.getElementById("usrID_err").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
                     formValid.usrID = false;
                 } else {
                     document.getElementById("usrID_err").style.color = "green";
@@ -107,7 +107,7 @@ var validationAPI = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     if (xhr.getResponseHeader("error") !== null) {
                         document.getElementById("usrEMAIL_err").style.color = "red";
-                        document.getElementById("usrEMAIL_err").innerHTML = xhr.getResponseHeader("error");
+                        document.getElementById("usrEMAIL_err").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
                         formValid.usrEMAIL = false;
                     } else {
                         document.getElementById("usrEMAIL_err").style.color = "green";

@@ -89,7 +89,7 @@ var TIV3166 = function () {
         var captionText = document.getElementById("imgCaption");
         modal.style.display = "block";
         modalImg.src = loadedImages.array[index].src;
-        captionText.innerHTML = loadedImages.array[index].title;
+        captionText.innerHTML = XSSValidator(loadedImages.array[index].title);
         TIV3166.showImageExifInfo(index, "imgMETA"); //call the function to add the exif info 
     }
 
@@ -109,7 +109,7 @@ var TIV3166 = function () {
             if (data !== "") {
                 elemObj.style.display = "block";
                 elemObj2.style.display = "block";
-                elemObj.innerHTML = data; //insert the data
+                elemObj.innerHTML = XSSValidator(data); //insert the data
                 TIV3166.showImageImageMapInfo(index, "imgMap"); //call the function to add map
             } else {
                 elemObj.style.display = "none";
@@ -168,7 +168,7 @@ var TIV3166 = function () {
                     TIV3166.previewLoadedImagesFromDB(elem, user);
                 } else {
                     if (!fromMain) {
-                        document.getElementById("main_container").innerHTML = xhr.responseText;
+                        document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                     }
                     pageReady();
                 }
@@ -213,7 +213,7 @@ var TIV3166 = function () {
                             })(index);
                             r.readAsDataURL(b);
                         } else {
-                            document.getElementById("main_container").innerHTML = xhr.responseText;
+                            document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                         }
                     } else if (xhr.status !== 200) {
                         window.alert("Request failed. Returned status of " + xhr.status);
@@ -262,7 +262,7 @@ var TIV3166 = function () {
                             pageReady();
                         }
                     } else {
-                        document.getElementById("main_container").innerHTML = xhr.responseText;
+                        document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                     }
                 } else if (xhr.status !== 200) {
                     window.alert("Request failed. Returned status of " + xhr.status);
@@ -286,8 +286,8 @@ var TIV3166 = function () {
         imgNameDiv.className = "tivImgName";
         imgRateDiv.className = "tivImgRate";
         loadedImages.array[index].title = imgName;
-        imgNameDiv.innerHTML = imgName + "<br>" + "by " + author;
-        imgRateDiv.innerHTML = "\&\#9734;" + imgRate;
+        imgNameDiv.innerHTML = XSSValidator(imgName + "<br>" + "by " + author);
+        imgRateDiv.innerHTML = XSSValidator("\&\#9734;" + imgRate);
         tileDiv.appendChild(loadedImages.array[index]); //Add on div the img on 'index' from loadedImages
         textDiv.appendChild(imgNameDiv);
         textDiv.appendChild(imgRateDiv);
@@ -345,7 +345,7 @@ var TIV3166 = function () {
         tileDiv.appendChild(loadedImages.array[index]);//Add on div the img on 'index' from loadedImages
         textDive = document.createElement('div');//Create another div for img text
         textDive.className = "text";
-        textDive.innerHTML = loadedImages.array[index].title.toString();//Get the img name from img on index
+        textDive.innerHTML = XSSValidator(loadedImages.array[index].title.toString());//Get the img name from img on index
         tileDiv.insertBefore(textDive, null);//Insert the text on first div-'tile'
         document.getElementById(elem).insertBefore(tileDiv, null);//insert the div on elem that we want
         loadedImages.index = loadedImages.index + 1;// increase counter

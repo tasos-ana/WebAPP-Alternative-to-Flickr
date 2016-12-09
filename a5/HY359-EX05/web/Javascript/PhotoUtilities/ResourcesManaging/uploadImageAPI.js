@@ -77,7 +77,7 @@ var uploadImageAPI = function () {
         var img, imgTitle, imgExt, formData, xhr, userName,cnt,uploadStatus;
         cnt = index+1;
         uploadStatus = document.getElementById("upload_status");
-        uploadStatus.innerHTML = "" + cnt + "/" + images2Upload.total;
+        uploadStatus.innerHTML = XSSValidator("" + cnt + "/" + images2Upload.total);
         if (index === images2Upload.total) {
             document.getElementById("upload_status").innerHTML = "";
         } else {

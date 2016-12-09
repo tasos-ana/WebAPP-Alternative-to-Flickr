@@ -95,7 +95,7 @@ function succeed_login_action() {
 function logout_action() {
     "use strict";
 
-    document.getElementById("page_message").innerHTML = "Tiled Image Viewer";
+    document.getElementById("page_message").innerHTML = XSSValidator("Tiled Image Viewer");
     document.getElementById("page_message").removeAttribute("data-login");
 
     document.getElementById("member_but").setAttribute("data-visible", "none");

@@ -14,7 +14,7 @@ function requestLoginPage() {
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
+            document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
             login_action();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -34,7 +34,7 @@ function requestMemberPage() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 allMembers_action();
             }
         } else if (xhr.status !== 200) {
@@ -56,7 +56,7 @@ function requestProfilePage() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 profile_action();
             }
         } else if (xhr.status !== 200) {
@@ -75,7 +75,7 @@ function requestRegisterPage() {
     xhr.open('POST', 'requestPageServlet');
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("main_container").innerHTML = xhr.responseText;
+            document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
             register_action();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -96,7 +96,7 @@ function requestUploadPage() {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 document.getElementById("login_but").click();
             } else {
-                document.getElementById("main_container").innerHTML = xhr.responseText;
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 upload_action();
             }
         } else if (xhr.status !== 200) {
