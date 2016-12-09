@@ -4,6 +4,7 @@ import cs359db.db.PhotosDB;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,25 +28,40 @@ public class DeleteImage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String photoIds = request.getParameter("image");
-
-        response.setContentType("text/html;charset=UTF-8");
-        if (photoIds != null) {
-            String[] ids = photoIds.split(","); // can take multiple ids to delete
-            try {
-                synchronized (this) {
-                    for (String id : ids) {
-                        PhotosDB.deletePhoto(Integer.parseInt(id));
-                    }
+        Cookie userCookie = null; // TODO function to get cookie
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("tivUserServlet")) {
+                    userCookie = cookie;
+                    break;
                 }
-            } catch (ClassNotFoundException ex) {
-                System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
-            } catch (NumberFormatException e) {
-                response.setHeader("error",
-                        "'image' parameter must contain integers separated with ','");
             }
+        }
+        
+        if (userCookie == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
         } else {
-            response.setHeader("error", "'image' parameter missing");
+            String photoIds = request.getParameter("image");
+
+            response.setContentType("text/html;charset=UTF-8");
+            if (photoIds != null && !photoIds.trim().isEmpty()) {
+                String[] ids = photoIds.split(","); // can take multiple ids to delete
+                try {
+                    synchronized (this) {
+                        for (String id : ids) {
+                            PhotosDB.deletePhoto(Integer.parseInt(id));
+                        }
+                    }
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("servlets.GetImage.doPost(): " + ex.getMessage());
+                } catch (NumberFormatException e) {
+                    response.setHeader("error",
+                            "'image' parameter must contain integers separated with ','");
+                }
+            } else {
+                response.setHeader("fail", "Missing Parameters");
+            }
         }
     }
 
