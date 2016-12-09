@@ -318,7 +318,7 @@ img.tile:hover + div.text{ opacity: 0.8;}
 /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
 /*Basic Carousel Style*/
 .carousel-inner > .item > img,
-.carousel-inner > .item > a > img { width: 70%; margin: auto; }
+.carousel-inner > .item > a > img { width: 100%; margin: auto; }
 
 .carousel_img{ cursor: pointer; }
 
