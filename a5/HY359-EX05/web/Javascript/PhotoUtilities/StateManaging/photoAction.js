@@ -9,7 +9,7 @@
 
 //user must be true or false
 function getLatestImages(imageNo, elem, user) {
-    TIV3166.loadImages(imageNo, elem, user);
+    TIV3166.loadImagesFromDB(imageNo, elem, user);
 }
 
 function refreshPhoto(elem, user) {
