@@ -362,4 +362,14 @@ img.tile:hover + div.text{ opacity: 0.8;}
 .success_msg{
     color: green;
 }
+
+#upload_status{
+    position: absolute;
+    left: 49%;
+    top: 47%;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    color: white;
+}
 /*============================================================================*/

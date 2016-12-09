@@ -17,8 +17,8 @@ var uploadImageAPI = function () {
         total: 0
     };
     /*============================================================================*/
-    
-    
+
+
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*image2UploadAPI functions*/
     function addImage_inner(imgData, imgType, imgName) {
@@ -74,49 +74,53 @@ var uploadImageAPI = function () {
     }
 
     function startUploading(index) {
-        var img, imgTitle, imgExt, formData, xhr, userName;
+        var img, imgTitle, imgExt, formData, xhr, userName,cnt,uploadStatus;
+        cnt = index+1;
+        uploadStatus = document.getElementById("upload_status");
+        uploadStatus.innerHTML = "" + cnt + "/" + images2Upload.total;
         if (index === images2Upload.total) {
-            return;
-        }
-        userName = getUsername();
-
-        if (userName === null || userName === "") {
-            pageReady();
-            window.alert("Image upload failed. Undefined username");
+            document.getElementById("upload_status").innerHTML = "";
         } else {
-            formData = new FormData();
-            img = images2Upload.imgFile[index];
-            imgTitle = images2Upload.imgName[index];
-            imgExt = images2Upload.imgType[index];
+            userName = getUsername();
 
-            formData.append("photo", img);
-
-            xhr = new XMLHttpRequest();
-            if (imgTitle !== null) {
-                xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt + '&title=' + imgTitle);
+            if (userName === null || userName === "") {
+                pageReady();
+                window.alert("Image upload failed. Undefined username");
             } else {
-                xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt);
-            }
+                formData = new FormData();
+                img = images2Upload.imgFile[index];
+                imgTitle = images2Upload.imgName[index];
+                imgExt = images2Upload.imgType[index];
 
-            xhr.onload = (function (index) {
-                return function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        if (xhr.getResponseHeader("error") !== null) {
-                            window.alert("error");
-                        } else {
-                            index++;
-                            startUploading(index);
+                formData.append("photo", img);
+
+                xhr = new XMLHttpRequest();
+                if (imgTitle !== null) {
+                    xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt + '&title=' + imgTitle);
+                } else {
+                    xhr.open('POST', 'UploadImage?userName=' + userName + '&contentType=' + imgExt);
+                }
+
+                xhr.onload = (function (index) {
+                    return function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            if (xhr.getResponseHeader("error") !== null) {
+                                window.alert("error");
+                            } else {
+                                index++;
+                                startUploading(index);
+                            }
+                        } else if (xhr.status !== 200) {
+                            window.alert("Request failed. Returned status of " + xhr.status);
                         }
-                    } else if (xhr.status !== 200) {
-                        window.alert("Request failed. Returned status of " + xhr.status);
-                    }
-                    if (index === uploadImageAPI.getTotal() - 1) {
-                        pageReady();
-                        uploadSucceed();
-                    }
-                };
-            })(index);
-            xhr.send(formData);
+                        if (index === uploadImageAPI.getTotal()) {
+                            pageReady();
+                            uploadSucceed();
+                        }
+                    };
+                })(index);
+                xhr.send(formData);
+            }
         }
     }
 
