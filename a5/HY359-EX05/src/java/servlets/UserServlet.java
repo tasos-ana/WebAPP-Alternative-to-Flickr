@@ -1,8 +1,3 @@
-// TODO refresh cookie age se kathe request
-// TODO filter for XSS
-// TODO organize packages
-// TODO get action from parameter kai oxi from header
-// TODO add checks for too many parameters
 package servlets;
 
 import cs359db.db.PhotosDB;
@@ -10,8 +5,6 @@ import cs359db.db.UserDB;
 import cs359db.model.User;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
