@@ -5,10 +5,13 @@
 // TODO add checks for too many parameters
 package servlets;
 
+import cs359db.db.PhotosDB;
 import cs359db.db.UserDB;
 import cs359db.model.User;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -173,7 +176,8 @@ public class UserServlet extends HttpServlet {
                 response.setHeader("error", "");//return error
 
                 ServletContext context = getServletContext();
-                context.setAttribute("data", UserDB.getUsers());
+                context.setAttribute("data", UserDB.getUsers().size());
+                context.setAttribute("data2", PhotosDB.getPhotoIDs(2147483647).size()); // with bigger int value
                 forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
             } else {
                 response.setHeader("id", "Hello, " + username);
@@ -227,8 +231,7 @@ public class UserServlet extends HttpServlet {
                 || missing(birthday)
                 || missing(sex)
                 || missing(country)
-                || missing(town)
-                || missing(extra)) {
+                || missing(town)) {
 
             response.setHeader("fail", "Missing Parameters");
         } else {
@@ -238,6 +241,9 @@ public class UserServlet extends HttpServlet {
             } else if (!UserDB.checkValidEmail(email)) {
                 response.setHeader("error", "email:Email Already Exist");
             } else {
+                if (extra == null) {
+                    extra = "";
+                }
                 //creating new info for the user
                 User new_user = new User(username, email, password, fname, lname, birthday, country, town, extra, sex);
                 //add him on servlet "database"
@@ -250,8 +256,8 @@ public class UserServlet extends HttpServlet {
 
                 ServletContext context = getServletContext();
                 context.setAttribute("data", UserDB.getUser(username));
-                context.setAttribute("header", "<h2 class=\"text-center\">Registration Completete.</h2>"
-                        + "<h6 class=\"text-center\">Auto redirect in 5sec...</h6>");
+                context.setAttribute("header", "<h3 class=\"text-center success_msg\">Registration Completete.</h3>"
+                        + "<h6 class=\"text-center\">Auto login in 5sec...</h6>");
                 forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
             }
         }
@@ -359,7 +365,7 @@ public class UserServlet extends HttpServlet {
 
                 ServletContext context = getServletContext();
                 context.setAttribute("data", newData);
-                context.setAttribute("header", "<h2 class=\"text-center\">Profile changes applied</h2>");
+                context.setAttribute("header", "<h3 class=\"text-center success_msg\">Profile changes applied</h3>");
                 forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
             }
         }
@@ -379,7 +385,8 @@ public class UserServlet extends HttpServlet {
             removeCookie(userCookie.getValue()); // from servlet cookies
 
             ServletContext context = getServletContext();
-            context.setAttribute("data", UserDB.getUsers());
+            context.setAttribute("data", UserDB.getUsers().size());
+            context.setAttribute("data2", PhotosDB.getPhotoIDs(2147483647).size()); // with bigger int value
             forwardToPage(request, response, "/WEB-INF/JSP/welcomePage.jsp");
         }
     }
