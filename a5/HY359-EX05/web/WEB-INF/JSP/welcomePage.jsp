@@ -12,11 +12,11 @@
     // and counting returned ids
     ServletContext context = getServletContext();
 
-    if (context.getAttribute("data") instanceof List) {
-        List<User> member = (List<User>) context.getAttribute("data");
+    int totalMember = (int) context.getAttribute("data");
+    int totalPhoto = (int) context.getAttribute("data2");
 
-        int totalMember = member.size();
-        int totalPhoto = 0;
+    context.removeAttribute("data");
+    context.removeAttribute("data2");
 %>
 <div id="animated_container" class="animated_container">
     <h1 
@@ -64,7 +64,3 @@
         Register Now
     </button>    
 </div>
-<%  } else {
-        System.out.println("welcomePage.jsp: attribute \"data\" should contain a 'List' object");
-    }
-%>
