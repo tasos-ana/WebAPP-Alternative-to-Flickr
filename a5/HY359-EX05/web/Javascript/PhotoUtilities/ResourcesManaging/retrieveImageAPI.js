@@ -82,7 +82,7 @@ var TIV3166 = function () {
         }
     }
 
-    function showImage_inner(index, elem) {
+    function showImageDetails_inner(index, elem) {
         var modal = document.getElementById(elem);
         // Get the image and insert it inside the modal - use its "alt" text as a caption
         var modalImg = document.getElementById("imgModal_img");
@@ -90,14 +90,14 @@ var TIV3166 = function () {
         modal.style.display = "block";
         modalImg.src = loadedImages.array[index].src;
         captionText.innerHTML = loadedImages.array[index].title;
-        TIV3166.showImageDetailedExifInfo(index, "imgMETA"); //call the function to add the exif info 
+        TIV3166.showImageExifInfo(index, "imgMETA"); //call the function to add the exif info 
     }
 
     function getLoadedImages_inner() {
         loadedImages.array;
     }
 
-    function showImageDetailedExifInfo_inner(index, elem) {
+    function showImageExifInfo_inner(index, elem) {
         var img, elemObj, elemObj2;
         img = loadedImages.array[index]; //getting the img
         elemObj = document.getElementById(elem); //the element that we want to add the exif
@@ -110,7 +110,7 @@ var TIV3166 = function () {
                 elemObj.style.display = "block";
                 elemObj2.style.display = "block";
                 elemObj.innerHTML = data; //insert the data
-                TIV3166.showImageDetailedWithMap(index, "imgMap"); //call the function to add map
+                TIV3166.showImageImageMapInfo(index, "imgMap"); //call the function to add map
             } else {
                 elemObj.style.display = "none";
                 elemObj2.style.display = "none";
@@ -118,7 +118,7 @@ var TIV3166 = function () {
         });
     }
 
-    function showImageDetailedWithMap_inner(index, elem) {
+    function showImageImageMapInfo_inner(index, elem) {
         var img, lon, lonRef, latRef, calcLon, calcLat, lat, elemObj, uluru, map, marker;
         img = loadedImages.array[index]; //get the img
         lon = EXIF.getTag(img, 'GPSLongitude'); //take the longitude
@@ -229,7 +229,7 @@ var TIV3166 = function () {
     //Also push the object on array
     function addImg(src, index, name) {
         var func, img;
-        func = ['TIV3166.showImage(\'', index, '\',\'imgModal\')'].join(''); //Create the function that needed to call on click
+        func = ['TIV3166.showImageDetails(\'', index, '\',\'imgModal\')'].join(''); //Create the function that needed to call on click
         img = document.createElement("IMG");
         img.src = src;
         img.className = "tile";
@@ -392,16 +392,16 @@ var TIV3166 = function () {
             previewLoadedImagesFromFile(elem);
         },
         //draw image with 'index' = index from loadedImages on the elem 
-        showImage: function (index, elem) {
-            showImage_inner(index, elem);
+        showImageDetails: function (index, elem) {
+            showImageDetails_inner(index, elem);
         },
         //write on elem that passed in function all the EXIF info of image on index
-        showImageDetailedExifInfo: function (index, elem) {
-            showImageDetailedExifInfo_inner(index, elem);
+        showImageExifInfo: function (index, elem) {
+            showImageExifInfo_inner(index, elem);
         },
         //same with exif info just here saw the map location
-        showImageDetailedWithMap: function (index, elem) {
-            showImageDetailedWithMap_inner(index, elem);
+        showImageImageMapInfo: function (index, elem) {
+            showImageImageMapInfo_inner(index, elem);
         },
         resetImage: function (user, elem) {
             resetImage_inner(user, elem);
