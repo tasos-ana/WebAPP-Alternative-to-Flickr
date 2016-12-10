@@ -48,7 +48,7 @@ function ajaxLoginRequest() {
     if (username === null && pw === null) {
         xhr.send();
     } else {
-        xhr.send('username=' + username.value + '&password=' + pw.value);
+        xhr.send('username=' + username.value + '&password=' + $.md5(pw.value));
     }
 }
 
@@ -96,7 +96,7 @@ function ajaxRegisterRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'register');
     document.getElementById("loadingModal").style.display = "block";
-    xhr.send('username=' + usrID.value + '&password=' + usrPW.value +
+    xhr.send('username=' + usrID.value + '&password=' + $.md5(usrPW.value) +
             '&email=' + usrEmail.value + '&fname=' + usrFNAME.value +
             '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value +
@@ -174,7 +174,7 @@ function ajaxChangesRequest() {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'change');
     pagePrepare();
-    xhr.send('username=' + usrID.value + '&password=' + usrPW.value + '&email=' + usrEmail.value +
+    xhr.send('username=' + usrID.value + '&password=' + $.md5(usrPW.value) + '&email=' + usrEmail.value +
             '&fname=' + usrFNAME.value + '&lname=' + usrLNAME.value + '&birthday=' + usrBDATE.value +
             '&sex=' + usrSEX.value + '&country=' + usrCOUNTRY.value + '&town=' + usrTOWN.value + '&extra=' + usrEXTRA.value);
 }
