@@ -67,6 +67,9 @@
             <%  } %>
         </tbody>
     </table>
+    <%  if (context.getAttribute("withTiles").toString().equals("true")) {%>
+    <%@include file='../Templates/tiles.html'%>
+    <%  }%>
 </div>
 <%  } else {
         System.out.println("profilePage.jsp: attribute \"data\" should contain a 'User' object");
