@@ -22,14 +22,18 @@ function ajaxLoginRequest() {
                 getLatestImages(10, 'list', true, false);
                 succeed_login_action();
             } else {
-                renderPage();
-                try {
-                    document.getElementById("usr_login_error").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
-                    document.getElementById("usr_login_error").style.color = "red";
-                    pageReady();
-                } catch (err) {
-                    document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                    getLatestImages(10, 'list', false, true);
+                if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                    document.getElementById("login_but").click();
+                } else {
+                    renderPage();
+                    try {
+                        document.getElementById("usr_login_error").innerHTML = XSSValidator(xhr.getResponseHeader("error"));
+                        document.getElementById("usr_login_error").style.color = "red";
+                        pageReady();
+                    } catch (err) {
+                        document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
+                        getLatestImages(10, 'list', false, true);
+                    }
                 }
             }
         } else if (xhr.status !== 200) {
@@ -201,7 +205,7 @@ function ajaxLogoutRequest() {
 
 function ajaxDeleteRequest() {
     "use strict";
-    var  xhr;
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'UserServlet');
     xhr.onload = function () {
