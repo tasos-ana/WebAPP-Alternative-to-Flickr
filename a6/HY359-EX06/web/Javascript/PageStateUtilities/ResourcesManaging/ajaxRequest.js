@@ -199,6 +199,30 @@ function ajaxLogoutRequest() {
     xhr.send();
 }
 
+function ajaxDeleteRequest() {
+    "use strict";
+    var  xhr;
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', 'UserServlet');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                window.alert("Please login first to delete your account");
+                document.getElementById("home_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
+                getLatestImages(10, 'list', false, false);
+                logout_action();
+            }
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('action', 'delete');
+    xhr.send();
+}
+
 function setWelcomeMessage(username) {
     if (username !== null) {
         document.getElementById("page_message").innerHTML = XSSValidator(username);
