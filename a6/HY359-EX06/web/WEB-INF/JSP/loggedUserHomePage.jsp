@@ -21,12 +21,12 @@
                 <div class="col-sm-4 row">
                     <div class="col-sm-6">
                         <select class="select_max_number" id="select_max_display_no">
-                            <option>1</option>
-                            <option>5</option>
-                            <option selected="">10</option>
-                            <option>25</option>
-                            <option>50</option>
-                            <option>100</option>
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                         <button type="button" class="btn_style" 
                                 onclick="refreshPhoto('list', true)">Refresh</button>
