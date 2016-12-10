@@ -6,3 +6,17 @@
  */
 
 
+function addRating() {
+    var val, imgId;
+    var modalImg = document.getElementById("imgModal_img");
+    val = document.getElementById("ratingVal").value;
+    imgId = modalImg.getAttribute("data-imgId");
+    ajaxAddRatingRequest(imgId, val);
+}
+
+function getRating() {
+    var imgId;
+    var modalImg = document.getElementById("imgModal_img");
+    imgId = modalImg.getAttribute("data-imgId");
+    ajaxGetRatingRequest(imgId);
+}

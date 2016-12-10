@@ -91,7 +91,9 @@ var TIV3166 = function () {
         var captionText = document.getElementById("imgCaption");
         modal.style.display = "block";
         modalImg.src = loadedImages.array[index].src;
+        modalImg.setAttribute("data-imgId",loadedImages.id[index]);
         captionText.innerHTML = XSSValidator(loadedImages.array[index].title);
+        getRating();
         TIV3166.showImageExifInfo(index, "imgMETA"); //call the function to add the exif info 
     }
 
@@ -235,6 +237,7 @@ var TIV3166 = function () {
         img.className = "tile";
         img.title = name;
         img.setAttribute("onclick", func); //Set the function on object img
+        img.setAttribute("data-imgId",loadedImages.id[index]);
         loadedImages.array[index] = img; //add img on array
     }
 
