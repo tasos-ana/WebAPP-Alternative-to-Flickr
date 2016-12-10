@@ -77,9 +77,23 @@ public class UserServlet extends HttpServlet {
                 case "logout":
                     logoutAction(request, response);
                     break;
+                case "delete":
+                    deleteAction(request, response);
                 default:
                     response.setHeader("fail", "Wrong Parameters");
             }
+        }
+    }
+
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response)
+            throws ClassNotFoundException {
+
+        String username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+
+        if (username == null) { // cookie has expired
+            response.setHeader("fail", "Missing Cookie");
+        } else {
+            UserDB.deleteUser(username);
         }
     }
 

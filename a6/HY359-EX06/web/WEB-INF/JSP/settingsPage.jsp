@@ -21,6 +21,12 @@
         response.setHeader("usrBDATE_val", month);
 %>
 <div class="animated_container">
+    <br><div class="form-group" >
+        <div class="col-sm-5"></div>
+        <button type="button" onclick="delete_action()" class="btn btn-default btn_style col-sm-2">Delete Account</button>
+        <div class="col-sm-5"></div>
+    </div><br>
+    <div class="page-header"></div>
     <h2 id="register_form_title" class="text-center">Profile Settings</h2>
     <form id="register_form" name="registration" class="form-horizontal">
         <!--LOGIN CREDENTIAL FORM-->
