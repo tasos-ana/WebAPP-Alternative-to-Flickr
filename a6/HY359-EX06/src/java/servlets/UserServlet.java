@@ -90,7 +90,7 @@ public class UserServlet extends HttpServlet {
     private void deleteAction(HttpServletRequest request, HttpServletResponse response)
             throws ClassNotFoundException, IOException {
 
-        String username = Cookies.getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        String username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
 
         if (username == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
@@ -103,7 +103,7 @@ public class UserServlet extends HttpServlet {
 
             UserDB.deleteUser(username);
 
-            Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+            Cookie userCookie = Cookies.getRequestCookie(request, "tivUserServlet");
 
             userCookie.setValue(userCookie.getValue());
             userCookie.setMaxAge(0);
@@ -111,68 +111,6 @@ public class UserServlet extends HttpServlet {
 
             Cookies.removeCookie(userCookie.getValue()); // from servlet cookies
         }
-    }
-
-//    private int addCookie(String username) {
-//        int value = rand.nextInt();
-//
-//        while (servletCookies.containsKey(value)) {
-//            value = rand.nextInt();
-//        }
-//        servletCookies.put(value, username);
-//        return value;
-//    }
-//    private void removeCookie(String cookie) {
-//        if (cookie == null) {
-//            return;
-//        }
-//
-//        int key = Integer.parseInt(cookie);
-//        servletCookies.remove(key);
-//    }
-//    private String getCookieValue(String cookie) {
-//        if (cookie == null) {
-//            return null;
-//        }
-//
-//        int key = Integer.parseInt(cookie);
-//
-//        return servletCookies.get(key);
-//    }
-    /**
-     * Takes the request, and what cookie value we want. if not found then we
-     * return the default value
-     */
-    private static String getRequestCookieValue(HttpServletRequest request,
-            String cookieName,
-            String defaultValue) {
-
-        Cookie[] cookies = request.getCookies();//get all the cookies from request
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {//for each cookie we check the name
-                if (cookieName.equals(cookie.getName())) {//if it's equal with the recommended
-                    return (cookie.getValue());//return the value
-                }
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Takes the request and what cookie we want to return
-     */
-    private static Cookie getRequestCookie(HttpServletRequest request,
-            String cookieName) {
-
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
-                    return cookie;
-                }
-            }
-        }
-        return null;
     }
 
     public void forwardToPage(final HttpServletRequest request,
@@ -191,7 +129,7 @@ public class UserServlet extends HttpServlet {
         String pw = request.getParameter("password");//password too
         if (username == null && pw == null) {
             // try to check if we have cookie for user
-            username = Cookies.getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));//get username
+            username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));//get username
             if (username == null) {//we don't have cookie we must return welcome page
                 response.setHeader("error", "");//return error
 
@@ -286,7 +224,7 @@ public class UserServlet extends HttpServlet {
     private void profileAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
 
-        String username = Cookies.getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        String username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
 
         if (username == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
@@ -300,7 +238,7 @@ public class UserServlet extends HttpServlet {
     private void memberAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
 
-        Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+        Cookie userCookie = Cookies.getRequestCookie(request, "tivUserServlet");
         if (userCookie == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
         } else {
@@ -336,7 +274,7 @@ public class UserServlet extends HttpServlet {
     private void profileSettingsAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
 
-        String username = Cookies.getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
+        String username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
         if (username == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
         } else {
@@ -375,7 +313,7 @@ public class UserServlet extends HttpServlet {
 
             response.setHeader("fail", "Missing Parameters");
         } else {
-            String cookieVal = getRequestCookieValue(request, "tivUserServlet", null);
+            String cookieVal = Cookies.getRequestCookieValue(request, "tivUserServlet", null);
             if (cookieVal == null) { // cookie has expired
                 response.setHeader("fail", "Missing Cookie");
             } else {
@@ -393,7 +331,7 @@ public class UserServlet extends HttpServlet {
     private void logoutAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
 
-        Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+        Cookie userCookie = Cookies.getRequestCookie(request, "tivUserServlet");
         if (userCookie == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
         } else {

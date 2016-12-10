@@ -2,6 +2,8 @@ package util;
 
 import java.util.HashMap;
 import java.util.Random;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -47,6 +49,35 @@ public class Cookies {
         int key = Integer.parseInt(cookie);
 
         return servletCookies.get(key);
+    }
+
+    public static String getRequestCookieValue(HttpServletRequest request,
+            String cookieName,
+            String defaultValue) {
+
+        Cookie[] cookies = request.getCookies();//get all the cookies from request
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {//for each cookie we check the name
+                if (cookieName.equals(cookie.getName())) {//if it's equal with the recommended
+                    return (cookie.getValue());//return the value
+                }
+            }
+        }
+        return defaultValue;
+    }
+
+    public static Cookie getRequestCookie(HttpServletRequest request,
+            String cookieName) {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie;
+                }
+            }
+        }
+        return null;
     }
 
 }

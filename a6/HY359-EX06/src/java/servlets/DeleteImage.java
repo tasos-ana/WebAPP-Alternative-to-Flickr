@@ -8,10 +8,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import util.Cookies;
 
 /**
  *
- * @author Gle1deR
+ * @author Giwrgos Giakoumis
  */
 @WebServlet(name = "DeleteImage", urlPatterns = {"/DeleteImage"})
 public class DeleteImage extends HttpServlet {
@@ -28,17 +29,8 @@ public class DeleteImage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Cookie userCookie = null; // TODO function to get cookie
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("tivUserServlet")) {
-                    userCookie = cookie;
-                    break;
-                }
-            }
-        }
-        
+        Cookie userCookie = Cookies.getRequestCookie(request, "tivUserServlet");
+
         if (userCookie == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
         } else {

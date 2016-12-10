@@ -3,7 +3,6 @@ package servlets;
 import cs359db.db.PhotosDB;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.stream.Stream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import util.Cookies;
 
 /**
  *
@@ -25,16 +25,7 @@ public class UploadImage extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        Cookie userCookie = null; // TODO function to get cookie
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("tivUserServlet")) {
-                    userCookie = cookie;
-                    break;
-                }
-            }
-        }
+        Cookie userCookie = Cookies.getRequestCookie(request, "tivUserServlet");
 
         if (userCookie == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
