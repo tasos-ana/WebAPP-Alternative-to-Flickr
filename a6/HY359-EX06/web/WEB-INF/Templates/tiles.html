@@ -14,5 +14,42 @@
             <div class="col-sm-1"></div>
             <pre class="col-sm-5" id="imgMETA"></pre>
         </div>
+
+        <div class="row">
+            <form id="rating_form" class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <label class="ratingForm_txt control-label col-sm-3 text-center">Rating</label>
+                    <div class="col-sm-7"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="form-group col-sm-5">
+                        <label class="radio-inline ratingForm_txt"><input type="radio" name="ratingVal">1</label>
+                        <label class="radio-inline ratingForm_txt"><input type="radio" name="ratingVal">2</label>
+                        <label class="radio-inline ratingForm_txt"><input type="radio" name="ratingVal">3</label>
+                        <label class="radio-inline ratingForm_txt"><input type="radio" name="ratingVal">4</label>
+                        <label class="radio-inline ratingForm_txt"><input type="radio" name="ratingVal">5</label>
+
+                    </div>
+                    <div class="col-sm-6"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <button type="button" class="btn_style col-sm-3" onclick="addRating()">Add</button>
+                    <div class="col-sm-7"></div>
+                </div>
+
+            </form>
+            <form id="comment_form" class="col-sm-6">
+                <div class="col-sm-1"></div>
+                <div class="form-group col-sm-10">
+                    <label for="comment" class="ratingForm_txt">Comment:</label>
+                    <textarea class="form-control" rows="5" id="comment" placeholder="Type your commend"></textarea>
+                    <button type="button" class="btn_style" onclick="addComment()">Post</button>
+                </div>
+                <div class="col-sm-1"></div>
+            </form>
+        </div>
     </div>    
 </div>
