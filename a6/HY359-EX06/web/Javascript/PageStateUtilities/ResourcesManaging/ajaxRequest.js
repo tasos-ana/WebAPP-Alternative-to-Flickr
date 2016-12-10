@@ -32,7 +32,7 @@ function ajaxLoginRequest() {
                         pageReady();
                     } catch (err) {
                         document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                        getLatestImages(10, 'list', false, true);//Carousel image
+                        getLatestImages(10, null, 'list', false, true);//Carousel image
                     }
                 }
             }
@@ -191,7 +191,7 @@ function ajaxLogoutRequest() {
                 document.getElementById("home_but").click();
             } else {
                 document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                getLatestImages(10, 'list', false, false);
+                getLatestImages(10, null, 'list', false, false);
                 logout_action();
             }
         } else if (xhr.status !== 200) {
@@ -257,8 +257,13 @@ function ajaxGetCollectionRequest(elem, user, fromMain) {
                 document.getElementById("login_but").click();
             } else {
                 var num = xhr.getResponseHeader("number");
-                document.getElementById("select_max_display_no").value = num;
-                getLatestImages(num, elem, user, fromMain);
+                try{
+                    document.getElementById("select_max_display_no").value = num;
+                }catch(e){
+                    
+                }
+                
+                getLatestImages(num, null, elem, user, fromMain);
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
@@ -282,8 +287,7 @@ function ajaxRequestProfileAndPhotoPage(username) {
                 document.getElementById("login_but").click();
             } else {
                 document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                profile_action();
-                
+                getLatestImages(10, username, 'list', true, true);
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);

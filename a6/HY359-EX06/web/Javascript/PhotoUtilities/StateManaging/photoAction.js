@@ -8,8 +8,8 @@
 /* global TIV3166, uploadImageAPI */
 
 //user must be true or false
-function getLatestImages(imageNo, elem, user, fromMain) {
-    TIV3166.loadImagesFromDB(imageNo, elem, user, fromMain);
+function getLatestImages(imageNo, username, elem, user, fromMain) {
+    TIV3166.loadImagesFromDB(imageNo, username, elem, user, fromMain);
 }
 
 function refreshPhoto(elem, user) {
@@ -18,16 +18,16 @@ function refreshPhoto(elem, user) {
     setCollectionNumber(num.value);
     TIV3166.resetImage(user, elem);
     displayDeleteSelector(false);
-    getLatestImages(num.value, elem, user, false);
+    getLatestImages(num.value, null, elem, user, false);
 }
 
 function displayDeleteSelector(display) {
     var selectors, i;
     selectors = document.getElementsByClassName("tivDeleteSelect");
-    if(display === true){
+    if (display === true) {
         document.getElementById("deleteImage_but").style.display = "block";
         document.getElementById("selectImage2Delete_but").style.display = "none";
-    }else{
+    } else {
         document.getElementById("deleteImage_but").style.display = "none";
         document.getElementById("selectImage2Delete_but").style.display = "block";
         uploadImageAPI.resetImage2Delete();
@@ -42,12 +42,12 @@ function displayDeleteSelector(display) {
     }
 }
 
-function deleteImageSelector_action(elem){
+function deleteImageSelector_action(elem) {
     var id;
     id = elem.getAttribute("data-img-id");
-    if(elem.checked === true){
+    if (elem.checked === true) {
         uploadImageAPI.pushImage2Delete(id);
-    }else{
+    } else {
         uploadImageAPI.popImage2Delete(id);
     }
 }

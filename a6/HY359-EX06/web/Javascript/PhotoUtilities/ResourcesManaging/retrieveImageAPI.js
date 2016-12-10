@@ -22,12 +22,12 @@ var TIV3166 = function () {
 
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*retrieveImageAPI functions*/
-    function loadImagesFromDB_inner(num, elem, user, fromMain) {
+    function loadImagesFromDB_inner(num, username, elem, user, fromMain) {
         TIV3166.resetImage();
         if (user === true) {
             document.getElementById(elem).innerHTML = "";
         }
-        requestImageID(num, elem, user, fromMain);
+        requestImageID(num, username, elem, user, fromMain);
     }
 
     function loadImagesFromFile_inner() {
@@ -154,7 +154,7 @@ var TIV3166 = function () {
 
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*Utils Functions*/
-    function requestImageID(num, elem, user, fromMain) {
+    function requestImageID(num, username, elem, user, fromMain) {
         "use strict";
         var xhr;
         xhr = new XMLHttpRequest();
@@ -177,10 +177,11 @@ var TIV3166 = function () {
         };
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         if (user === true) {
-            var username;
-            username = document.getElementById("page_message").getAttribute("data-username");
-            if (username === null || username === "") {
-                window.alert("tiv.js at requestImageFromDB null username");
+            if (username === null) {
+                username = document.getElementById("page_message").getAttribute("data-username");
+                if (username === null || username === "") {
+                    window.alert("tiv.js at requestImageFromDB null username");
+                }
             }
             xhr.send('user=' + username + '&number=' + num);
         } else {
@@ -381,8 +382,8 @@ var TIV3166 = function () {
     /*The actual api*/
     return {
         //read all images from db
-        loadImagesFromDB: function (num, elem, user, fromMain) {
-            loadImagesFromDB_inner(num, elem, user, fromMain);
+        loadImagesFromDB: function (num, username, elem, user, fromMain) {
+            loadImagesFromDB_inner(num, username, elem, user, fromMain);
         },
         loadImagesFromFile: function () {
             loadImagesFromFile_inner();

@@ -383,4 +383,8 @@ img.tile:hover + div.text{ opacity: 0.8;}
     height: 10px;
     color: white;
 }
+
+.cursor_pointer{
+    cursor: pointer;
+}
 /*============================================================================*/
