@@ -47,6 +47,6 @@ function deleteImageSelector_action(elem){
     if(elem.checked === true){
         uploadImageAPI.pushImage2Delete(id);
     }else{
-        uploadImageAPI.popImage2Delete()(id);
+        uploadImageAPI.popImage2Delete(id);
     }
 }

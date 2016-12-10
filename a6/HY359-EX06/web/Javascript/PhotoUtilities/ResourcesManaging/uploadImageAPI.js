@@ -59,8 +59,8 @@ var uploadImageAPI = function () {
     }
 
     function popImage2Delete_inner(id) {
-        if (!existImage2Delete(id)) {
-            var index = images2Delete.indexOf(id);
+        if (existImage2Delete(id)) {
+            var index = images2Delete.id.indexOf(id);
             if (index > -1) {
                 images2Delete.id.splice(index, 1);
             }
@@ -70,30 +70,33 @@ var uploadImageAPI = function () {
     function deleteSelectedImages_inner() {
         "use strict";
         var xhr, id2String, index;
-        pagePrepare();
-        xhr = new XMLHttpRequest();
-        xhr.open('POST', 'DeleteImage');
-        xhr.onload = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                if (!cookieExist(xhr.getResponseHeader("fail"))) {
-                    document.getElementById("login_but").click();
-                } else {
-                    uploadImageAPI.resetImage2Delete();
-                    refreshPhoto('list', true);
+        if (images2Delete.id.length > 0) {
+            pagePrepare();
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', 'DeleteImage');
+            xhr.onload = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                        document.getElementById("login_but").click();
+                    } else {
+                        uploadImageAPI.resetImage2Delete();
+                        displayDeleteSelector(false);
+                        refreshPhoto('list', true);
+                    }
+                } else if (xhr.status !== 200) {
+                    window.alert("Request failed. Returned status of " + xhr.status);
                 }
-            } else if (xhr.status !== 200) {
-                window.alert("Request failed. Returned status of " + xhr.status);
+            };
+            id2String = "";
+            for (index = 0; index < images2Delete.id.length; ++index) {
+                if (id2String !== "") {
+                    id2String = id2String + ",";
+                }
+                id2String = id2String + images2Delete.id[index];
             }
-        };
-        id2String = "";
-        for (index = 0; index < images2Delete.id.length; ++index) {
-            if (id2String !== "") {
-                id2String = id2String + ",";
-            }
-            id2String = id2String + images2Delete.id[index];
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('image=' + id2String);
         }
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send('image='+ id2String);
     }
 
     function resetImage2Delete_inner() {
