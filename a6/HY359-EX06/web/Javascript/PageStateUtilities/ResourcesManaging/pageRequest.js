@@ -58,6 +58,7 @@ function requestProfilePage() {
             } else {
                 document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 profile_action();
+                getCollectionNumber('list', true, false);
             }
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);

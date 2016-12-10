@@ -270,6 +270,32 @@ function ajaxGetCollectionRequest(elem, user, fromMain) {
     xhr.send();
 }
 
+function ajaxRequestProfileAndPhotoPage(username) {
+    "use strict";
+    var xhr;
+
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', 'UserServlet');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
+                profile_action();
+                
+            }
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('action', 'profilePage');
+    pagePrepare();
+    xhr.send("username=" + username);
+}
+
+
 function setWelcomeMessage(username) {
     if (username !== null) {
         document.getElementById("page_message").innerHTML = XSSValidator(username);

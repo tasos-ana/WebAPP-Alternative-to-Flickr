@@ -23,8 +23,9 @@ var TIV3166 = function () {
     /*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~**~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*/
     /*retrieveImageAPI functions*/
     function loadImagesFromDB_inner(num, elem, user, fromMain) {
-        if (!user) {
-            TIV3166.resetImage(elem, user);
+        TIV3166.resetImage();
+        if (user === true) {
+            document.getElementById(elem).innerHTML = "";
         }
         requestImageID(num, elem, user, fromMain);
     }
@@ -69,6 +70,7 @@ var TIV3166 = function () {
     }
 
     function previewLoadedImagesFromFile(elem) {
+        document.getElementById(elem).innerHTML = "";
         var index, display;
         if (!imageExist("There is not image to preview")) {
             document.getElementById("images").click();
@@ -141,14 +143,11 @@ var TIV3166 = function () {
         });
     }
 
-    function resetImage_inner(user, elem) {
+    function resetImage_inner() {
         loadedImages.array = [];
         loadedImages.id = [];
         loadedImages.remaining = 0;
         loadedImages.carouselCnt = 0;
-        if (user === true) {
-            document.getElementById(elem).innerHTML = "";
-        }
     }
     /*============================================================================*/
 
@@ -282,17 +281,17 @@ var TIV3166 = function () {
         imgNameDiv = document.createElement('div');
         imgRateDiv = document.createElement('div');
         deleteSelect = document.createElement('input');
-     
+
         tileDiv.className = "tile";
         textDiv.className = "text";
         imgNameDiv.className = "tivImgName";
         imgRateDiv.className = "tivImgRate";
         deleteSelect.className = "tivDeleteSelect";
-        
-        deleteSelect.setAttribute("type","checkbox");
-        deleteSelect.setAttribute("data-img-id",loadedImages.id[index]);
-        deleteSelect.setAttribute("onclick",'deleteImageSelector_action(this)');
-        
+
+        deleteSelect.setAttribute("type", "checkbox");
+        deleteSelect.setAttribute("data-img-id", loadedImages.id[index]);
+        deleteSelect.setAttribute("onclick", 'deleteImageSelector_action(this)');
+
         loadedImages.array[index].title = imgName;
         imgNameDiv.innerHTML = XSSValidator(imgName + "<br>" + "by " + author);
         imgRateDiv.innerHTML = XSSValidator("\&\#9734;" + imgRate);

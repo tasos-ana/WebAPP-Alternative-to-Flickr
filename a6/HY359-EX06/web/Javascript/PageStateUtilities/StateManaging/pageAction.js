@@ -233,3 +233,7 @@ function getCollectionNumber(elem, user, fromMain) {
 function setCollectionNumber(num) {
     ajaxSetCollectionRequest(num);
 }
+
+function previewOtherMember(username){
+    ajaxRequestProfileAndPhotoPage(username);
+}
