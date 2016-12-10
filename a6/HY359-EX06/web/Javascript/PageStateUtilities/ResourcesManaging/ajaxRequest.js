@@ -82,7 +82,7 @@ function ajaxRegisterRequest() {
             } else {
                 document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
                 setTimeout(function () {
-                    document.getElementById("login_but").click();
+                    ajaxLoginRequest();
                 }, 5000);
             }
         } else if (xhr.status !== 200) {
