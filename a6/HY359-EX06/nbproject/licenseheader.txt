@@ -1,0 +1,10 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}    Document      :${nameAndExt}
+${licensePrefix}    Project       :${project.displayName}
+${licensePrefix}    Author        :${user}
+${licensePrefix}    Created on    :${date}
+<#if licenseLast??>
+${licenseLast}
+</#if>
