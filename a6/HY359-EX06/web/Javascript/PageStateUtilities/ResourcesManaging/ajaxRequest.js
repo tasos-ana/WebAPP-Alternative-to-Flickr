@@ -208,10 +208,6 @@ function ajaxDeleteRequest() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             if (!cookieExist(xhr.getResponseHeader("fail"))) {
                 window.alert("Please login first to delete your account");
-            } else {
-                document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                getLatestImages(10, 'list', false, false);
-                logout_action();
             }
             document.getElementById("home_but").click();
         } else if (xhr.status !== 200) {
