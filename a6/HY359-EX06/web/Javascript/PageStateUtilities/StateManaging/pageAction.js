@@ -226,3 +226,10 @@ function delete_action() {
     }
 }
 
+function getCollectionNumber(elem, user, fromMain) {
+    ajaxGetCollectionRequest(elem, user, fromMain);
+}
+
+function setCollectionNumber(num) {
+    ajaxSetCollectionRequest(num);
+}

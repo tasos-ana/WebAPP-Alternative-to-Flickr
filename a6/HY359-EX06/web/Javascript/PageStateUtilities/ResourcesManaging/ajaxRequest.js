@@ -19,7 +19,7 @@ function ajaxLoginRequest() {
                 var username = xhr.getResponseHeader("id");
                 setWelcomeMessage(username);
                 document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                getLatestImages(10, 'list', true, false);
+                getCollectionNumber('list', true, false);//image 10 for user that almost login
                 succeed_login_action();
             } else {
                 if (!cookieExist(xhr.getResponseHeader("fail"))) {
@@ -32,7 +32,7 @@ function ajaxLoginRequest() {
                         pageReady();
                     } catch (err) {
                         document.getElementById("main_container").innerHTML = XSSValidator(xhr.responseText);
-                        getLatestImages(10, 'list', false, true);
+                        getLatestImages(10, 'list', false, true);//Carousel image
                     }
                 }
             }
@@ -221,6 +221,52 @@ function ajaxDeleteRequest() {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('action', 'delete');
+    xhr.send();
+}
+
+function ajaxSetCollectionRequest(num) {
+    "use strict";
+    var xhr;
+
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', 'UserServlet');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            }
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('action', 'setNumOfShownImages');
+    pagePrepare();
+    xhr.send('number=' + num);
+}
+
+function ajaxGetCollectionRequest(elem, user, fromMain) {
+    "use strict";
+    var xhr;
+
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', 'UserServlet');
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                document.getElementById("login_but").click();
+            } else {
+                var num = xhr.getResponseHeader("number");
+                document.getElementById("select_max_display_no").value = num;
+                getLatestImages(num, elem, user, fromMain);
+            }
+        } else if (xhr.status !== 200) {
+            window.alert("Request failed. Returned status of " + xhr.status);
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('action', 'getNumOfShownImages');
+    pagePrepare();
     xhr.send();
 }
 
