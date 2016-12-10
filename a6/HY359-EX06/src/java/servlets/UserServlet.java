@@ -54,6 +54,7 @@ public class UserServlet extends HttpServlet {
         if (missing(action)) {
             response.setHeader("fail", "Missing Parameters");
         } else {
+//            deleteAllUsers();
             switch (action) {
                 case "login":
                     loginAction(request, response);
@@ -147,6 +148,13 @@ public class UserServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
+    }
+
+    private void deleteAllUsers() throws ClassNotFoundException {
+        List<User> users = UserDB.getUsers();
+        for (User user : users) {
+            UserDB.deleteUser(user.getUserName());
+        }
     }
 
     private void loginAction(HttpServletRequest request, HttpServletResponse response)

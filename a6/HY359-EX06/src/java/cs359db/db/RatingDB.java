@@ -129,7 +129,7 @@ public class RatingDB {
 
                 StringBuilder insQuery = new StringBuilder();
 
-                insQuery.append("SELECT * FROM comment ")
+                insQuery.append("SELECT * FROM rating ")
                         .append(" WHERE ")
                         .append(" ratingID = ").append("'").append(id).append("';");
 
@@ -230,7 +230,7 @@ public class RatingDB {
                 insQuery.append("UPDATE ratings ")
                         .append(" SET ")
                         .append(" RATE = ").append("'").append(rating.getRate()).append("'")
-                        .append(" WHERE ratingID = ").append("'").append(rating.getID()).append("';");
+                        .append(" WHERE photoID = ").append("'").append(rating.getPhotoID()).append("';");
 
                 stmt.executeUpdate(insQuery.toString());
                 System.out.println("#DB: The rating was successfully updated in the database.");
@@ -247,7 +247,7 @@ public class RatingDB {
     }
 
     /**
-     * Delete specific comment
+     * Delete specific rating
      *
      * @param rating
      * @throws ClassNotFoundException
@@ -279,7 +279,7 @@ public class RatingDB {
     }
 
     /**
-     * Delete specific comment
+     * Delete specific rating
      *
      * @param id
      * @throws ClassNotFoundException

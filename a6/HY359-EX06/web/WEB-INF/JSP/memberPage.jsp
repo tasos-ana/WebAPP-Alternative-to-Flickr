@@ -4,8 +4,10 @@
     Author     : Tasos Anastasas, Giakoumis Giwrgos
 --%>
 
+<%@page import="util.Cookies"%>
 <%@page import="cs359db.model.User"%>
 <%@page import="java.util.List"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ServletContext context = getServletContext();
@@ -28,6 +30,7 @@
                 <th>Gender</th>
                 <th>Country</th>
                 <th>Town</th>
+                <th>Last Login</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +45,7 @@
                 <td> <%= user.getGender().toString()%> </td>
                 <td> <%= user.getCountry()%> </td>
                 <td> <%= user.getTown()%> </td>
+                <td> <%= Cookies.getLastLogin(user.getUserName())%> </td>
             </tr>
             <% }%>
         </tbody>

@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 import javax.servlet.http.Cookie;
@@ -14,6 +15,7 @@ public class Cookies {
     private static Random rand = new Random(); // Seeded by current date/time
     private static HashMap<Integer, String> servletCookies = new HashMap<>();
     private static HashMap<Integer, Integer> numOfImages = new HashMap<>();
+    private static HashMap<String, String> lastLogin = new HashMap<>();
 
     public static int countCookies() {
         return servletCookies.size();
@@ -27,6 +29,10 @@ public class Cookies {
         }
         servletCookies.put(value, username);
         numOfImages.put(value, 10);
+
+        // set Last login for user
+        Date currDate = new Date();
+        lastLogin.put(username, currDate.toGMTString());
 
         return value;
     }
@@ -86,6 +92,23 @@ public class Cookies {
 
     public static int getNumOfImages(int cookie) {
         return numOfImages.get(cookie);
+    }
+
+    public static String getLastLogin(String username) {
+        String last = null;
+
+        for (String user : servletCookies.values()) {
+            if (user.equals(username)) {
+                last = "Online";
+                break;
+            }
+        }
+
+        if (last == null) { // not online
+            last = lastLogin.get(username);
+        }
+
+        return last;
     }
 
 }
