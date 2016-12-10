@@ -178,6 +178,13 @@ div.text{
 .tivImgName{left: 0;}
 
 .tivImgRate{right: 0;font-size: 10px;}
+
+.tivDeleteSelect{
+    display: none;
+    position: absolute; 
+    top: 1px; 
+    right: 1px;
+}
 /*============================================================================*/
 
 

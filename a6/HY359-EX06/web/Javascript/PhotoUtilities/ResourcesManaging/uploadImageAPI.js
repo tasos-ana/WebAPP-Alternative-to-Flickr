@@ -16,6 +16,10 @@ var uploadImageAPI = function () {
         imgName: [],
         total: 0
     };
+
+    var images2Delete = {
+        id: []
+    };
     /*============================================================================*/
 
 
@@ -47,6 +51,57 @@ var uploadImageAPI = function () {
         images2Upload.imgName = [];
         images2Upload.total = 0;
     }
+
+    function pushImage2Delete_inner(id) {
+        if (!existImage2Delete(id)) {
+            images2Delete.id.push(id);
+        }
+    }
+
+    function popImage2Delete_inner(id) {
+        if (!existImage2Delete(id)) {
+            var index = images2Delete.indexOf(id);
+            if (index > -1) {
+                images2Delete.id.splice(index, 1);
+            }
+        }
+    }
+
+    function deleteSelectedImages_inner() {
+        "use strict";
+        var xhr, id2String, index;
+        pagePrepare();
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', 'DeleteImage');
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (!cookieExist(xhr.getResponseHeader("fail"))) {
+                    document.getElementById("login_but").click();
+                } else {
+                    uploadImageAPI.resetImage2Delete();
+                    refreshPhoto('list', true);
+                }
+            } else if (xhr.status !== 200) {
+                window.alert("Request failed. Returned status of " + xhr.status);
+            }
+        };
+        id2String = "";
+        for (index = 0; index < images2Delete.id.length; ++index) {
+            if (id2String !== "") {
+                id2String = id2String + ",";
+            }
+            id2String = id2String + images2Delete.id[index];
+        }
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('image='+ id2String);
+    }
+
+    function resetImage2Delete_inner() {
+        var index;
+        for (index = 0; index < images2Delete.id.length; ++index) {
+            images2Delete.id.pop();
+        }
+    }
     /*============================================================================*/
 
 
@@ -74,8 +129,8 @@ var uploadImageAPI = function () {
     }
 
     function startUploading(index) {
-        var img, imgTitle, imgExt, formData, xhr, userName,cnt,uploadStatus;
-        cnt = index+1;
+        var img, imgTitle, imgExt, formData, xhr, userName, cnt, uploadStatus;
+        cnt = index + 1;
         uploadStatus = document.getElementById("upload_status");
         uploadStatus.innerHTML = XSSValidator("" + cnt + "/" + images2Upload.total);
         if (index === images2Upload.total) {
@@ -137,6 +192,17 @@ var uploadImageAPI = function () {
         document.getElementById('list').innerHTML = "";
         document.getElementById("totalUploadedImages").innerText = uploadImageAPI.getTotal();
     }
+
+    function existImage2Delete(id) {
+        var i;
+
+        for (i = 0; i < images2Delete.id.length; ++i) {
+            if (images2Delete.id[i] === id) {
+                return 1;
+            }
+        }
+        return 0;
+    }
     /*============================================================================*/
 
 
@@ -154,6 +220,18 @@ var uploadImageAPI = function () {
         },
         resetImage: function () {
             resetImage_inner();
+        },
+        pushImage2Delete: function (id) {
+            pushImage2Delete_inner(id);
+        },
+        popImage2Delete: function (id) {
+            popImage2Delete_inner(id);
+        },
+        deleteSelectedImages: function () {
+            deleteSelectedImages_inner();
+        },
+        resetImage2Delete: function () {
+            resetImage2Delete_inner();
         }
     };
     /*============================================================================*/

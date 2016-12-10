@@ -5,7 +5,7 @@
  *     Created on    :Dec 9, 2016
  */
 
-/* global uploadImageAPI */
+/* global uploadImageAPI, deleteImageSelector_action */
 
 var TIV3166 = function () {
     "use strict";
@@ -276,15 +276,23 @@ var TIV3166 = function () {
     //Getting one index from loadImage, an element and draw it on elem
     //Also increase the index
     function addTivCode(elem, index, author, imgName, imgRate) {
-        var tileDiv, textDiv, imgNameDiv, imgRateDiv;
+        var tileDiv, textDiv, imgNameDiv, imgRateDiv, deleteSelect;
         tileDiv = document.createElement('div'); //Create a div and with class name tile
         textDiv = document.createElement('div'); //Create another div for img text
         imgNameDiv = document.createElement('div');
         imgRateDiv = document.createElement('div');
+        deleteSelect = document.createElement('input');
+     
         tileDiv.className = "tile";
         textDiv.className = "text";
         imgNameDiv.className = "tivImgName";
         imgRateDiv.className = "tivImgRate";
+        deleteSelect.className = "tivDeleteSelect";
+        
+        deleteSelect.setAttribute("type","checkbox");
+        deleteSelect.setAttribute("data-img-id",loadedImages.id[index]);
+        deleteSelect.setAttribute("onclick",'deleteImageSelector_action(this)');
+        
         loadedImages.array[index].title = imgName;
         imgNameDiv.innerHTML = XSSValidator(imgName + "<br>" + "by " + author);
         imgRateDiv.innerHTML = XSSValidator("\&\#9734;" + imgRate);
@@ -292,6 +300,7 @@ var TIV3166 = function () {
         textDiv.appendChild(imgNameDiv);
         textDiv.appendChild(imgRateDiv);
         tileDiv.insertBefore(textDiv, null); //Insert the text on first div-'tile'
+        tileDiv.appendChild(deleteSelect);
         document.getElementById(elem).insertBefore(tileDiv, null); //insert the div on elem that we want
     }
 
