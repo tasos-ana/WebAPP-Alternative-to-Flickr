@@ -252,13 +252,22 @@ public class UserServlet extends HttpServlet {
     private void profileAction(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, ClassNotFoundException {
 
-        String username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
+        String username = request.getParameter("username");
 
-        if (username == null) { // cookie has expired
-            response.setHeader("fail", "Missing Cookie");
+        if (username == null) {
+            username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
+
+            if (username == null) { // cookie has expired
+                response.setHeader("fail", "Missing Cookie");
+            } else {
+                ServletContext context = getServletContext();
+                context.setAttribute("data", UserDB.getUser(username));
+                forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
+            }
         } else {
             ServletContext context = getServletContext();
             context.setAttribute("data", UserDB.getUser(username));
+            context.setAttribute("withTiles", "true");
             forwardToPage(request, response, "/WEB-INF/JSP/profilePage.jsp");
         }
     }
