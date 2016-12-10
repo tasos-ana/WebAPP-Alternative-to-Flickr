@@ -34,7 +34,7 @@
             <% for (i = 0; i < member.size(); i++) {
                     user = (User) member.get(i);
             %>
-            <tr onclick="previewOtherMember(<%= user.getUserName()%>)">
+            <tr class="cursor_pointer" onclick="previewOtherMember('<%= user.getUserName()%>')">
                 <td> <%= i + 1%></td>
                 <td> <%= user.getUserName()%> </td>
                 <td> <%= user.getFirstName()%> </td>
