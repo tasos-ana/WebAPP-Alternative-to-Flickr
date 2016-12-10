@@ -210,7 +210,7 @@ function ajaxDeleteRequest() {
                 window.alert("Please login first to delete your account");
             }
             pageReady();
-            document.getElementById("home_but").click();
+            document.getElementById("home_link").click();
         } else if (xhr.status !== 200) {
             window.alert("Request failed. Returned status of " + xhr.status);
         }
