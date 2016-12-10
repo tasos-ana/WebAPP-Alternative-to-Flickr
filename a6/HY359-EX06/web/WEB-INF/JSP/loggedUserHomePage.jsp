@@ -18,16 +18,31 @@
             </div>
             <div class="row">
                 <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    <select class="select_max_number" id="select_max_display_no">
-                        <option>1</option>
-                        <option>5</option>
-                        <option selected="">10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <button type="button" class="btn_style" onclick="refreshPhoto('list', true)">Refresh</button>    
+                <div class="col-sm-4 row">
+                    <div class="col-sm-6">
+                        <select class="select_max_number" id="select_max_display_no">
+                            <option>1</option>
+                            <option>5</option>
+                            <option selected="">10</option>
+                            <option>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                        <button type="button" class="btn_style" 
+                                onclick="refreshPhoto('list', true)">Refresh</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="selectImage2Delete_but">
+                            <button id="dispayImageSelector" type="button" class="btn_style" 
+                                    onclick="displayDeleteSelector(true)">Select</button>
+                        </div>
+                        <div id="deleteImage_but" class="make_hide">
+                            <button id="hideImageSelector" type="button" class="btn_style" 
+                                    onclick="uploadImageAPI.deleteSelectedImages()">Delete</button>
+                            <button id="hideImageSelector" type="button" class="btn_style" 
+                                    onclick="displayDeleteSelector(false)">Cancel</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-4"></div>
             </div>
