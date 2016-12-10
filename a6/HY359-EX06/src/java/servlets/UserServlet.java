@@ -87,7 +87,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void deleteAction(HttpServletRequest request, HttpServletResponse response)
-            throws ClassNotFoundException, IOException, ServletException {
+            throws ClassNotFoundException, IOException {
 
         String username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
 
@@ -101,8 +101,14 @@ public class UserServlet extends HttpServlet {
             }
 
             UserDB.deleteUser(username);
+            
+            Cookie userCookie = getRequestCookie(request, "tivUserServlet");
+            
+            userCookie.setValue(userCookie.getValue());
+            userCookie.setMaxAge(0);
+            response.addCookie(userCookie);
 
-            logoutAction(request, response);
+            removeCookie(userCookie.getValue()); // from servlet cookies
         }
     }
 
