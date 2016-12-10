@@ -17,6 +17,7 @@ function refreshPhoto(elem, user) {
     num = document.getElementById("select_max_display_no");
     setCollectionNumber(num.value);
     TIV3166.resetImage(user, elem);
+    displayDeleteSelector(false);
     getLatestImages(num.value, elem, user, false);
 }
 
