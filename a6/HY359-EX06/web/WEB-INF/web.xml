@@ -24,6 +24,10 @@
         <servlet-name>DeleteImage</servlet-name>
         <servlet-class>servlets.DeleteImage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>imageRating</servlet-name>
+        <servlet-class>servlets.imageRating</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>requestPageServlet</servlet-name>
         <url-pattern>/requestPageServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>DeleteImage</servlet-name>
         <url-pattern>/DeleteImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>imageRating</servlet-name>
+        <url-pattern>/imageRating</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
