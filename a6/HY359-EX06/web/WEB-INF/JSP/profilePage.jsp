@@ -67,7 +67,9 @@
             <%  } %>
         </tbody>
     </table>
-    <%  if (context.getAttribute("withTiles").toString().equals("true")) {%>
+    <%  String withTiles = (String) context.getAttribute("withTiles");
+        if (withTiles != null && withTiles.equals("true")) {
+    %>
     <%@include file='../Templates/tiles.html'%>
     <%  }%>
 </div>
