@@ -28,10 +28,6 @@
                 <td class="text-left"><%= user.getUserName()%></td>
             </tr>
             <tr>
-                <td class="text-right"><b>Password:  </b></td>
-                <td class="text-left"> <%= user.getPassword()%></td>
-            </tr>
-            <tr>
                 <td class="text-right"><b>Email:</b></td>
                 <td class="text-left"> <%= user.getEmail()%></td>
             </tr>
