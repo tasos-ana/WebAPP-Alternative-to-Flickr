@@ -203,15 +203,25 @@ function closeImgModal() {
     document.getElementById('imgModal').style.display = "none";
 }
 
-function pageReady(){
+function pageReady() {
     document.getElementById("loadingModal").style.display = "none";
     document.getElementById("main_container").style.display = "block";
 }
 
-function pagePrepare(){
+function pagePrepare() {
     document.getElementById("loadingModal").style.display = "block";
     document.getElementById("main_container").style.display = "none";
 
 }
 
+function delete_action() {
+    var deleteMsg = prompt("Type 'CONFIRM' if you really want to delete your account!");
+    while (deleteMsg !== null) {
+        if (deleteMsg === "CONFIRM") {
+            ajaxDeleteRequest();
+            break;
+        }
+        deleteMsg = prompt("Type 'CONFIRM' if you realy want to delete your account!");
+    }
+}
 

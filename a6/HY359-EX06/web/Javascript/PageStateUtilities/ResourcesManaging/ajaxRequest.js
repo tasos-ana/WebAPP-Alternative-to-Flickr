@@ -199,6 +199,10 @@ function ajaxLogoutRequest() {
     xhr.send();
 }
 
+function ajaxDeleteRequest(){
+    "use strict";
+}
+
 function setWelcomeMessage(username) {
     if (username !== null) {
         document.getElementById("page_message").innerHTML = XSSValidator(username);
