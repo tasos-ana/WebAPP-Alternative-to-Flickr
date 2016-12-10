@@ -219,6 +219,7 @@ function delete_action() {
     while (deleteMsg !== null) {
         if (deleteMsg === "CONFIRM") {
             ajaxDeleteRequest();
+            pagePrepare();
             break;
         }
         deleteMsg = prompt("Type 'CONFIRM' if you realy want to delete your account!");
