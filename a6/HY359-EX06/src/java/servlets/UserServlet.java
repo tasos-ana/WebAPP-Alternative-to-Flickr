@@ -5,6 +5,7 @@ import cs359db.db.UserDB;
 import cs359db.model.User;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,14 +87,22 @@ public class UserServlet extends HttpServlet {
     }
 
     private void deleteAction(HttpServletRequest request, HttpServletResponse response)
-            throws ClassNotFoundException {
+            throws ClassNotFoundException, IOException, ServletException {
 
         String username = getCookieValue(getRequestCookieValue(request, "tivUserServlet", null));
 
         if (username == null) { // cookie has expired
             response.setHeader("fail", "Missing Cookie");
         } else {
+            List<Integer> allUserIds = PhotosDB.getPhotoIDs(2147483647, username);
+
+            for (Integer id : allUserIds) {
+                PhotosDB.deletePhoto(id);
+            }
+
             UserDB.deleteUser(username);
+
+            logoutAction(request, response);
         }
     }
 
