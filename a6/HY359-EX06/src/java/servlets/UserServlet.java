@@ -81,8 +81,35 @@ public class UserServlet extends HttpServlet {
                     break;
                 case "delete":
                     deleteAction(request, response);
+                case "getNumOfShownImages":
+                    shownImagesAction(request, response, "get");
+                case "setNumOfShownImages":
+                    shownImagesAction(request, response, "set");
                 default:
                     response.setHeader("fail", "Wrong Parameters");
+            }
+        }
+    }
+
+    private void shownImagesAction(HttpServletRequest request, HttpServletResponse response, String action) {
+        String username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
+
+        if (username == null) {
+            response.setHeader("fail", "Missing Cookie");
+        } else { // have cookie
+            if (action.equals("set")) {
+                String num = request.getParameter("number");
+
+                if (num != null) {
+                    int numOfShownImages = Integer.parseInt(num);
+                    int cookie = Integer.parseInt(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
+                    Cookies.setNumOfImages(cookie, numOfShownImages);
+                } else {
+                    response.setHeader("fail", "Missing Parameters");
+                }
+            } else { // get
+                int cookie = Integer.parseInt(Cookies.getRequestCookieValue(request, "tivUserServlet", null));
+                response.setHeader("number", "" + Cookies.getNumOfImages(cookie));
             }
         }
     }
@@ -127,6 +154,7 @@ public class UserServlet extends HttpServlet {
 
         String username = request.getParameter("username");//getting the username from request that client send
         String pw = request.getParameter("password");//password too
+
         if (username == null && pw == null) {
             // try to check if we have cookie for user
             username = Cookies.getCookieValue(Cookies.getRequestCookieValue(request, "tivUserServlet", null));//get username

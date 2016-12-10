@@ -12,16 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 public class Cookies {
 
     private static Random rand = new Random(); // Seeded by current date/time
-
     private static HashMap<Integer, String> servletCookies = new HashMap<>();
+    private static HashMap<Integer, Integer> numOfImages = new HashMap<>();
 
-    // add cookie
-    // remove cookie
-    // count Cookies
-    // check if user id logged in (if he has cookie)
-    ////// private ///////
-    // get cookie value
-    // get cookie username
+    public static int countCookies() {
+        return servletCookies.size();
+    }
+
     public static int addCookie(String username) {
         int value = rand.nextInt();
 
@@ -29,6 +26,8 @@ public class Cookies {
             value = rand.nextInt();
         }
         servletCookies.put(value, username);
+        numOfImages.put(value, 10);
+
         return value;
     }
 
@@ -39,6 +38,7 @@ public class Cookies {
 
         int key = Integer.parseInt(cookie);
         servletCookies.remove(key);
+        numOfImages.remove(key);
     }
 
     public static String getCookieValue(String cookie) {
@@ -78,6 +78,14 @@ public class Cookies {
             }
         }
         return null;
+    }
+
+    public static void setNumOfImages(int cookie, int number) {
+        numOfImages.put(cookie, number);
+    }
+
+    public static int getNumOfImages(int cookie) {
+        return numOfImages.get(cookie);
     }
 
 }
